@@ -80,6 +80,9 @@ void parse_command_line(const char* input_command, struct svm_parameter* param)
 			case 'e':
 				param->eps = atof(curr);
 				break;
+            case 'q':
+                print_func = &print_null;
+                break;
 			case 'p':
 				param->p = atof(curr);
 				break;
@@ -105,6 +108,16 @@ void parse_command_line(const char* input_command, struct svm_parameter* param)
 	svm_set_print_string_function(print_func);
 }
 
+void add_instance(struct svm_problem* prob, double* features, int nb_dimensions, double y, int i)
+{
+    for(int j = 0; j < nb_dimensions; j++) {
+        prob->x[i][j].index = j + 1;
+        prob->x[i][j].value = features[j];
+    }
+    prob->x[i][nb_dimensions].index = -1;
+    prob->y[i] = y;
+}
+
 struct svm_problem* create_svm_nodes(int nb_features, int nb_dimensions)
 {
 	struct svm_problem* prob = Malloc(struct svm_problem, 1);
@@ -120,13 +133,13 @@ struct svm_problem* create_svm_nodes(int nb_features, int nb_dimensions)
 	return prob;
 }
 
-struct svm_model* libsvm_train_for_toy(struct svm_problem* prob, const char* command)
+struct svm_model* libsvm_train_problem(struct svm_problem* prob, const char* command)
 {
+    fprintf(stdout, "train problem\n");
 	struct svm_parameter param;
 	parse_command_line(command, &param);
 
-//    fprintf(stdout, "command: %s\n", command);
-//    fprintf(stdout, "svm param, type: %d, kernel: %d\n", param.svm_type, param.kernel_type);
+    fprintf(stdout, "param - type: %d, kernel: %d\n", param.svm_type, param.kernel_type);
 	if(param.svm_type == EPSILON_SVR || param.svm_type == NU_SVR) {
 		if(param.gamma == 0) param.gamma = .1;
 	} else {
@@ -144,13 +157,15 @@ struct svm_model* libsvm_train_for_toy(struct svm_problem* prob, const char* com
 }
 
 double libsvm_predict_one(struct svm_model* model, double* data, int size) {
-    struct svm_node* node = Malloc(struct svm_node *, size + 1);
+    struct svm_node* node = Malloc(struct svm_node, size + 1);
     for(int i=0; i<size; i++) {
         node[i].index = i + 1;
         node[i].value = data[i];
     }
     node[size].index = -1;
-    return svm_predict(model, node);
+    double pred = svm_predict(model, node);
+    free(node);
+    return pred;
 }
 
 struct svm_model* libsvm_train(double *data, double *labels, int nb_features, int nb_dimensions, const char* command) {
@@ -164,7 +179,7 @@ struct svm_model* libsvm_train(double *data, double *labels, int nb_features, in
         prob->y[i] = labels[i];
     }
 
-    return libsvm_train_for_toy(prob, command);
+    return libsvm_train_problem(prob, command);
 }
 
 double get_svr_epsilon(struct svm_model* model)

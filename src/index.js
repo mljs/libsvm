@@ -4,6 +4,9 @@ const libsvm = require('../lib/libsvm-js-interfaces');
 
 const train = libsvm.cwrap('libsvm_train', 'number', ['array', 'array', 'number', 'number', 'string']);
 const predict_one = libsvm.cwrap('libsvm_predict_one', 'number', ['number', 'array', 'number']);
+const add_instance = libsvm.cwrap('add_instance', null, ['number', 'array', 'number', 'number', 'number']);
+const create_svm_nodes = libsvm.cwrap('create_svm_nodes', 'number', ['number', 'number']);
+const train_problem = libsvm.cwrap('libsvm_train_problem', 'number', ['number', 'string']);
 // xor
 
 // const model = train(features, labels, 4, 2, '-s 0  -t 0 -c 10 -g 1 -r 1 -d 3');
@@ -27,7 +30,7 @@ const KERNEL_TYPES = {
 
 const defaultOptions = {
     type: SVM_TYPES.C_SVC,
-    kernel: KERNEL_TYPES.LINEAR,
+    kernel: KERNEL_TYPES.RBF,
     degree: 3,
     gamma: null, // default value is 1/num_features
     coef0: 0,
@@ -58,22 +61,24 @@ const mapOptionToCommand  = {
 };
 
 module.exports = {
-    train: function(data, labels, nbFeatures, options) {
+    train: function(features, labels, options) {
         options = Object.assign({}, defaultOptions, options);
-        var features = new Uint8Array(new Float64Array(features).buffer);
-        var labels = new Uint8Array(new Float64Array(labels).buffer);
-        var nbDimensions = data.length / nbFeatures;
-        if(!Number.isInteger(nbDimensions)) {
-            throw new Error('Unexpected data length');
+        const nbFeatures = features.length;
+        const nbDimensions = features[0].length;
+        const problem = create_svm_nodes(nbFeatures, nbDimensions);
+        for(let i = 0; i < nbFeatures; i++) {
+            add_instance(problem, new Uint8Array(new Float64Array(features[i]).buffer), nbDimensions, labels[i], i);
         }
         const command = getCommand(options);
-        return train(features, labels, nbFeatures, nbDimensions, command);
+        console.log(command);
+        const model = train_problem(problem, command);
+        return model;
     },
     predict: function(model, data) {
     },
 
     predictOne: function(model, features) {
-        predict_one(model, new Uint8Array(new Float64Array(features)), features.length);
+        return predict_one(model, new Uint8Array(new Float64Array(features).buffer), features.length);
     },
     SVM_TYPES,
     KERNEL_TYPES
@@ -85,7 +90,7 @@ function getCommand(options) {
     var keys = Object.keys(options);
     for(var i=0; i<keys.length; i++) {
         var key = keys[i];
-        if(options[key] != null) continue;
+        if(options[key] == null) continue;
         if(str) str += ' ';
         str += `-${mapOptionToCommand[key]} ${options[key]}`;
     }
