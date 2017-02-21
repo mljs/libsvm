@@ -97,7 +97,6 @@ class SVM {
 
     getSVIndices() {
         const nSV = svm_get_nr_sv(this.model);
-        console.log('nb sv: ', nSV);
         const offset = libsvm._malloc(nSV * 4);
         svm_get_sv_indices(this.model, offset);
         const data = libsvm.HEAP32.subarray(offset / 4, offset / 4 + nSV);
