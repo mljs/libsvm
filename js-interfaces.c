@@ -46,11 +46,11 @@ void parse_command_line(const char* input_command, struct svm_parameter* param)
 	do
 	{
 		if(curr[0] != '-') break;
-		if(curr[1] == 'q') continue; // no quiet mode for toy
 
 		prev = curr;
 		if((curr = strtok(NULL, " \t\n")) == NULL)
 			exit_with_help();
+
 		switch(prev[1])
 		{
 			case 's':
@@ -135,11 +135,9 @@ struct svm_problem* create_svm_nodes(int nb_features, int nb_dimensions)
 
 struct svm_model* libsvm_train_problem(struct svm_problem* prob, const char* command)
 {
-    fprintf(stdout, "train problem\n");
 	struct svm_parameter param;
 	parse_command_line(command, &param);
 
-    fprintf(stdout, "param - type: %d, kernel: %d\n", param.svm_type, param.kernel_type);
 	if(param.svm_type == EPSILON_SVR || param.svm_type == NU_SVR) {
 		if(param.gamma == 0) param.gamma = .1;
 	} else {
@@ -181,6 +179,8 @@ struct svm_model* libsvm_train(double *data, double *labels, int nb_features, in
 
     return libsvm_train_problem(prob, command);
 }
+
+
 
 double get_svr_epsilon(struct svm_model* model)
 {

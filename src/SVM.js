@@ -2,11 +2,15 @@
 
 const libsvm = require('../lib/libsvm-js-interfaces');
 
-const train = libsvm.cwrap('libsvm_train', 'number', ['array', 'array', 'number', 'number', 'string']);
+// const train = libsvm.cwrap('libsvm_train', 'number', ['array', 'array', 'number', 'number', 'string']);
 const predict_one = libsvm.cwrap('libsvm_predict_one', 'number', ['number', 'array', 'number']);
 const add_instance = libsvm.cwrap('add_instance', null, ['number', 'array', 'number', 'number', 'number']);
 const create_svm_nodes = libsvm.cwrap('create_svm_nodes', 'number', ['number', 'number']);
 const train_problem = libsvm.cwrap('libsvm_train_problem', 'number', ['number', 'string']);
+const svm_get_nr_sv = libsvm.cwrap('svm_get_nr_sv', 'number', ['number']);
+const svm_free_model = libsvm.cwrap('svm_free_model_content', null, ['number']);
+const svm_get_nr_class = libsvm.cwrap('svm_get_nr_class', 'number', ['number']);
+
 // xor
 
 // const model = train(features, labels, 4, 2, '-s 0  -t 0 -c 10 -g 1 -r 1 -d 3');
@@ -29,22 +33,24 @@ const KERNEL_TYPES = {
 };
 
 const defaultOptions = {
-    type: SVM_TYPES.C_SVC,
-    kernel: KERNEL_TYPES.RBF,
-    degree: 3,
-    gamma: null, // default value is 1/num_features
-    coef0: 0,
-    cost: 1,
-    nu: 0.5,
-    epsilon: 0.1,
-    cachesize: 100,
-    tolerance: 0.001,
-    shrinking: 1,
-    probability_estimates: 0,
-    weight: 1
+    // type: SVM_TYPES.C_SVC,
+    // kernel: KERNEL_TYPES.RBF,
+    // degree: 3,
+    // gamma: null, // default value is 1/num_features
+    // coef0: 0,
+    // cost: 1,
+    // nu: 0.5,
+    // epsilon: 0.1,
+    // cachesize: 100,
+    // tolerance: 0.001,
+    // shrinking: 1,
+    // probability_estimates: 0,
+    // weight: 1,
+    // quiet: true
 };
 
 const mapOptionToCommand  = {
+    quiet: 'q',
     type: 's',
     kernel: 't',
     degree: 'd',
@@ -57,33 +63,40 @@ const mapOptionToCommand  = {
     tolerance: 'e',
     shrinking: 'h',
     probability_estimates: 'b',
-    weight: 'wi'
+    weight: 'w'
 };
 
-module.exports = {
-    train: function(features, labels, options) {
-        options = Object.assign({}, defaultOptions, options);
+class SVM {
+    constructor(options) {
+        this.options = Object.assign({}, defaultOptions, options);
+        this.model = null;
+    };
+
+    train(features, labels) {
+        if(this.model !== null) {
+            svm_free_model(this.model);
+        }
         const nbFeatures = features.length;
         const nbDimensions = features[0].length;
         const problem = create_svm_nodes(nbFeatures, nbDimensions);
         for(let i = 0; i < nbFeatures; i++) {
             add_instance(problem, new Uint8Array(new Float64Array(features[i]).buffer), nbDimensions, labels[i], i);
         }
-        const command = getCommand(options);
-        console.log(command);
-        const model = train_problem(problem, command);
-        return model;
-    },
-    predict: function(model, data) {
-    },
+        const command = getCommand(this.options);
+        console.log('command', command);
+        this.model = train_problem(problem, command); // this also frees problem
+    }
 
-    predictOne: function(model, features) {
-        return predict_one(model, new Uint8Array(new Float64Array(features).buffer), features.length);
-    },
-    SVM_TYPES,
-    KERNEL_TYPES
+    predictOne(features) {
+        if(this.model === null) {
+            throw new Error('Cannot predict, you must train first');
+        }
+        return predict_one(this.model, new Uint8Array(new Float64Array(features).buffer), features.length);
+    }
+}
 
-};
+SVM.SVM_TYPES = SVM_TYPES;
+SVM.KERNEL_TYPES = KERNEL_TYPES;
 
 function getCommand(options) {
     var str = '';
@@ -92,8 +105,21 @@ function getCommand(options) {
         var key = keys[i];
         if(options[key] == null) continue;
         if(str) str += ' ';
-        str += `-${mapOptionToCommand[key]} ${options[key]}`;
+        switch(key) {
+            case 'quiet': {
+                if(options[key]) {
+                    str += `-${mapOptionToCommand[key]} 1`;
+                }
+                break;
+            }
+            default: {
+                str += `-${mapOptionToCommand[key]} ${options[key]}`;
+                break;
+            }
+        }
     }
 
     return str;
 }
+
+module.exports = SVM;
