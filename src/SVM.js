@@ -10,6 +10,7 @@ const train_problem = libsvm.cwrap('libsvm_train_problem', 'number', ['number', 
 const svm_get_nr_sv = libsvm.cwrap('svm_get_nr_sv', 'number', ['number']);
 const svm_free_model = libsvm.cwrap('svm_free_model_content', null, ['number']);
 const svm_get_nr_class = libsvm.cwrap('svm_get_nr_class', 'number', ['number']);
+const svm_get_sv_indices = libsvm.cwrap('svm_get_sv_indices', null, ['number', 'number']);
 
 // xor
 
@@ -92,6 +93,17 @@ class SVM {
             throw new Error('Cannot predict, you must train first');
         }
         return predict_one(this.model, new Uint8Array(new Float64Array(features).buffer), features.length);
+    }
+
+    getSVIndices() {
+        const nSV = svm_get_nr_sv(this.model);
+        console.log('nb sv: ', nSV);
+        const offset = libsvm._malloc(nSV * 4);
+        svm_get_sv_indices(this.model, offset);
+        const data = libsvm.HEAP32.subarray(offset / 4, offset / 4 + nSV);
+        const arr = Array.from(data).map(i => i - 1);
+        libsvm._free(offset);
+        return arr;
     }
 }
 
