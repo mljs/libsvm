@@ -11,6 +11,7 @@ const svm_get_nr_sv = libsvm.cwrap('svm_get_nr_sv', 'number', ['number']);
 const svm_free_model = libsvm.cwrap('svm_free_model_content', null, ['number']);
 const svm_get_nr_class = libsvm.cwrap('svm_get_nr_class', 'number', ['number']);
 const svm_get_sv_indices = libsvm.cwrap('svm_get_sv_indices', null, ['number', 'number']);
+const svm_get_labels = libsvm.cwrap('svm_get_labels', null, ['number', 'number']);
 
 // xor
 
@@ -95,19 +96,29 @@ class SVM {
         return predict_one(this.model, new Uint8Array(new Float64Array(features).buffer), features.length);
     }
 
+    getLabels() {
+        const nbLabels = svm_get_nr_class(this.model);
+        return getIntArrayFromModel(svm_get_labels, this.model, nbLabels);
+    }
+
     getSVIndices() {
         const nSV = svm_get_nr_sv(this.model);
-        const offset = libsvm._malloc(nSV * 4);
-        svm_get_sv_indices(this.model, offset);
-        const data = libsvm.HEAP32.subarray(offset / 4, offset / 4 + nSV);
-        const arr = Array.from(data).map(i => i - 1);
-        libsvm._free(offset);
-        return arr;
+        return getIntArrayFromModel(svm_get_sv_indices, this.model, nSV)
+            .map(i => i - 1);
     }
 }
 
 SVM.SVM_TYPES = SVM_TYPES;
 SVM.KERNEL_TYPES = KERNEL_TYPES;
+
+function getIntArrayFromModel(fn, model, size) {
+    const offset = libsvm._malloc(size * 4);
+    fn(model, offset);
+    const data = libsvm.HEAP32.subarray(offset / 4, offset / 4 + size);
+    const arr = Array.from(data);
+    libsvm._free(offset);
+    return arr;
+}
 
 function getCommand(options) {
     var str = '';

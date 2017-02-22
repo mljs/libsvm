@@ -13,3 +13,4 @@ for(var i=0; i<features.length; i++) {
 
 svm.train(features, labels);
 console.log('sv indices', svm.getSVIndices());
+console.log('labels', svm.getLabels());
