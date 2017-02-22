@@ -53,6 +53,24 @@ const mapOptionToCommand  = {
 };
 
 class SVM {
+    /**
+     * @constructor
+     * @param options
+     * @param {number} [options.type=SVM_TYPES.C_SVC] - Type of SVM to perform,
+     * @param {number} [options.kernel=KERNEL_TYPES.RBF] - Kernel function,
+     * @param {number} [options.degree=3] - Degree of polynomial, for polynomial kernel
+     * @param {number} [options.gamma] -  Gamma parameter of the RBF, Polynomial and Sigmoid kernels. Default value is 1/num_features
+     * @param {number} [options.coef0=0] - coef0 parameter for Polynomial and Sigmoid kernels
+     * @param {number} [options.cost=]1 - Cost parameter, for C SVC, Epsilon SVR and NU SVR
+     * @param {number} [options.nu=0.5] - For NU SVC and NU SVR
+     * @param {number} [options.epsilon=0.1] - For epsilon SVR
+     * @param {number} [options.cachesize=100] - Cache size in MB
+     * @param {number} [options.tolerance=0.001] - Tolerance
+     * @param {number} [options.shrinking=1] - Use shrinking euristics (faster),
+     * @param {number} [options.probability_estimates=0] - weather to train SVC/SVR model for probability estimates,
+     * @param {number} [options.weight=1] - Set weight for each possible class
+     * @param {boolean} [options.quiet=true] - Print info during training if false
+     */
     constructor(options) {
         this.options = Object.assign({}, options);
         this.model = null;
