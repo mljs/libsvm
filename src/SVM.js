@@ -34,22 +34,6 @@ const KERNEL_TYPES = {
     SIGMOID: 3
 };
 
-const defaultOptions = {
-    // type: SVM_TYPES.C_SVC,
-    // kernel: KERNEL_TYPES.RBF,
-    // degree: 3,
-    // gamma: null, // default value is 1/num_features
-    // coef0: 0,
-    // cost: 1,
-    // nu: 0.5,
-    // epsilon: 0.1,
-    // cachesize: 100,
-    // tolerance: 0.001,
-    // shrinking: 1,
-    // probability_estimates: 0,
-    // weight: 1,
-    // quiet: true
-};
 
 const mapOptionToCommand  = {
     quiet: 'q',
@@ -70,30 +54,37 @@ const mapOptionToCommand  = {
 
 class SVM {
     constructor(options) {
-        this.options = Object.assign({}, defaultOptions, options);
+        this.options = Object.assign({}, options);
         this.model = null;
     };
 
-    train(features, labels) {
+    train(samples, labels) {
         if(this.model !== null) {
             svm_free_model(this.model);
         }
-        const nbFeatures = features.length;
-        const nbDimensions = features[0].length;
-        const problem = create_svm_nodes(nbFeatures, nbDimensions);
-        for(let i = 0; i < nbFeatures; i++) {
-            add_instance(problem, new Uint8Array(new Float64Array(features[i]).buffer), nbDimensions, labels[i], i);
+        const nbSamples = samples.length;
+        const nbFeatures = samples[0].length;
+        const problem = create_svm_nodes(nbSamples, nbFeatures);
+        for(let i = 0; i < nbSamples; i++) {
+            add_instance(problem, new Uint8Array(new Float64Array(samples[i]).buffer), nbFeatures, labels[i], i);
         }
         const command = getCommand(this.options);
         console.log('command', command);
         this.model = train_problem(problem, command); // this also frees problem
     }
 
-    predictOne(features) {
+    predictOne(sample) {
         if(this.model === null) {
             throw new Error('Cannot predict, you must train first');
         }
-        return predict_one(this.model, new Uint8Array(new Float64Array(features).buffer), features.length);
+        return predict_one(this.model, new Uint8Array(new Float64Array(sample).buffer), sample.length);
+    }
+
+    predict(samples) {
+        let arr = [];
+        for(let i = 0; i<samples.length; i++) {
+            arr.push(this.predictOne(samples[i]));
+        }
     }
 
     getLabels() {
