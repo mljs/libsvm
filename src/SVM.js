@@ -1,6 +1,7 @@
 'use strict';
 
 const libsvm = require('../lib/libsvm-js-interfaces');
+const util = require('./util');
 
 // const train = libsvm.cwrap('libsvm_train', 'number', ['array', 'array', 'number', 'number', 'string']);
 const predict_one = libsvm.cwrap('libsvm_predict_one', 'number', ['number', 'array', 'number']);
@@ -34,24 +35,6 @@ const KERNEL_TYPES = {
     SIGMOID: 3
 };
 
-
-const mapOptionToCommand  = {
-    quiet: 'q',
-    type: 's',
-    kernel: 't',
-    degree: 'd',
-    gamma: 'g',
-    coef0: 'r',
-    cost: 'c',
-    nu: 'n',
-    epsilon: 'p',
-    cachesize: 'm',
-    tolerance: 'e',
-    shrinking: 'h',
-    probability_estimates: 'b',
-    weight: 'w'
-};
-
 class SVM {
     /**
      * @constructor
@@ -61,14 +44,14 @@ class SVM {
      * @param {number} [options.degree=3] - Degree of polynomial, for polynomial kernel
      * @param {number} [options.gamma] -  Gamma parameter of the RBF, Polynomial and Sigmoid kernels. Default value is 1/num_features
      * @param {number} [options.coef0=0] - coef0 parameter for Polynomial and Sigmoid kernels
-     * @param {number} [options.cost=]1 - Cost parameter, for C SVC, Epsilon SVR and NU SVR
+     * @param {number} [options.cost=1] - Cost parameter, for C SVC, Epsilon SVR and NU SVR
      * @param {number} [options.nu=0.5] - For NU SVC and NU SVR
      * @param {number} [options.epsilon=0.1] - For epsilon SVR
-     * @param {number} [options.cachesize=100] - Cache size in MB
+     * @param {number} [options.cacheSize=100] - Cache size in MB
      * @param {number} [options.tolerance=0.001] - Tolerance
-     * @param {number} [options.shrinking=1] - Use shrinking euristics (faster),
-     * @param {number} [options.probability_estimates=0] - weather to train SVC/SVR model for probability estimates,
-     * @param {number} [options.weight=1] - Set weight for each possible class
+     * @param {boolean} [options.shrinking=true] - Use shrinking euristics (faster),
+     * @param {boolean} [options.probabilityEstimates=false] - weather to train SVC/SVR model for probability estimates,
+     * @param {number} [options.weight] - Set weight for each possible class
      * @param {boolean} [options.quiet=true] - Print info during training if false
      */
     constructor(options) {
@@ -86,7 +69,7 @@ class SVM {
         for(let i = 0; i < nbSamples; i++) {
             add_instance(problem, new Uint8Array(new Float64Array(samples[i]).buffer), nbFeatures, labels[i], i);
         }
-        const command = getCommand(this.options);
+        const command = util.getCommand(this.options);
         console.log('command', command);
         this.model = train_problem(problem, command); // this also frees problem
     }
@@ -129,28 +112,6 @@ function getIntArrayFromModel(fn, model, size) {
     return arr;
 }
 
-function getCommand(options) {
-    var str = '';
-    var keys = Object.keys(options);
-    for(var i=0; i<keys.length; i++) {
-        var key = keys[i];
-        if(options[key] == null) continue;
-        if(str) str += ' ';
-        switch(key) {
-            case 'quiet': {
-                if(options[key]) {
-                    str += `-${mapOptionToCommand[key]} 1`;
-                }
-                break;
-            }
-            default: {
-                str += `-${mapOptionToCommand[key]} ${options[key]}`;
-                break;
-            }
-        }
-    }
 
-    return str;
-}
 
 module.exports = SVM;
