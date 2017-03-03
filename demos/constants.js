@@ -1,0 +1,1 @@
+export const CANVAS_RESOLUTION = 200;
