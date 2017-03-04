@@ -8,7 +8,6 @@ const defaultState = {
 };
 
 export default function SVCReducer(state = defaultState, action) {
-    console.log('hello2!');
     switch(action.type) {
         default:
             return state;
