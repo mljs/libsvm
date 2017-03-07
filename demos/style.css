@@ -1,0 +1,32 @@
+body:before {
+    content: "xs";
+    display: none;
+}
+
+@media (min-width: 576px) {
+    body:before {
+        content: "sm";
+        display: none;
+    }
+}
+
+@media (min-width: 768px) {
+    body:before {
+        content: "md";
+        display: none;
+    }
+}
+
+@media (min-width: 992px) {
+    body:before {
+        content: "lg";
+        display: none;
+    }
+}
+
+@media (min-width: 1200px) {
+    body:before {
+        content: "xl";
+        display: none;
+    }
+}
