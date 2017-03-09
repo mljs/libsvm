@@ -3,8 +3,13 @@ import {connect} from 'react-redux';
 import SVM from '../..';
 import {CANVAS_RESOLUTION, CANVAS_SCALE_FACTOR} from '../constants';
 const chroma = require('chroma-js');
+import {addPoint} from '../actions/index';
 
 class Canvas extends Component {
+    constructor(props) {
+        super(props);
+        this.onCanvasClick = this.onCanvasClick.bind(this);
+    }
     componentDidMount() {
         this.ctx = this.canvas.getContext('2d');
         this.ctx.imageSmoothingEnabled = false;
@@ -15,6 +20,18 @@ class Canvas extends Component {
         this.draw();
     }
 
+    onCanvasClick(event) {
+        const targetRect = event.target.getBoundingClientRect();
+        const normalized = {
+            x: ((event.clientX - targetRect.left) / (this.props.width * this.props.scale) - 0.5) * 2,
+            y: ((event.clientY - targetRect.top) / (this.props.height * this.props.scale) - 0.5) * 2
+        };
+        this.props.addPoint({
+            point: normalized,
+            label: 1
+        });
+    }
+
     render() {
         console.log('render');
         const realWidth = this.props.width * this.props.scale;
@@ -22,6 +39,7 @@ class Canvas extends Component {
         return (
             <div>
                 <canvas
+                    onClick={this.onCanvasClick}
                     width={realWidth}
                     height={realHeight}
                     ref={c => this.canvas = c}
@@ -32,7 +50,6 @@ class Canvas extends Component {
     }
 
     draw() {
-        console.log('draw');
         // this.ctx.fillStyle = 'white';
         // this.ctx.fillRect(0, 0, this.width, this.height);
         const realWidth = this.props.width * this.props.scale;
@@ -66,7 +83,7 @@ class Canvas extends Component {
             }
         }
         this.ctx.putImageData(data, 0, 0);
-        const radius = this.props.scale * this.props.width / 30;
+        const radius = this.props.scale * this.props.width / 80;
         this.ctx.imageSmoothingEnabled = false;
         for (var i = 0; i < this.props.points.length; i++) {
             const point = this.props.points[i];
@@ -88,6 +105,7 @@ class Canvas extends Component {
 }
 
 function mapStateToProps(state) {
+    console.time('SVC');
     const canvasSize = CANVAS_RESOLUTION[state.style.currentBreakpoint];
     const svm = new SVM({
         cost: state.SVC.config.cost,
@@ -111,6 +129,8 @@ function mapStateToProps(state) {
         }
     }
 
+    console.timeEnd('SVC');
+
     return {
         width: CANVAS_RESOLUTION[state.style.currentBreakpoint],
         height: CANVAS_RESOLUTION[state.style.currentBreakpoint],
@@ -118,8 +138,7 @@ function mapStateToProps(state) {
         points,
         scale: CANVAS_SCALE_FACTOR[state.style.currentBreakpoint]
     }
-
-
 }
 
-export default connect(mapStateToProps)(Canvas);
+
+export default connect(mapStateToProps, {addPoint})(Canvas);
