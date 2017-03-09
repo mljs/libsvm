@@ -1,15 +1,35 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import SVM from '../..';
-import {CANVAS_RESOLUTION, CANVAS_SCALE_FACTOR} from '../constants';
+import {CANVAS_RESOLUTION, CANVAS_SCALE_FACTOR, LABELS_COLORS} from '../constants';
 const chroma = require('chroma-js');
 import {addPoint} from '../actions/index';
+
+const colorsRgb = LABELS_COLORS.map(c => chroma(c).rgb());
+const colorsBrighter = LABELS_COLORS.map(c => chroma(c).brighten().hex());
+
+const classToLabel = {
+    "-1": 0,
+    1: 1,
+    2: 2,
+    3: 3,
+    4: 4
+};
+
+const labelToClass = {
+    0: -1,
+    1: 1,
+    2: 2,
+    3: 3,
+    4: 4
+};
 
 class Canvas extends Component {
     constructor(props) {
         super(props);
         this.onCanvasClick = this.onCanvasClick.bind(this);
     }
+
     componentDidMount() {
         this.ctx = this.canvas.getContext('2d');
         this.ctx.imageSmoothingEnabled = false;
@@ -23,12 +43,11 @@ class Canvas extends Component {
     onCanvasClick(event) {
         const targetRect = event.target.getBoundingClientRect();
         const normalized = {
-            x: ((event.clientX - targetRect.left) / (this.props.width * this.props.scale) - 0.5) * 2,
-            y: ((event.clientY - targetRect.top) / (this.props.height * this.props.scale) - 0.5) * 2
+            x: (event.clientX - targetRect.left) / (this.props.width * this.props.scale),
+            y: (event.clientY - targetRect.top) / (this.props.height * this.props.scale)
         };
         this.props.addPoint({
-            point: normalized,
-            label: 1
+            point: normalized
         });
     }
 
@@ -50,55 +69,44 @@ class Canvas extends Component {
     }
 
     draw() {
-
-        if(this.props.background.length !== this.props.width * this.props.height) {
+        const {width, height, scale} = this.props;
+        if (this.props.background.length !== width * height) {
             this.ctx.fillStyle = 'lightgray';
-            this.ctx.fillRect(0, 0, this.props.width * this.props.scale, this.props.height * this.props.scale);
+            this.ctx.fillRect(0, 0, width * this.props.scale, height * scale);
             return;
         }
 
-        const realWidth = this.props.width * this.props.scale;
-        const realHeight = this.props.height * this.props.scale;
+        const realWidth = width * scale;
+        const realHeight = height * scale;
         const data = this.ctx.createImageData(realWidth, realHeight);
-        for (var i = 0; i < this.props.width; i++) {
-            for (var j = 0; j < this.props.height; j++) {
-                const px = (j * this.props.width + i);
+        for (var i = 0; i < width; i++) {
+            for (var j = 0; j < height; j++) {
+                const px = (j * width + i);
                 const label = this.props.background[px];
 
-                for (var k = 0; k < this.props.scale; k++) {
-                    const idx = 4 * this.props.scale * (this.props.width * (j * this.props.scale + k) + i);
-                    // const idx = (j * this.props.width * this.props.scale * this.props.scale +  k * this.props.scale * this.props.width + i * this.props.scale ) * 4;
-                    for(var l = 0; l < this.props.scale; l++) {
+                for (var k = 0; k < scale; k++) {
+                    const idx = 4 * scale * (width * (j * scale + k) + i);
+                    // const idx = (j * width * scale * scale +  k * scale * width + i * scale ) * 4;
+                    for (var l = 0; l < scale; l++) {
                         const idxx = idx + l * 4;
-                        if (label < 0) {
-                            data.data[idxx] = 255;
-                            data.data[idxx + 1] = 0;
-                            data.data[idxx + 2] = 0;
-                            data.data[idxx + 3] = 255;
-                        } else {
-                            data.data[idxx] = 0;
-                            data.data[idxx + 1] = 255;
-                            data.data[idxx + 2] = 0;
-                            data.data[idxx + 3] = 255;
-                        }
+                        data.data[idxx] = colorsRgb[label][0];
+                        data.data[idxx + 1] = colorsRgb[label][1];
+                        data.data[idxx + 2] = colorsRgb[label][2];
+                        data.data[idxx + 3] = 255;
                     }
-                    }
+                }
 
 
             }
         }
         this.ctx.putImageData(data, 0, 0);
-        const radius = this.props.scale * this.props.width / 80;
+        const radius = scale * width / 80;
         this.ctx.imageSmoothingEnabled = false;
         for (var i = 0; i < this.props.points.length; i++) {
             const point = this.props.points[i];
             this.ctx.beginPath();
-            this.ctx.arc(point.x * this.props.scale, point.y * this.props.scale, radius, 0, 2 * Math.PI, false);
-            if (point.label < 0) {
-                this.ctx.fillStyle = chroma('FF0000').brighten().hex();
-            } else {
-                this.ctx.fillStyle = chroma('00FF00').brighten().hex();
-            }
+            this.ctx.arc(point.x * scale, point.y * scale, radius, 0, 2 * Math.PI, false);
+            this.ctx.fillStyle = colorsBrighter[point.label];
             this.ctx.fill();
             this.ctx.lineWidth = radius / 4;
             this.ctx.strokeStyle = '#003300';
@@ -117,8 +125,8 @@ function mapStateToProps(state) {
         return {
             label: state.SVC.labels[idx],
             SV: true,
-            x: (p[0] + 1) * canvasSize / 2,
-            y: (p[1] + 1) * canvasSize / 2,
+            x: p[0] * canvasSize,
+            y: p[1] * canvasSize,
             size: CANVAS_RESOLUTION[state.style.currentBreakpoint],
         }
     });
@@ -132,7 +140,7 @@ function mapStateToProps(state) {
 
         for (var i = 0; i < canvasSize; i++) {
             for (var j = 0; j < canvasSize; j++) {
-                background.push(svm.predictOne([i / canvasSize * 2 - 1, j / canvasSize * 2 - 1]));
+                background.push(svm.predictOne([i / canvasSize, j / canvasSize]));
             }
         }
     }

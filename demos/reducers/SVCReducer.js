@@ -1,4 +1,4 @@
-import {SVC_ADD_POINT} from '../actions/types';
+import {SVC_ADD_POINT, SVC_LABEL_CHANGED} from '../actions/types';
 
 const defaultState = {
     config: {
@@ -6,7 +6,8 @@ const defaultState = {
         cost: 1
     },
     points: [],
-    labels: []
+    labels: [],
+    currentLabel: 0
 };
 
 export default function SVCReducer(state = defaultState, action) {
@@ -16,7 +17,13 @@ export default function SVCReducer(state = defaultState, action) {
             return {
                 ...state,
                 points: state.points.concat([newPoint]),
-                labels: state.labels.concat(action.payload.label)
+                labels: state.labels.concat(state.currentLabel)
+            }
+        }
+        case SVC_LABEL_CHANGED: {
+            return {
+                ...state,
+                currentLabel: action.payload
             }
         }
         default:
