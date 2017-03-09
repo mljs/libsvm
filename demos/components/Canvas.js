@@ -50,8 +50,13 @@ class Canvas extends Component {
     }
 
     draw() {
-        // this.ctx.fillStyle = 'white';
-        // this.ctx.fillRect(0, 0, this.width, this.height);
+
+        if(this.props.background.length !== this.props.width * this.props.height) {
+            this.ctx.fillStyle = 'lightgray';
+            this.ctx.fillRect(0, 0, this.props.width * this.props.scale, this.props.height * this.props.scale);
+            return;
+        }
+
         const realWidth = this.props.width * this.props.scale;
         const realHeight = this.props.height * this.props.scale;
         const data = this.ctx.createImageData(realWidth, realHeight);
@@ -107,12 +112,7 @@ class Canvas extends Component {
 function mapStateToProps(state) {
     console.time('SVC');
     const canvasSize = CANVAS_RESOLUTION[state.style.currentBreakpoint];
-    const svm = new SVM({
-        cost: state.SVC.config.cost,
-        gamma: state.SVC.config.gamma
-    });
 
-    svm.train(state.SVC.points, state.SVC.labels);
     const points = state.SVC.points.map((p, idx) => {
         return {
             label: state.SVC.labels[idx],
@@ -123,11 +123,20 @@ function mapStateToProps(state) {
         }
     });
     const background = [];
-    for (var i = 0; i < canvasSize; i++) {
-        for (var j = 0; j < canvasSize; j++) {
-            background.push(svm.predictOne([i / canvasSize * 2 - 1, j / canvasSize * 2 - 1]));
+    if(points.length) {
+        const svm = new SVM({
+            cost: state.SVC.config.cost,
+            gamma: state.SVC.config.gamma
+        });
+        svm.train(state.SVC.points, state.SVC.labels);
+
+        for (var i = 0; i < canvasSize; i++) {
+            for (var j = 0; j < canvasSize; j++) {
+                background.push(svm.predictOne([i / canvasSize * 2 - 1, j / canvasSize * 2 - 1]));
+            }
         }
     }
+
 
     console.timeEnd('SVC');
 

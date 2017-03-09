@@ -5,7 +5,6 @@ const defaultState = {
 };
 
 export default function(state=defaultState, action) {
-    console.log('style reducer');
     switch(action.type) {
         case STYLE_BREAKPOINT_UPDATE: {
             if(action.payload === state.currentBreakpoint) {
