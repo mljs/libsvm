@@ -134,15 +134,16 @@ function mapStateToProps(state) {
     if(points.length) {
         const svm = new SVM({
             cost: state.SVC.config.cost,
-            gamma: state.SVC.config.gamma
+            gamma: state.SVC.config.gamma,
         });
         svm.train(state.SVC.points, state.SVC.labels);
 
         for (var i = 0; i < canvasSize; i++) {
             for (var j = 0; j < canvasSize; j++) {
-                background.push(svm.predictOne([i / canvasSize, j / canvasSize]));
+                background.push(svm.predictOne([j / canvasSize, i / canvasSize]));
             }
         }
+        console.log(background);
     }
 
 

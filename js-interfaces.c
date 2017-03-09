@@ -103,7 +103,7 @@ void parse_command_line(const char* input_command, struct svm_parameter* param)
 				fprintf(stderr,"Unknown option: -%c\n", prev[1]);
 				exit_with_help();
 		}
-	}while((curr = strtok(NULL, " \t\n")) != NULL);
+	} while((curr = strtok(NULL, " \t\n")) != NULL);
 
 	svm_set_print_string_function(print_func);
 }
