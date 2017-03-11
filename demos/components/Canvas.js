@@ -73,6 +73,9 @@ class Canvas extends Component {
         if (this.props.background.length !== width * height) {
             this.ctx.fillStyle = 'lightgray';
             this.ctx.fillRect(0, 0, width * this.props.scale, height * scale);
+            this.ctx.fillStyle = 'black';
+            this.ctx.font = '40px serif';
+            this.ctx.fillText('Start adding points!', width * scale / 2 - 150, height * scale / 2 - 20 );
             return;
         }
 
@@ -121,9 +124,9 @@ function mapStateToProps(state) {
     console.time('SVC');
     const canvasSize = CANVAS_RESOLUTION[state.style.currentBreakpoint];
 
-    const points = state.SVC.points.map((p, idx) => {
+    const points = state.SVCPoints.present.points.map((p, idx) => {
         return {
-            label: state.SVC.labels[idx],
+            label: state.SVCPoints.present.labels[idx],
             SV: true,
             x: p[0] * canvasSize,
             y: p[1] * canvasSize,
@@ -133,10 +136,10 @@ function mapStateToProps(state) {
     const background = [];
     if(points.length) {
         const svm = new SVM({
-            cost: state.SVC.config.cost,
-            gamma: state.SVC.config.gamma,
+            cost: state.SVCConfig.cost,
+            gamma: state.SVCConfig.gamma,
         });
-        svm.train(state.SVC.points, state.SVC.labels);
+        svm.train(state.SVCPoints.present.points, state.SVCPoints.present.labels);
 
         for (var i = 0; i < canvasSize; i++) {
             for (var j = 0; j < canvasSize; j++) {

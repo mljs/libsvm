@@ -10,7 +10,7 @@ class ChooseLabel extends Component {
 
     renderColorButton(color, idx) {
         return (
-            <div key={idx} style={{backgroundColor: color}}
+            <div key={idx} style={{backgroundColor: color, marginBottom: 5 }}
                  className={`choose-label${this.props.activeLabel === idx ? ' choose-label-active' : ''}`}
                  onClick={() => this.onLabelClick(idx)}
             />
@@ -40,7 +40,7 @@ class ChooseLabel extends Component {
 function mapStateToProps(state) {
     return {
         width: CANVAS_RESOLUTION[state.style.currentBreakpoint] * CANVAS_SCALE_FACTOR[state.style.currentBreakpoint],
-        activeLabel: state.SVC.currentLabel
+        activeLabel: state.SVCPoints.present.currentLabel
     }
 }
 

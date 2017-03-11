@@ -15,6 +15,7 @@
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.3",
     "redux": "^3.6.0",
+    "redux-undo": "^1.0.0",
     "reselect": "^2.5.4",
     "should": "^11.2.0",
     "style-loader": "^0.13.2",
@@ -50,5 +51,6 @@
   "bugs": {
     "url": "https://github.com/mljs/libsvm/issues"
   },
-  "homepage": "https://github.com/mljs/libsvm#readme"
+  "homepage": "https://github.com/mljs/libsvm#readme",
+  "dependencies": {}
 }

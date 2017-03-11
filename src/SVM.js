@@ -14,12 +14,6 @@ const svm_get_nr_class = libsvm.cwrap('svm_get_nr_class', 'number', ['number']);
 const svm_get_sv_indices = libsvm.cwrap('svm_get_sv_indices', null, ['number', 'number']);
 const svm_get_labels = libsvm.cwrap('svm_get_labels', null, ['number', 'number']);
 
-// xor
-
-// const model = train(features, labels, 4, 2, '-s 0  -t 0 -c 10 -g 1 -r 1 -d 3');
-// var features = [0,0,0,1,1,1,1,0];
-// var labels = [1, -1, 1, -1];
-
 const SVM_TYPES = {
     C_SVC: 0,         // C support vector classification
     NU_SVC: 1,        // NU support vector classification
@@ -62,6 +56,7 @@ class SVM {
     train(samples, labels) {
         if(this.model !== null) {
             svm_free_model(this.model);
+            this.model = null;
         }
         const nbSamples = samples.length;
         const nbFeatures = samples[0].length;

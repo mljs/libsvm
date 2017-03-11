@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Canvas from './Canvas';
 import ChooseLabel from './ChooseLabel';
+import ControlBar from './ControlBar';
 import {updateStyleBreakpoint} from '../actions/index';
 import throttle from 'lodash.throttle';
 import {connect} from 'react-redux';
@@ -21,6 +22,7 @@ class App extends Component {
             <div className="container" style={{textAlign: 'center'}}>
                 <Canvas style={{imageRendering: 'pixelated'}}/>
                 <ChooseLabel />
+                <ControlBar/>
             </div>
         );
     }

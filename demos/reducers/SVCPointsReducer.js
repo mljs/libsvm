@@ -1,16 +1,13 @@
-import {SVC_ADD_POINT, SVC_LABEL_CHANGED} from '../actions/types';
+import {SVC_ADD_POINT, SVC_LABEL_CHANGED, SVC_CLEAR_POINTS} from '../actions/types';
+import  undoable from 'redux-undo';
 
 const defaultState = {
-    config: {
-        gamma: 1,
-        cost: 1
-    },
     points: [],
     labels: [],
     currentLabel: 0
 };
 
-export default function SVCReducer(state = defaultState, action) {
+function SVCPointsReducer(state = defaultState, action) {
     switch(action.type) {
         case SVC_ADD_POINT: {
             const newPoint = [action.payload.point.x, action.payload.point.y];
@@ -26,7 +23,18 @@ export default function SVCReducer(state = defaultState, action) {
                 currentLabel: action.payload
             }
         }
+        case SVC_CLEAR_POINTS: {
+            return {
+                ...state,
+                points: [],
+                labels: []
+            }
+        }
         default:
             return state;
     }
 }
+
+export default undoable(SVCPointsReducer, {
+    limit: 100
+});

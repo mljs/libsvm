@@ -1,8 +1,10 @@
 import {combineReducers} from 'redux';
-import SVCReducer from './SVCReducer';
+import SVCPointsReducer from './SVCPointsReducer';
 import styleReducer from './styleReducer';
+import SVCConfigReducer from './SVCConfigReducer';
 
 export default combineReducers({
-    SVC: SVCReducer,
+    SVCPoints: SVCPointsReducer,
+    SVCConfig: SVCConfigReducer,
     style: styleReducer
 })
