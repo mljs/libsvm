@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import {updateStyleBreakpoint} from '../actions/index';
 import throttle from 'lodash.throttle';
 import {connect} from 'react-redux';
-import SVC from './SVC';
-import Home from './Home';
-import SVR from './SVR';
-import Navigation from './Navigation';
+import SVC from '../components/SVC';
+import Home from '../components/Home';
+import SVR from '../components/SVR';
+import Navigation from '../components/Navigation';
 import {Route, BrowserRouter as Router} from 'react-router-dom';
 
 class App extends Component {

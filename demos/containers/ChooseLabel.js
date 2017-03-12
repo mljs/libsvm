@@ -11,7 +11,7 @@ class ChooseLabel extends Component {
     renderColorButton(color, idx) {
         return (
             <div key={idx} style={{backgroundColor: color, marginBottom: 5 }}
-                 className={`choose-label${this.props.activeLabel === idx ? ' choose-label-active' : ''}`}
+                 className={`choose-label-element${this.props.activeLabel === idx ? ' choose-label-element-active' : ''}`}
                  onClick={() => this.onLabelClick(idx)}
             />
         );
@@ -25,8 +25,9 @@ class ChooseLabel extends Component {
     }
 
     render() {
+        console.log(this.props.style)
         return (
-            <div>
+            <div style={this.props.style}>
                 <div style={{width: this.props.width}}>
                     <div className="choose-label-container">
                         {LABELS_COLORS.map(this.renderColorButton.bind(this))}

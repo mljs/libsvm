@@ -8,6 +8,10 @@
     "bootstrap": "4.0.0-alpha.6",
     "chroma-js": "^1.2.2",
     "css-loader": "^0.27.1",
+    "file-loader": "^0.10.1",
+    "font-awesome": "^4.7.0",
+    "font-awesome-webpack": "^0.0.5-beta.2",
+    "less": "^2.7.2",
     "lodash.throttle": "^4.1.1",
     "mocha": "^3.2.0",
     "mocha-better-spec-reporter": "^3.1.0",
@@ -21,6 +25,7 @@
     "reselect": "^2.5.4",
     "should": "^11.2.0",
     "style-loader": "^0.13.2",
+    "url-loader": "^0.5.8",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.1"
   },

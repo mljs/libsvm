@@ -8,22 +8,6 @@ import {addPoint} from '../actions/index';
 const colorsRgb = LABELS_COLORS.map(c => chroma(c).rgb());
 const colorsBrighter = LABELS_COLORS.map(c => chroma(c).brighten().hex());
 
-const classToLabel = {
-    "-1": 0,
-    1: 1,
-    2: 2,
-    3: 3,
-    4: 4
-};
-
-const labelToClass = {
-    0: -1,
-    1: 1,
-    2: 2,
-    3: 3,
-    4: 4
-};
-
 class Canvas extends Component {
     constructor(props) {
         super(props);
@@ -56,7 +40,7 @@ class Canvas extends Component {
         const realWidth = this.props.width * this.props.scale;
         const realHeight = this.props.height * this.props.scale;
         return (
-            <div>
+            <div style={{...this.props.style, width: realWidth, height: realHeight}}>
                 <canvas
                     onClick={this.onCanvasClick}
                     width={realWidth}
