@@ -68,17 +68,34 @@ class Canvas extends Component {
         );
     }
 
-    draw() {
-        const {width, height, scale} = this.props;
-        if (this.props.background.length !== width * height) {
-            this.ctx.fillStyle = 'lightgray';
-            this.ctx.fillRect(0, 0, width * this.props.scale, height * scale);
-            this.ctx.fillStyle = 'black';
-            this.ctx.font = '40px serif';
-            this.ctx.fillText('Start adding points!', width * scale / 2 - 150, height * scale / 2 - 20 );
-            return;
-        }
+    convertXCoordinates(x) {
+        return x * this.props.width * this.props.scale;
+    }
 
+    convertYCoordinates(y) {
+        return y * this.props.height * this.props.scale;
+    }
+
+    drawCross() {
+        this.ctx.lineWidth = 2;
+        this.ctx.strokeStyle = "gray";
+        this.ctx.beginPath();
+        this.ctx.moveTo(0, this.convertYCoordinates(0.5));
+        this.ctx.lineTo(this.convertXCoordinates(1), this.convertYCoordinates(0.5));
+        this.ctx.moveTo(this.convertXCoordinates(0.5), 0);
+        this.ctx.lineTo(this.convertXCoordinates(0.5), this.convertYCoordinates(1));
+        this.ctx.stroke();
+        console.log('drawn');
+    }
+
+    fillBackground() {
+        this.ctx.fillStyle = 'lightgray';
+        this.ctx.fillRect(0, 0, this.props.width * this.props.scale, this.props.height * this.props.scale);
+        this.ctx.fillStyle = 'black';
+    }
+
+    drawBackground() {
+        const {width, height, scale} = this.props;
         const realWidth = width * scale;
         const realHeight = height * scale;
         const data = this.ctx.createImageData(realWidth, realHeight);
@@ -98,12 +115,14 @@ class Canvas extends Component {
                         data.data[idxx + 3] = 255;
                     }
                 }
-
-
             }
         }
         this.ctx.putImageData(data, 0, 0);
-        const radius = scale * width / 80;
+    }
+
+    drawPoints() {
+        const {width, height, scale} = this.props;
+        const radius = scale * Math.min(height, width) / 80;
         this.ctx.imageSmoothingEnabled = false;
         for (var i = 0; i < this.props.points.length; i++) {
             const point = this.props.points[i];
@@ -115,8 +134,18 @@ class Canvas extends Component {
             this.ctx.strokeStyle = '#003300';
             this.ctx.stroke();
         }
+    }
 
-        console.log('drawn');
+    draw() {
+        const {width, height} = this.props;
+        if (this.props.background.length !== width * height) {
+            this.fillBackground();
+        } else {
+            this.drawBackground();
+            this.drawPoints();
+        }
+
+        this.drawCross();
     }
 }
 

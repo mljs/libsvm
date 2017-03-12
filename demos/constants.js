@@ -18,7 +18,7 @@ export const CANVAS_SCALE_FACTOR = {
 
 export const LABELS_DISTINCT_COLORS = 5;
 
-export const LABELS_COLORS = getDistinctColors(LABELS_DISTINCT_COLORS).map(c => chroma(c).hex());
+export const LABELS_COLORS = getDistinctColors(LABELS_DISTINCT_COLORS).map(c => chroma(c).brighten().hex());
 
 
 function getDistinctColors(numColors) {

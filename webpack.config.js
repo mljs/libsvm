@@ -21,6 +21,7 @@ module.exports = {
     },
     devServer: {
         inline: true,
+        historyApiFallback: true,
         contentBase: 'demos'
     },
     node: {

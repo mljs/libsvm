@@ -26,7 +26,7 @@ class ChooseLabel extends Component {
 
     render() {
         return (
-            <div className="flex-align">
+            <div>
                 <div style={{width: this.props.width}}>
                     <div className="choose-label-container">
                         {LABELS_COLORS.map(this.renderColorButton.bind(this))}
