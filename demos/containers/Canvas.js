@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import SVM from '../..';
-import {CANVAS_RESOLUTION, CANVAS_SCALE_FACTOR, LABELS_COLORS} from '../constants';
+import {LABELS_COLORS} from '../constants';
 const chroma = require('chroma-js');
 import {addPoint} from '../actions/index';
+import {getSVCData} from '../selectors/index';
 
 const colorsRgb = LABELS_COLORS.map(c => chroma(c).rgb());
 const colorsBrighter = LABELS_COLORS.map(c => chroma(c).brighten().hex());
@@ -134,44 +134,7 @@ class Canvas extends Component {
 }
 
 function mapStateToProps(state) {
-    console.time('SVC');
-    const canvasSize = CANVAS_RESOLUTION[state.style.currentBreakpoint];
-
-    const points = state.SVCPoints.present.points.map((p, idx) => {
-        return {
-            label: state.SVCPoints.present.labels[idx],
-            SV: true,
-            x: p[0] * canvasSize,
-            y: p[1] * canvasSize,
-            size: CANVAS_RESOLUTION[state.style.currentBreakpoint],
-        }
-    });
-    const background = [];
-    if(points.length) {
-        const svm = new SVM({
-            cost: state.SVCConfig.cost,
-            gamma: state.SVCConfig.gamma,
-        });
-        svm.train(state.SVCPoints.present.points, state.SVCPoints.present.labels);
-
-        for (var i = 0; i < canvasSize; i++) {
-            for (var j = 0; j < canvasSize; j++) {
-                background.push(svm.predictOne([j / canvasSize, i / canvasSize]));
-            }
-        }
-        console.log(background);
-    }
-
-
-    console.timeEnd('SVC');
-
-    return {
-        width: CANVAS_RESOLUTION[state.style.currentBreakpoint],
-        height: CANVAS_RESOLUTION[state.style.currentBreakpoint],
-        background,
-        points,
-        scale: CANVAS_SCALE_FACTOR[state.style.currentBreakpoint]
-    }
+    return getSVCData(state);
 }
 
 
