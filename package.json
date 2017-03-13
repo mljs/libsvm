@@ -24,6 +24,7 @@
     "redux-form": "^6.5.0",
     "redux-undo": "1.0.0-beta9-7",
     "reselect": "^2.5.4",
+    "rimraf": "^2.6.1",
     "should": "^11.2.0",
     "style-loader": "^0.13.2",
     "url-loader": "^0.5.8",
@@ -39,7 +40,11 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha --require should --recursive test"
+    "test": "mocha --require should --recursive test",
+    "clean": "rimraf dist",
+    "build": "NODE_ENV=production npm run clean && webpack -p",
+    "serve": "webpack-dev-server",
+    "deploy": "npm run build && git subtree push --prefix dist origin gh-pages"
   },
   "repository": {
     "type": "git",
