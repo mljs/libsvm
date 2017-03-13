@@ -2,4 +2,3 @@ svm.o
 js-interfaces.o
 node_modules
 demos/bundle.js
-lib
