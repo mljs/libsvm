@@ -2,22 +2,22 @@ import { createSelector } from 'reselect';
 import {CANVAS_RESOLUTION, CANVAS_SCALE_FACTOR} from '../constants';
 import SVM from '../..';
 
-const getSVCConfig = state => state.form.SVCConfig;
-const getSVCPoints = state => state.SVCPoints;
+const getSVCConfig = state => state.form.SVCConfig ? state.form.SVCConfig.values : state.form.SVCConfig;
+const getSVCPoints = state => state.SVCPoints.present;
 const getStyle = state => state.style;
 
 export const getSVCData = createSelector(
     [getSVCConfig, getSVCPoints, getStyle],
     (SVCConfig, SVCPoints, style) => {
+        console.log(SVCConfig, SVCPoints, style);
         const canvasSize = CANVAS_RESOLUTION[style.currentBreakpoint];
         let points = [];
         let background = [];
         if(SVCConfig) {
-            SVCConfig = SVCConfig.values;
             console.time('SVC');
-            points = SVCPoints.present.points.map((p, idx) => {
+            points = SVCPoints.points.map((p, idx) => {
                 return {
-                    label: SVCPoints.present.labels[idx],
+                    label: SVCPoints.labels[idx],
                     SV: true,
                     x: p[0] * canvasSize,
                     y: p[1] * canvasSize,
@@ -25,11 +25,8 @@ export const getSVCData = createSelector(
                 }
             });
             if(points.length) {
-                const svm = new SVM({
-                    cost: SVCConfig.cost,
-                    gamma: SVCConfig.gamma,
-                });
-                svm.train(SVCPoints.present.points, SVCPoints.present.labels);
+                const svm = new SVM(SVCConfig);
+                svm.train(SVCPoints.points, SVCPoints.labels);
 
                 for (var i = 0; i < canvasSize; i++) {
                     for (var j = 0; j < canvasSize; j++) {

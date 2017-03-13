@@ -5,15 +5,15 @@ export const CANVAS_RESOLUTION = {
     sm: 100,
     md: 100,
     lg: 100,
-    xl: 100
+    xl: 125
 };
 
 export const CANVAS_SCALE_FACTOR = {
     xs: 4,
     sm: 3,
     md: 4,
-    lg: 5,
-    xl: 5
+    lg: 4,
+    xl: 4
 };
 
 export const LABELS_DISTINCT_COLORS = 5;
