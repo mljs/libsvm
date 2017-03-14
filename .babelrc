@@ -1,4 +1,9 @@
 {
- "presets": ["react", "es2017"],
- "plugins": ["babel-plugin-transform-object-rest-spread"]
+ "presets": ["react"],
+ "plugins": ["babel-plugin-transform-object-rest-spread"],
+ "env": {
+   "production": {
+     "presets": ["env"]
+   }
+ }
 }
