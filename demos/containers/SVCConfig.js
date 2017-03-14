@@ -7,7 +7,7 @@ const KERNEL_TYPES = SVM.KERNEL_TYPES;
 const initialValues = {
     cost: 1,
     gamma: 1,
-    kernel: KERNEL_TYPES.RBF,
+    kernel: String(KERNEL_TYPES.RBF),
     shrinking: true
 };
 

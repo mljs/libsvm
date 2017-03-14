@@ -1,20 +1,27 @@
-import { createSelector } from 'reselect';
+import { createSelectorCreator, defaultMemoize } from 'reselect';
+import isEqual from 'lodash.isequal';
 import {CANVAS_RESOLUTION, CANVAS_SCALE_FACTOR} from '../constants';
 import SVM from '../..';
 
-const getSVCConfig = state => state.form.SVCConfig ? state.form.SVCConfig.values : state.form.SVCConfig;
+const createSelector = createSelectorCreator(defaultMemoize, (val1, val2) => {
+    return val1 === val2 || isEqual(val1, val2);
+});
+
+const getSVCConfig = state => state.form.SVCConfig ? state.form.SVCConfig.values : undefined;
 const getSVCPoints = state => state.SVCPoints.present;
 const getStyle = state => state.style;
 
 export const getSVCData = createSelector(
     [getSVCConfig, getSVCPoints, getStyle],
     (SVCConfig, SVCPoints, style) => {
+        console.log('abc');
         console.log(SVCConfig, SVCPoints, style);
+        let startTime, endTime;
         const canvasSize = CANVAS_RESOLUTION[style.currentBreakpoint];
         let points = [];
         let background = [];
         if(SVCConfig) {
-            console.time('SVC');
+            startTime = Date.now();
             points = SVCPoints.points.map((p, idx) => {
                 return {
                     label: SVCPoints.labels[idx],
@@ -25,7 +32,7 @@ export const getSVCData = createSelector(
                 }
             });
             if(points.length) {
-                const svm = new SVM(SVCConfig);
+                const svm = new SVM({...SVCConfig, quiet: true});
                 svm.train(SVCPoints.points, SVCPoints.labels);
 
                 for (var i = 0; i < canvasSize; i++) {
@@ -34,7 +41,7 @@ export const getSVCData = createSelector(
                     }
                 }
             }
-            console.timeEnd('SVC');
+            endTime = Date.now()
         }
 
 
@@ -43,7 +50,8 @@ export const getSVCData = createSelector(
             height: canvasSize,
             background,
             points,
-            scale: CANVAS_SCALE_FACTOR[style.currentBreakpoint]
+            scale: CANVAS_SCALE_FACTOR[style.currentBreakpoint],
+            info: startTime ? (endTime - startTime) + ' ms' : ''
         }
     }
 );

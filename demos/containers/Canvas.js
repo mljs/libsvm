@@ -36,7 +36,6 @@ class Canvas extends Component {
     }
 
     render() {
-        console.log('render');
         const realWidth = this.props.width * this.props.scale;
         const realHeight = this.props.height * this.props.scale;
         return (
@@ -69,7 +68,12 @@ class Canvas extends Component {
         this.ctx.moveTo(this.convertXCoordinates(0.5), 0);
         this.ctx.lineTo(this.convertXCoordinates(0.5), this.convertYCoordinates(1));
         this.ctx.stroke();
-        console.log('drawn');
+    }
+
+    drawText(info) {
+        if(!info) return;
+        this.ctx.font = '14px serif';
+        this.ctx.fillText(info, this.convertXCoordinates(0.9), this.convertYCoordinates(0.97))
     }
 
     fillBackground() {
@@ -121,7 +125,7 @@ class Canvas extends Component {
     }
 
     draw() {
-        const {width, height} = this.props;
+        const {width, height, info} = this.props;
         if (this.props.background.length !== width * height) {
             this.fillBackground();
         } else {
@@ -130,6 +134,7 @@ class Canvas extends Component {
         }
 
         this.drawCross();
+        this.drawText(info);
     }
 }
 
