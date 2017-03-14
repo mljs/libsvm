@@ -6,7 +6,7 @@ import SVC from '../components/SVC';
 import Home from '../components/Home';
 import SVR from '../components/SVR';
 import Navigation from '../components/Navigation';
-import {Route, BrowserRouter as Router} from 'react-router-dom';
+import {Route, HashRouter as Router} from 'react-router-dom';
 
 class App extends Component {
     componentWillMount() {
