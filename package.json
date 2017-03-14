@@ -12,6 +12,7 @@
     "file-loader": "^0.10.1",
     "font-awesome": "^4.7.0",
     "font-awesome-webpack": "^0.0.5-beta.2",
+    "gh-pages": "^0.12.0",
     "less": "^2.7.2",
     "lodash.isequal": "^4.5.0",
     "lodash.throttle": "^4.1.1",
@@ -46,7 +47,7 @@
     "clean": "rimraf dist",
     "build": "NODE_ENV=production npm run clean && BABEL_ENV=production webpack -p",
     "serve": "webpack-dev-server",
-    "deploy": "npm run build && git subtree push --prefix dist origin gh-pages"
+    "deploy": "npm run build && gh-pages -d dist"
   },
   "repository": {
     "type": "git",
