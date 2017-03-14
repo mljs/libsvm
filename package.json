@@ -47,7 +47,7 @@
     "clean": "rimraf dist",
     "build": "NODE_ENV=production npm run clean && BABEL_ENV=production webpack -p",
     "serve": "webpack-dev-server",
-    "deploy": "npm run build && gh-pages -d dist"
+    "deploy": "npm run build && cp demos/index.html dist/ && gh-pages -d dist"
   },
   "repository": {
     "type": "git",
