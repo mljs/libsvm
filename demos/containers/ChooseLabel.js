@@ -18,14 +18,12 @@ class ChooseLabel extends Component {
     }
 
     onLabelClick(idx) {
-        console.log('on label click');
         if(this.props.activeLabel !== idx) {
             this.props.changeLabel(idx);
         }
     }
 
     render() {
-        console.log(this.props.style)
         return (
             <div style={this.props.style}>
                 <div style={{width: this.props.width}}>

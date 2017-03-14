@@ -13,5 +13,3 @@ ReactDom.render((
         <App/>
     </Provider>
 ), app);
-
-// window.getComputedStyle(document.querySelector('body'), ':before').getPropertyValue('content').replace(/\"/g, '');

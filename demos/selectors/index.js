@@ -14,8 +14,6 @@ const getStyle = state => state.style;
 export const getSVCData = createSelector(
     [getSVCConfig, getSVCPoints, getStyle],
     (SVCConfig, SVCPoints, style) => {
-        console.log('abc');
-        console.log(SVCConfig, SVCPoints, style);
         let startTime, endTime;
         const canvasSize = CANVAS_RESOLUTION[style.currentBreakpoint];
         let points = [];
