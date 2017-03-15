@@ -1,5 +1,6 @@
 'use strict';
 const path = require('path');
+const Visualizer = require('webpack-visualizer-plugin');
 
 module.exports = {
     entry: './demos/app.js',
@@ -28,6 +29,9 @@ module.exports = {
             }
         ]
     },
+    plugins: [
+        new Visualizer()
+    ],
     devServer: {
         inline: true,
         historyApiFallback: true,
