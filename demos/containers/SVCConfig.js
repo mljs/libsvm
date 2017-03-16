@@ -7,8 +7,8 @@ const KERNEL_TYPES = SVM.KERNEL_TYPES;
 const initialValues = {
     cost: 1,
     gamma: 1,
-    kernel: String(KERNEL_TYPES.RBF),
-    shrinking: true
+    degree: 3,
+    kernel: String(KERNEL_TYPES.RBF)
 };
 
 class SVCConfig extends Component {
@@ -24,7 +24,8 @@ class SVCConfig extends Component {
                             <Field name="kernel" component="select">
                                 {Object.keys(KERNEL_TYPES).map(kernel => {
                                     return <option value={KERNEL_TYPES[kernel]}
-                                                   key={KERNEL_TYPES[kernel]}>{kernel}</option>
+                                                   key={KERNEL_TYPES[kernel]}>{kernel}
+                                            </option>
                                 })}
                             </Field>
                         </td>
@@ -38,7 +39,7 @@ class SVCConfig extends Component {
                             />
                         </td>
                     </tr>
-                    <tr>
+                    <tr style={{display: kernelValue == KERNEL_TYPES.LINEAR ? 'none' : ''}}>
                         <td>Gamma - {gammaValue && gammaValue.toExponential(2)}</td>
                         <td>
                             <Field name="gamma" component="input" step="0.2" type="range" min="-3" max="3"
@@ -47,10 +48,10 @@ class SVCConfig extends Component {
                             />
                         </td>
                     </tr>
-                    <tr style={{display: kernelValue == KERNEL_TYPES.LINEAR ? 'none' : 'inherit'}}>
-                        <td>Use shrinking heuristics</td>
-                        <td style={{textAlign: 'center'}}>
-                            <Field name="shrinking" component="input" type="checkbox"/>
+                    <tr style={{display: kernelValue == KERNEL_TYPES.POLYNOMIAL ? '' : 'none'}}>
+                        <td>Polynomial degree</td>
+                        <td>
+                            <Field name="degree" component="input" type="number"/>
                         </td>
                     </tr>
                     </tbody>
