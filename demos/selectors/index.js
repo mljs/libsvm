@@ -18,6 +18,7 @@ export const getSVCData = createSelector(
         const canvasSize = CANVAS_RESOLUTION[style.currentBreakpoint];
         let points = [];
         let background = [];
+        let SVs = [];
         if(SVCConfig) {
             startTime = Date.now();
             points = SVCPoints.points.map((p, idx) => {
@@ -32,6 +33,7 @@ export const getSVCData = createSelector(
             if(points.length) {
                 const svm = new SVM({...SVCConfig, quiet: true});
                 svm.train(SVCPoints.points, SVCPoints.labels);
+                SVs = svm.getSVIndices();
 
                 for (var i = 0; i < canvasSize; i++) {
                     for (var j = 0; j < canvasSize; j++) {
@@ -49,7 +51,8 @@ export const getSVCData = createSelector(
             background,
             points,
             scale: CANVAS_SCALE_FACTOR[style.currentBreakpoint],
-            info: startTime ? (endTime - startTime) + ' ms' : ''
+            info: startTime ? (endTime - startTime) + ' ms' : '',
+            SVs
         }
     }
 );

@@ -109,16 +109,20 @@ class Canvas extends Component {
     }
 
     drawPoints() {
-        const {width, height, scale} = this.props;
+        const {width, height, scale, SVs} = this.props;
+        const SVIdx = {};
+        SVs.forEach(idx => SVIdx[idx] = 1);
         const radius = scale * Math.min(height, width) / 80;
         this.ctx.imageSmoothingEnabled = false;
         for (var i = 0; i < this.props.points.length; i++) {
             const point = this.props.points[i];
+            let lineFactor = 4;
+            if(SVIdx[i]) lineFactor = 2;
             this.ctx.beginPath();
             this.ctx.arc(point.x * scale, point.y * scale, radius, 0, 2 * Math.PI, false);
             this.ctx.fillStyle = colorsBrighter[point.label];
             this.ctx.fill();
-            this.ctx.lineWidth = radius / 4;
+            this.ctx.lineWidth = radius / lineFactor;
             this.ctx.strokeStyle = '#003300';
             this.ctx.stroke();
         }
