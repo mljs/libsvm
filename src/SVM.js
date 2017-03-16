@@ -68,6 +68,10 @@ class SVM {
         this.model = train_problem(problem, command); // this also frees problem
     }
 
+    getCommand() {
+        return util.getCommand(this.options);
+    }
+
     predictOne(sample) {
         if(this.model === null) {
             throw new Error('Cannot predict, you must train first');
