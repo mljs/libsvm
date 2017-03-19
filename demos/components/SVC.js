@@ -1,7 +1,7 @@
 import React from 'react';
-import Canvas from '../containers/Canvas';
+import Canvas from '../containers/SVCCanvas';
 import ChooseLabel from '../containers/ChooseLabel';
-import ControlBar from '../containers/ControlBar';
+import ControlBar from '../containers/SVCControlBar';
 import SVCConfig from '../containers/SVCConfig';
 
 export default function() {
@@ -18,7 +18,6 @@ export default function() {
                     <SVCConfig/>
                 </div>
             </div>
-
         </div>
     );
 }

@@ -5,7 +5,7 @@ export default function () {
     return (
         <nav className="navbar navbar-toggleable-md navbar-light bg-faded" style={{backgroundColor: '#e3f2fd'}}>
             <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span className="navbar-toggler-icon"></span>
+                <span className="navbar-toggler-icon"/>
             </button>
             <a className="navbar-brand" href="#">LibSVM</a>
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">

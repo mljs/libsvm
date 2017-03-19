@@ -1,4 +1,10 @@
-import {SVC_ADD_POINT, SVC_LABEL_CHANGED, SVC_CLEAR_POINTS} from '../actions/types';
+import {
+    SVC_ADD_POINT,
+    SVC_LABEL_CHANGED,
+    SVC_CLEAR_POINTS,
+    SVC_UNDO_POINT,
+    SVC_REDO_POINT
+} from '../actions/types';
 import  undoable from 'redux-undo';
 
 const defaultState = {
@@ -36,5 +42,7 @@ function SVCPointsReducer(state = defaultState, action) {
 }
 
 export default undoable(SVCPointsReducer, {
-    limit: 100
+    limit: 100,
+    undoType: SVC_UNDO_POINT,
+    redoType: SVC_REDO_POINT
 });

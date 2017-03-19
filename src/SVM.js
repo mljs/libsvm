@@ -65,6 +65,7 @@ class SVM {
             add_instance(problem, new Uint8Array(new Float64Array(samples[i]).buffer), nbFeatures, labels[i], i);
         }
         const command = util.getCommand(this.options);
+        console.log(command);
         this.model = train_problem(problem, command); // this also frees problem
     }
 
@@ -84,6 +85,7 @@ class SVM {
         for(let i = 0; i<samples.length; i++) {
             arr.push(this.predictOne(samples[i]));
         }
+        return arr;
     }
 
     getLabels() {

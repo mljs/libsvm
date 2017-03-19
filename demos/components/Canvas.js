@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import {LABELS_COLORS} from '../constants';
 const chroma = require('chroma-js');
-import {addPoint} from '../actions/index';
-import {getSVCData} from '../selectors/index';
 
 const colorsRgb = LABELS_COLORS.map(c => chroma(c).rgb());
 const colorsBrighter = LABELS_COLORS.map(c => chroma(c).brighten().hex());
@@ -71,7 +68,7 @@ class Canvas extends Component {
     }
 
     drawText(info) {
-        if(!info) return;
+        if (!info) return;
         this.ctx.font = '14px serif';
         this.ctx.fillText(info, this.convertXCoordinates(0.9), this.convertYCoordinates(0.97))
     }
@@ -87,15 +84,15 @@ class Canvas extends Component {
         const realWidth = width * scale;
         const realHeight = height * scale;
         const data = this.ctx.createImageData(realWidth, realHeight);
-        for (var i = 0; i < width; i++) {
-            for (var j = 0; j < height; j++) {
+        for (let i = 0; i < width; i++) {
+            for (let j = 0; j < height; j++) {
                 const px = (j * width + i);
                 const label = this.props.background[px];
 
-                for (var k = 0; k < scale; k++) {
+                for (let k = 0; k < scale; k++) {
                     const idx = 4 * scale * (width * (j * scale + k) + i);
                     // const idx = (j * width * scale * scale +  k * scale * width + i * scale ) * 4;
-                    for (var l = 0; l < scale; l++) {
+                    for (let l = 0; l < scale; l++) {
                         const idxx = idx + l * 4;
                         data.data[idxx] = colorsRgb[label][0];
                         data.data[idxx + 1] = colorsRgb[label][1];
@@ -108,16 +105,27 @@ class Canvas extends Component {
         this.ctx.putImageData(data, 0, 0);
     }
 
+    drawLine() {
+        const {width, height, scale, line} = this.props;
+        this.ctx.beginPath();
+        this.ctx.moveTo(0, line[0] * height * scale);
+        for (let i = 1; i < width; i++) {
+            this.ctx.lineTo(i * scale, line[i] * height * scale);
+            this.ctx.moveTo(i * scale, line[i] * height * scale);
+        }
+        this.ctx.stroke();
+    }
+
     drawPoints() {
         const {width, height, scale, SVs} = this.props;
         const SVIdx = {};
         SVs.forEach(idx => SVIdx[idx] = 1);
         const radius = scale * Math.min(height, width) / 80;
         this.ctx.imageSmoothingEnabled = false;
-        for (var i = 0; i < this.props.points.length; i++) {
+        for (let i = 0; i < this.props.points.length; i++) {
             const point = this.props.points[i];
             let lineFactor = 4;
-            if(SVIdx[i]) lineFactor = 2;
+            if (SVIdx[i]) lineFactor = 2;
             this.ctx.beginPath();
             this.ctx.arc(point.x * scale, point.y * scale, radius, 0, 2 * Math.PI, false);
             this.ctx.fillStyle = colorsBrighter[point.label];
@@ -134,17 +142,14 @@ class Canvas extends Component {
             this.fillBackground();
         } else {
             this.drawBackground();
-            this.drawPoints();
         }
-
+        if (this.props.line.length === width) {
+            this.drawLine();
+        }
+        this.drawPoints();
         this.drawCross();
         this.drawText(info);
     }
 }
 
-function mapStateToProps(state) {
-    return getSVCData(state);
-}
-
-
-export default connect(mapStateToProps, {addPoint})(Canvas);
+export default Canvas;

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {CANVAS_RESOLUTION, CANVAS_SCALE_FACTOR, LABELS_COLORS} from '../constants';
-import {changeLabel} from '../actions/index';
+import {changeLabel} from '../actions/SVC';
 
 class ChooseLabel extends Component {
     constructor(props) {
