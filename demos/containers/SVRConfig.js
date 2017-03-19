@@ -6,12 +6,14 @@ const KERNEL_TYPES = SVM.KERNEL_TYPES;
 
 const initialValues = {
     epsilon: 0.1,
-    kernel: String(KERNEL_TYPES.RBF)
+    kernel: String(KERNEL_TYPES.RBF),
+    degree: 3
 };
 
 class SVRConfig extends Component {
     render() {
-        const {epsilonValue} = this.props;
+        const {epsilonValue, kernelValue} = this.props;
+        console.log(kernelValue);
         return (
             <form onSubmit={this.props.handleSubmit}>
                 <table className="svc-config-table">
@@ -29,12 +31,26 @@ class SVRConfig extends Component {
                         </td>
                     </tr>
                     <tr>
-                        <td>Epsilon</td>
+                        <td>Cost</td>
                         <td>
                             <Field name="cost" component="input" step="0.2" type="range" min="-3" max="3"
                                    normalize={log10Normalize} format={Math.log10}
                                    style={{verticalAlign: 'text-top'}}
                             />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Epsilon</td>
+                        <td>
+                            <Field name="epsilon" component="input" step="0.02" type="range" min="0.01" max="0.5"
+                                   style={{verticalAlign: 'text-top'}}
+                            />
+                        </td>
+                    </tr>
+                    <tr style={{display: kernelValue == KERNEL_TYPES.POLYNOMIAL ? '' : 'none'}}>
+                        <td>Polynomial degree</td>
+                        <td>
+                            <Field name="degree" component="input" type="number"/>
                         </td>
                     </tr>
                     </tbody>
@@ -53,12 +69,13 @@ SVRConfig = reduxForm({
     initialValues
 })(SVRConfig);
 
-const selector = formValueSelector('SVCConfig');
+const selector = formValueSelector('SVRConfig');
 
 function mapStateToProps(state) {
     const epsilonValue = selector(state, 'epsilon');
+    const kernelValue = selector(state, 'kernel');
     return {
-        epsilonValue
+        epsilonValue, kernelValue
     }
 
 }
