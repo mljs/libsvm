@@ -15,18 +15,18 @@ module.exports = function (libsvm) {
     /* eslint-enable camelcase */
 
     const SVM_TYPES = {
-        C_SVC: 0,         // C support vector classification
-        NU_SVC: 1,        // NU support vector classification
-        ONE_CLASS: 2,     // ONE CLASS classification
-        EPSILON_SVR: 3,   // Epsilon support vector regression
-        NU_SVR: 4          // Nu suuport vector regression
+        C_SVC: '0',         // C support vector classification
+        NU_SVC: '1',        // NU support vector classification
+        ONE_CLASS: '2',     // ONE CLASS classification
+        EPSILON_SVR: '3',   // Epsilon support vector regression
+        NU_SVR: '4'         // Nu suuport vector regression
     };
 
     const KERNEL_TYPES = {
-        LINEAR: 0,
-        POLYNOMIAL: 1,
-        RBF: 2,         // Radial basis function
-        SIGMOID: 3
+        LINEAR: '0',
+        POLYNOMIAL: '1',
+        RBF: '2',         // Radial basis function
+        SIGMOID: '3'
     };
 
     class SVM {

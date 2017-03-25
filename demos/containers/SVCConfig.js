@@ -7,7 +7,7 @@ const initialValues = {
     cost: 1,
     gamma: 1,
     degree: 3,
-    kernel: String(KERNEL_TYPES.RBF)
+    kernel: KERNEL_TYPES.RBF
 };
 
 class SVCConfig extends Component {

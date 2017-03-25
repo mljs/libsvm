@@ -5,7 +5,7 @@ const KERNEL_TYPES = SVM.KERNEL_TYPES;
 
 const initialValues = {
     epsilon: 0.1,
-    kernel: String(KERNEL_TYPES.RBF),
+    kernel: KERNEL_TYPES.RBF,
     degree: 3
 };
 
