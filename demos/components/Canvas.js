@@ -6,11 +6,6 @@ const colorsRgb = LABELS_COLORS.map(c => chroma(c).rgb());
 const colorsBrighter = LABELS_COLORS.map(c => chroma(c).brighten().hex());
 
 class Canvas extends Component {
-    constructor(props) {
-        super(props);
-        this.onCanvasClick = this.onCanvasClick.bind(this);
-    }
-
     componentDidMount() {
         this.ctx = this.canvas.getContext('2d');
         this.ctx.imageSmoothingEnabled = false;
@@ -38,7 +33,7 @@ class Canvas extends Component {
         return (
             <div style={{...this.props.style, width: realWidth, height: realHeight}}>
                 <canvas
-                    onClick={this.onCanvasClick}
+                    onClick={this.onCanvasClick.bind(this)}
                     width={realWidth}
                     height={realHeight}
                     ref={c => this.canvas = c}
