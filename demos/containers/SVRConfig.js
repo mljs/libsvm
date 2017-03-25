@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Field, reduxForm, formValueSelector} from 'redux-form';
-import SVM from '../..';
 const KERNEL_TYPES = SVM.KERNEL_TYPES;
 
 const initialValues = {

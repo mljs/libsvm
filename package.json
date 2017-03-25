@@ -1,7 +1,44 @@
 {
+  "name": "libsvm-js",
+  "version": "0.0.0",
+  "description": "A port of libsvm to javascript using emscripten",
+  "main": "src/SVM.js",
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha --require should --recursive test",
+    "clean": "rimraf dist",
+    "build-demo": "NODE_ENV=production npm run clean && BABEL_ENV=production webpack -p",
+    "serve": "webpack-dev-server",
+    "deploy": "npm run build-demo && cp demos/index.html dist/ && gh-pages -d dist",
+    "build": "rimraf lib && WASM=1 make; make clean"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mljs/libsvm.git"
+  },
+  "keywords": [
+    "svm",
+    "libsvm",
+    "machine",
+    "learning",
+    "support",
+    "vector",
+    "machines"
+  ],
+  "author": "Daniel Kostro <kostro.d@gmail.com>",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/mljs/libsvm/issues"
+  },
+  "homepage": "https://github.com/mljs/libsvm#readme",
+  "dependencies": {},
   "devDependencies": {
     "babel-core": "^6.23.1",
     "babel-loader": "^6.3.2",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-babili": "^0.0.12",
     "babel-preset-env": "^1.2.1",
@@ -34,40 +71,5 @@
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.1",
     "webpack-visualizer-plugin": "^0.1.11"
-  },
-  "name": "libsvm-js",
-  "version": "0.0.0",
-  "description": "A port of libsvm to javascript using emscripten",
-  "main": "src/SVM.js",
-  "directories": {
-    "example": "examples",
-    "test": "test"
-  },
-  "scripts": {
-    "test": "mocha --require should --recursive test",
-    "clean": "rimraf dist",
-    "build": "NODE_ENV=production npm run clean && BABEL_ENV=production webpack -p",
-    "serve": "webpack-dev-server",
-    "deploy": "npm run build && cp demos/index.html dist/ && gh-pages -d dist"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mljs/libsvm.git"
-  },
-  "keywords": [
-    "svm",
-    "libsvm",
-    "machine",
-    "learning",
-    "support",
-    "vector",
-    "machines"
-  ],
-  "author": "Daniel Kostro <kostro.d@gmail.com>",
-  "license": "BSD-3-Clause",
-  "bugs": {
-    "url": "https://github.com/mljs/libsvm/issues"
-  },
-  "homepage": "https://github.com/mljs/libsvm#readme",
-  "dependencies": {}
+  }
 }

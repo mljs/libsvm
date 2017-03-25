@@ -1,6 +1,6 @@
 {
  "presets": ["react"],
- "plugins": ["babel-plugin-transform-object-rest-spread"],
+ "plugins": ["babel-plugin-transform-object-rest-spread", "syntax-dynamic-import"],
  "env": {
    "production": {
      "presets": ["env"]

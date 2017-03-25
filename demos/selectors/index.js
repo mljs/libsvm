@@ -1,7 +1,6 @@
 import {createSelectorCreator, defaultMemoize} from 'reselect';
 import isEqual from 'lodash.isequal';
 import {CANVAS_RESOLUTION, CANVAS_SCALE_FACTOR} from '../constants';
-import SVM from '../..';
 
 const createSelector = createSelectorCreator(defaultMemoize, (val1, val2) => {
     return val1 === val2 || isEqual(val1, val2);

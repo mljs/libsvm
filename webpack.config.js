@@ -25,7 +25,15 @@ module.exports = {
             },
             {
                 test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                loader: "file-loader"
+                loader: 'file-loader'
+            },
+            {
+                test: /\.wasm(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: 'url-loader',
+                query: {
+                    name: '[name].wasm',
+                    limit: 1
+                }
             }
         ]
     },
