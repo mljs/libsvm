@@ -5,7 +5,7 @@ const Visualizer = require('webpack-visualizer-plugin');
 module.exports = {
     entry: './demos/app.js',
     output: {
-        path: path.join(__dirname, 'dist'),
+        path: path.join(__dirname, 'demo-dist'),
         filename: 'bundle.js'
     },
     module: {

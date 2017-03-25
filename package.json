@@ -9,11 +9,10 @@
   },
   "scripts": {
     "test": "mocha --require should --recursive test",
-    "clean": "rimraf dist",
-    "build-demo": "NODE_ENV=production npm run clean && BABEL_ENV=production webpack -p",
+    "demo-build": "rimraf demo-dist && BABEL_ENV=production webpack -p",
     "serve": "webpack-dev-server",
-    "deploy": "npm run build-demo && cp demos/index.html dist/ && gh-pages -d dist",
-    "build": "rimraf lib && WASM=1 make; make clean"
+    "deploy": "npm run demo-build && cp demos/index.html demo-dist/ && gh-pages -d demo-dist",
+    "build": "rimraf dist && WASM=1 make; make clean"
   },
   "repository": {
     "type": "git",

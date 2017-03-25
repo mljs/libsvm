@@ -3,3 +3,4 @@ js-interfaces.o
 node_modules
 demos/bundle.js
 dist
+demo-dist
