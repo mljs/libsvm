@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDom from 'react-dom';
+import ReactDOM from 'react-dom';
 import App from './containers/App';
 import store from './store';
 import {Provider} from 'react-redux';
@@ -9,8 +9,32 @@ import 'font-awesome-webpack';
 
 const app = document.getElementById('app');
 
-ReactDom.render((
-    <Provider store={store}>
-        <App/>
-    </Provider>
-), app);
+import { AppContainer } from 'react-hot-loader';
+// AppContainer is a necessary wrapper component for HMR
+
+const render = (Component) => {
+    ReactDOM.render(
+        <AppContainer>
+            <Provider store={store}>
+                <Component/>
+            </Provider>
+        </AppContainer>,
+        app
+    );
+};
+
+render(App);
+
+// Hot Module Replacement API
+if (module.hot) {
+    module.hot.accept('./containers/App', () => {
+        render(App)
+    });
+}
+
+
+// ReactDom.render((
+//     <Provider store={store}>
+//         <App/>
+//     </Provider>
+// ), app);

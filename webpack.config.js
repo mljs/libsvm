@@ -4,11 +4,30 @@ const Visualizer = require('webpack-visualizer-plugin');
 const webpack = require('webpack');
 
 module.exports = {
-    entry: './demos/app.js',
+    entry: [
+        'react-hot-loader/patch',
+        // activate HMR for React
+
+        'webpack-dev-server/client?http://localhost:3000',
+        // bundle the client for webpack-dev-server
+        // and connect to the provided endpoint
+
+        'webpack/hot/only-dev-server',
+        // bundle the client for hot reloading
+        // only- means to only hot reload for successful updates
+
+        './demos/app.js',
+        // the entry point of our app
+    ],
     output: {
-        path: path.join(__dirname, 'demo-dist'),
-        filename: 'bundle.js'
+        path: path.resolve(__dirname, 'demo-dist'),
+        filename: 'bundle.js',
+        publicPath: '/'
+        // necessary for HMR to know where to load the hot update chunks
     },
+
+    devtool: 'inline-source-map',
+
     module: {
         rules: [
             {
@@ -40,17 +59,23 @@ module.exports = {
     },
     plugins: [
         new Visualizer(),
-        // enable HMR globally
-        new webpack.HotModuleReplacementPlugin(),
+        // Generate a page to visualize your bundle
 
-        // prints more readable module names in the browser console on HMR updates
+        new webpack.HotModuleReplacementPlugin(),
+        // enable HMR globally
+
         new webpack.NamedModulesPlugin(),
+        // prints more readable module names in the browser console on HMR updates
+
+        new webpack.NoEmitOnErrorsPlugin(),
+        // do not emit compiled assets that include errors
     ],
     devServer: {
         hot: true,
         inline: true,
         historyApiFallback: true,
-        contentBase: 'demos'
+        contentBase: 'demos',
+        port: 3000
     },
     node: {
         fs: 'empty'
