@@ -31,7 +31,6 @@ body:before {
     }
 }
 
-
 .choose-label-element {
     flex: 1;
     height: 25px;
@@ -54,6 +53,24 @@ body:before {
     justify-content: center;
 }
 
-.svc-config-table td {
+.svm-config-table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.svm-config-table td {
     padding: 5px 10px 5px 10px;
+}
+
+.svm-config-table td:nth-child(1) {
+    width: 150px;
+}
+
+.svm-config-table td:nth-child(2) {
+    width: 100%;
+}
+
+.svm-config-table td input[type="range"] {
+    width: 100%;
+    height: 40px;
 }

@@ -14,7 +14,7 @@ class SVRConfig extends Component {
         const {kernelValue} = this.props;
         return (
             <form onSubmit={this.props.handleSubmit}>
-                <table className="svc-config-table">
+                <table className="svm-config-table">
                     <tbody>
                     <tr>
                         <td>Kernel</td>
