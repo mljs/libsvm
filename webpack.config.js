@@ -54,6 +54,22 @@ module.exports = {
                     name: '[name].wasm',
                     limit: 1
                 }
+            },
+            {
+                test: require.resolve('jquery'),
+                loader: 'imports-loader'
+            },
+            {
+                test: require.resolve('bootstrap'),
+                loader: 'imports-loader',
+                query: {
+                    jQuery: 'jquery',
+                    Tether: 'tether'
+                }
+            },
+            {
+                test: require.resolve('tether'),
+                loader: 'imports-loader'
             }
         ]
     },
