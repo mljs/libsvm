@@ -1,6 +1,7 @@
 'use strict';
 const path = require('path');
 const Visualizer = require('webpack-visualizer-plugin');
+const webpack = require('webpack');
 
 module.exports = {
     entry: './demos/app.js',
@@ -38,9 +39,15 @@ module.exports = {
         ]
     },
     plugins: [
-        new Visualizer()
+        new Visualizer(),
+        // enable HMR globally
+        new webpack.HotModuleReplacementPlugin(),
+
+        // prints more readable module names in the browser console on HMR updates
+        new webpack.NamedModulesPlugin(),
     ],
     devServer: {
+        hot: true,
         inline: true,
         historyApiFallback: true,
         contentBase: 'demos'
