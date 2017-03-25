@@ -24,7 +24,7 @@ class SVCConfig extends Component {
                                 {Object.keys(KERNEL_TYPES).map(kernel => {
                                     return <option value={KERNEL_TYPES[kernel]}
                                                    key={KERNEL_TYPES[kernel]}>{kernel}
-                                            </option>
+                                            </option>;
                                 })}
                             </Field>
                         </td>
@@ -38,7 +38,7 @@ class SVCConfig extends Component {
                             />
                         </td>
                     </tr>
-                    <tr style={{display: kernelValue == KERNEL_TYPES.LINEAR ? 'none' : ''}}>
+                    <tr style={{display: kernelValue === KERNEL_TYPES.LINEAR ? 'none' : ''}}>
                         <td>Gamma - {gammaValue && gammaValue.toExponential(2)}</td>
                         <td>
                             <Field name="gamma" component="input" step="0.2" type="range" min="-3" max="3"
@@ -47,10 +47,10 @@ class SVCConfig extends Component {
                             />
                         </td>
                     </tr>
-                    <tr style={{display: kernelValue == KERNEL_TYPES.POLYNOMIAL ? '' : 'none'}}>
+                    <tr style={{display: kernelValue === KERNEL_TYPES.POLYNOMIAL ? '' : 'none'}}>
                         <td>Polynomial degree</td>
                         <td>
-                            <Field name="degree" component="input" type="number"/>
+                            <Field name="degree" component="input" type="number" />
                         </td>
                     </tr>
                     </tbody>
@@ -64,7 +64,7 @@ function log10Normalize(value) {
     return Math.pow(10, value);
 }
 
-SVCConfig = reduxForm({
+const SVCConfigForm = reduxForm({
     form: 'SVCConfig',
     initialValues
 })(SVCConfig);
@@ -77,7 +77,7 @@ function mapStateToProps(state) {
     const gammaValue = selector(state, 'gamma');
     return {
         kernelValue, costValue, gammaValue
-    }
+    };
 
 }
-export default connect(mapStateToProps)(SVCConfig);
+export default connect(mapStateToProps)(SVCConfigForm);

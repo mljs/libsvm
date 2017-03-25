@@ -24,9 +24,9 @@ class App extends Component {
             <Router>
                 <div className="container">
                     <Navigation />
-                    <Route exact path="/" component={Home}/>
-                    <Route exact path="/SVC" component={SVC}/>
-                    <Route exact path="/SVR" component={SVR}/>
+                    <Route exact path="/" component={Home} />
+                    <Route exact path="/SVC" component={SVC} />
+                    <Route exact path="/SVR" component={SVR} />
                 </div>
             </Router>
         );

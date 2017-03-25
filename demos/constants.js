@@ -37,13 +37,14 @@ function hsl2rgb(h, s, l) {
     s /= 100;
     l /= 100;
 
-    if (s === 0)
+    if (s === 0) {
         r = g = b = (l * 255);
-    else {
-        if (l <= 0.5)
+    } else {
+        if (l <= 0.5) {
             m2 = l * (s + 1);
-        else
+        } else {
             m2 = l + s - l * s;
+        }
 
         m1 = l * 2 - m2;
         hue = h / 360;
@@ -55,15 +56,20 @@ function hsl2rgb(h, s, l) {
 }
 
 function hue2rgb(p, q, t) {
-    if (t < 0)
+    if (t < 0) {
         t += 1;
-    if (t > 1)
+    }
+    if (t > 1) {
         t -= 1;
-    if (t < 1 / 6)
+    }
+    if (t < 1 / 6) {
         return p + (q - p) * 6 * t;
-    if (t < 1 / 2)
+    }
+    if (t < 1 / 2) {
         return q;
-    if (t < 2 / 3)
+    }
+    if (t < 2 / 3) {
         return p + (q - p) * (2 / 3 - t) * 6;
+    }
     return p;
 }

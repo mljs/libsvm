@@ -1,6 +1,5 @@
-'use strict';
 
-const mapOptionToCommand  = {
+const mapOptionToCommand = {
     quiet: 'q',
     type: 's',
     kernel: 't',
@@ -21,27 +20,27 @@ module.exports = {
     getCommand: function getCommand(options) {
         var str = '';
         var keys = Object.keys(options);
-        for(var i=0; i<keys.length; i++) {
+        for (var i = 0; i < keys.length; i++) {
             var key = keys[i];
-            if(options[key] == null) continue;
-            if(mapOptionToCommand[key] == null) throw new Error('Bad option');
-            if(str) str += ' ';
-            switch(key) {
+            if (options[key] == null) continue;
+            if (mapOptionToCommand[key] == null) throw new Error('Bad option');
+            if (str) str += ' ';
+            switch (key) {
                 case 'probabilityEstimates':
                 case 'shrinking':
                     str += `-${mapOptionToCommand[key]} ${options[key] ? 1 : 0}`;
                     break;
                 case 'quiet': {
-                    if(options[key]) {
+                    if (options[key]) {
                         str += `-${mapOptionToCommand[key]} 1`;
                     }
                     break;
                 }
                 case 'weight': {
-                    var keys = Object.keys(options.weight);
-                    for(var i=0; i < keys.length; i++) {
-                        if(i !== 0) str += ' ';
-                        str += `-w${keys[i]} ${options.weight[keys[i]]}`
+                    const weightKeys = Object.keys(options.weight);
+                    for (let j = 0; j < weightKeys.length; j++) {
+                        if (j !== 0) str += ' ';
+                        str += `-w${weightKeys[j]} ${options.weight[weightKeys[j]]}`;
                     }
                     break;
                 }

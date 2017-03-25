@@ -9,14 +9,14 @@ import 'font-awesome-webpack';
 
 const app = document.getElementById('app');
 
-import { AppContainer } from 'react-hot-loader';
+import {AppContainer} from 'react-hot-loader';
 // AppContainer is a necessary wrapper component for HMR
 
 const render = (Component) => {
     ReactDOM.render(
         <AppContainer>
             <Provider store={store}>
-                <Component/>
+                <Component />
             </Provider>
         </AppContainer>,
         app
@@ -28,7 +28,7 @@ render(App);
 // Hot Module Replacement API
 if (module.hot) {
     module.hot.accept('./containers/App', () => {
-        render(App)
+        render(App);
     });
 }
 

@@ -1,0 +1,4 @@
+extends: eslint-config-neptun-react
+parser: babel-eslint
+globals:
+  SVM: false

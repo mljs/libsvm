@@ -8,11 +8,13 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha --require should --recursive test",
+    "build": "rimraf dist && WASM=1 make; make clean",
     "demo-build": "rimraf demo-dist && BABEL_ENV=production webpack -p",
-    "serve": "webpack-dev-server",
     "deploy": "npm run demo-build && cp demos/index.html demo-dist/ && gh-pages -d demo-dist",
-    "build": "rimraf dist && WASM=1 make; make clean"
+    "eslint": "eslint src demos",
+    "eslint-fix": "eslint --fix src demos",
+    "serve": "webpack-dev-server",
+    "test": "mocha --require should --recursive test"
   },
   "repository": {
     "type": "git",
@@ -36,6 +38,7 @@
   "dependencies": {},
   "devDependencies": {
     "babel-core": "^6.23.1",
+    "babel-eslint": "^7.2.1",
     "babel-loader": "^6.3.2",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
@@ -45,6 +48,11 @@
     "bootstrap": "4.0.0-alpha.6",
     "chroma-js": "^1.2.2",
     "css-loader": "^0.27.1",
+    "eslint": "^3.18.0",
+    "eslint-config-cheminfo": "^1.7.0",
+    "eslint-config-neptun-react": "^1.0.1",
+    "eslint-plugin-no-only-tests": "^1.1.0",
+    "eslint-plugin-react": "^6.10.3",
     "file-loader": "^0.10.1",
     "font-awesome": "^4.7.0",
     "font-awesome-webpack": "^0.0.5-beta.2",

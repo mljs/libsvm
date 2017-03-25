@@ -9,13 +9,13 @@ export function addPoint(pointData) {
     return {
         type: SVR_ADD_POINT,
         payload: pointData
-    }
+    };
 }
 
 export function clearPoints() {
     return {
         type: SVR_CLEAR_POINTS
-    }
+    };
 }
 
 export function undoPoint() {

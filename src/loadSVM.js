@@ -1,9 +1,8 @@
-'use strict';
 
-module.exports = function(libsvm) {
+module.exports = function (libsvm) {
     const util = require('./util');
 
-    // const train = libsvm.cwrap('libsvm_train', 'number', ['array', 'array', 'number', 'number', 'string']);
+    /* eslint-disable camelcase */
     const predict_one = libsvm.cwrap('libsvm_predict_one', 'number', ['number', 'array', 'number']);
     const add_instance = libsvm.cwrap('add_instance', null, ['number', 'array', 'number', 'number', 'number']);
     const create_svm_nodes = libsvm.cwrap('create_svm_nodes', 'number', ['number', 'number']);
@@ -13,13 +12,14 @@ module.exports = function(libsvm) {
     const svm_get_nr_class = libsvm.cwrap('svm_get_nr_class', 'number', ['number']);
     const svm_get_sv_indices = libsvm.cwrap('svm_get_sv_indices', null, ['number', 'number']);
     const svm_get_labels = libsvm.cwrap('svm_get_labels', null, ['number', 'number']);
+    /* eslint-enable camelcase */
 
     const SVM_TYPES = {
         C_SVC: 0,         // C support vector classification
         NU_SVC: 1,        // NU support vector classification
         ONE_CLASS: 2,     // ONE CLASS classification
         EPSILON_SVR: 3,   // Epsilon support vector regression
-        NU_SVR:4          // Nu suuport vector regression
+        NU_SVR: 4          // Nu suuport vector regression
     };
 
     const KERNEL_TYPES = {
@@ -32,7 +32,7 @@ module.exports = function(libsvm) {
     class SVM {
         /**
          * @constructor
-         * @param options
+         * @param {object} options
          * @param {number} [options.type=SVM_TYPES.C_SVC] - Type of SVM to perform,
          * @param {number} [options.kernel=KERNEL_TYPES.RBF] - Kernel function,
          * @param {number} [options.degree=3] - Degree of polynomial, for polynomial kernel
@@ -51,17 +51,17 @@ module.exports = function(libsvm) {
         constructor(options) {
             this.options = Object.assign({}, options);
             this.model = null;
-        };
+        }
 
         train(samples, labels) {
-            if(this.model !== null) {
+            if (this.model !== null) {
                 svm_free_model(this.model);
                 this.model = null;
             }
             const nbSamples = samples.length;
             const nbFeatures = samples[0].length;
             const problem = create_svm_nodes(nbSamples, nbFeatures);
-            for(let i = 0; i < nbSamples; i++) {
+            for (let i = 0; i < nbSamples; i++) {
                 add_instance(problem, new Uint8Array(new Float64Array(samples[i]).buffer), nbFeatures, labels[i], i);
             }
             const command = util.getCommand(this.options);
@@ -73,7 +73,7 @@ module.exports = function(libsvm) {
         }
 
         predictOne(sample) {
-            if(this.model === null) {
+            if (this.model === null) {
                 throw new Error('Cannot predict, you must train first');
             }
             return predict_one(this.model, new Uint8Array(new Float64Array(sample).buffer), sample.length);
@@ -81,7 +81,7 @@ module.exports = function(libsvm) {
 
         predict(samples) {
             let arr = [];
-            for(let i = 0; i<samples.length; i++) {
+            for (let i = 0; i < samples.length; i++) {
                 arr.push(this.predictOne(samples[i]));
             }
             return arr;

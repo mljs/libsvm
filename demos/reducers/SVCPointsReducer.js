@@ -5,7 +5,7 @@ import {
     SVC_UNDO_POINT,
     SVC_REDO_POINT
 } from '../actions/types';
-import  undoable from 'redux-undo';
+import undoable from 'redux-undo';
 
 const defaultState = {
     points: [],
@@ -14,27 +14,27 @@ const defaultState = {
 };
 
 function SVCPointsReducer(state = defaultState, action) {
-    switch(action.type) {
+    switch (action.type) {
         case SVC_ADD_POINT: {
             const newPoint = [action.payload.point.x, action.payload.point.y];
             return {
                 ...state,
                 points: state.points.concat([newPoint]),
                 labels: state.labels.concat(state.currentLabel)
-            }
+            };
         }
         case SVC_LABEL_CHANGED: {
             return {
                 ...state,
                 currentLabel: action.payload
-            }
+            };
         }
         case SVC_CLEAR_POINTS: {
             return {
                 ...state,
                 points: [],
                 labels: []
-            }
+            };
         }
         default:
             return state;

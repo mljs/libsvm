@@ -11,8 +11,7 @@ const initialValues = {
 
 class SVRConfig extends Component {
     render() {
-        const {epsilonValue, kernelValue} = this.props;
-        console.log(kernelValue);
+        const {kernelValue} = this.props;
         return (
             <form onSubmit={this.props.handleSubmit}>
                 <table className="svc-config-table">
@@ -24,7 +23,7 @@ class SVRConfig extends Component {
                                 {Object.keys(KERNEL_TYPES).map(kernel => {
                                     return <option value={KERNEL_TYPES[kernel]}
                                                    key={KERNEL_TYPES[kernel]}>{kernel}
-                                    </option>
+                                    </option>;
                                 })}
                             </Field>
                         </td>
@@ -46,10 +45,10 @@ class SVRConfig extends Component {
                             />
                         </td>
                     </tr>
-                    <tr style={{display: kernelValue == KERNEL_TYPES.POLYNOMIAL ? '' : 'none'}}>
+                    <tr style={{display: kernelValue === KERNEL_TYPES.POLYNOMIAL ? '' : 'none'}}>
                         <td>Polynomial degree</td>
                         <td>
-                            <Field name="degree" component="input" type="number"/>
+                            <Field name="degree" component="input" type="number" />
                         </td>
                     </tr>
                     </tbody>
@@ -63,7 +62,7 @@ function log10Normalize(value) {
     return Math.pow(10, value);
 }
 
-SVRConfig = reduxForm({
+const SVRConfigForm = reduxForm({
     form: 'SVRConfig',
     initialValues
 })(SVRConfig);
@@ -75,7 +74,7 @@ function mapStateToProps(state) {
     const kernelValue = selector(state, 'kernel');
     return {
         epsilonValue, kernelValue
-    }
+    };
 
 }
-export default connect(mapStateToProps)(SVRConfig);
+export default connect(mapStateToProps)(SVRConfigForm);

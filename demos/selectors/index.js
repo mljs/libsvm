@@ -28,7 +28,7 @@ export const getSVCData = createSelector(
                     label: SVCPoints.labels[idx],
                     x: p[0] * canvasSize,
                     y: p[1] * canvasSize
-                }
+                };
             });
             if (points.length) {
                 const svm = new SVM({...SVCConfig, quiet: true});
@@ -41,7 +41,7 @@ export const getSVCData = createSelector(
                     }
                 }
             }
-            endTime = Date.now()
+            endTime = Date.now();
         }
 
 
@@ -54,7 +54,7 @@ export const getSVCData = createSelector(
             info: startTime ? (endTime - startTime) + ' ms' : '',
             SVs,
             line
-        }
+        };
     }
 );
 
@@ -74,7 +74,7 @@ export const getSVRData = createSelector([
                 label: 0,
                 x: p[0] * canvasSize,
                 y: p[1] * canvasSize
-            }
+            };
         });
         if (points.length) {
             const svm = new SVM({...SVRConfig, quiet: true, type: SVM.SVM_TYPES.EPSILON_SVR});
@@ -95,6 +95,6 @@ export const getSVRData = createSelector([
         info: startTime ? (endTime - startTime) + ' ms' : '',
         SVs,
         line
-    }
+    };
 });
 

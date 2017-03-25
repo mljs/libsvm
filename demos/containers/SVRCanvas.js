@@ -1,4 +1,4 @@
-'use strict';
+
 import {connect} from 'react-redux';
 import {addPoint} from '../actions/SVR';
 import {getSVRData} from '../selectors/index';

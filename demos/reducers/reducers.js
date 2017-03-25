@@ -9,4 +9,4 @@ export default combineReducers({
     SVRPoints: SVRPointsReducer,
     style: styleReducer,
     form: formReducer
-})
+});

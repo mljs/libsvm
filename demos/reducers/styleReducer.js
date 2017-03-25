@@ -4,13 +4,13 @@ const defaultState = {
     currentBreakpoint: 'md'
 };
 
-export default function(state=defaultState, action) {
-    switch(action.type) {
+export default function (state = defaultState, action) {
+    switch (action.type) {
         case STYLE_BREAKPOINT_UPDATE: {
-            if(action.payload === state.currentBreakpoint) {
+            if (action.payload === state.currentBreakpoint) {
                 return state;
             } else {
-                return {...state, currentBreakpoint: action.payload}
+                return {...state, currentBreakpoint: action.payload};
             }
         }
         default: {
