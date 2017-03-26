@@ -31,7 +31,7 @@ module.exports = {
     module: {
         rules: [
             {
-                exclude: /node_modules/,
+                exclude: [/node_modules/, /libsvm\.asm\.js$/],
                 test: /\.jsx?$/,
                 loader: 'babel-loader'
             },
@@ -48,10 +48,10 @@ module.exports = {
                 loader: 'file-loader'
             },
             {
-                test: /\.wasm(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                test: [/\.wasm(\?v=[0-9]\.[0-9]\.[0-9])?$/, /libsvm\.asm\.js$/, /libsvm\.js\.mem$/],
                 loader: 'url-loader',
                 query: {
-                    name: '[name].wasm',
+                    name: '[name].[ext]',
                     limit: 1
                 }
             },

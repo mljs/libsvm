@@ -28,6 +28,7 @@ class Canvas extends Component {
     }
 
     render() {
+
         const realWidth = this.props.width * this.props.scale;
         const realHeight = this.props.height * this.props.scale;
         return (
