@@ -10,17 +10,18 @@ function xor(SVM) {
         console.log(`actual: ${labels[i]}, predicted: ${pred}`);
     }
 
-    svm.train(features, labels);
     console.log('sv indices', svm.getSVIndices());
     console.log('labels', svm.getLabels());
 }
 
 function execAsm() {
+    console.log('asm');
     const SVM = require('../asm');
     xor(SVM);
 }
 
 async function execWasm() {
+    console.log('wasm');
     const SVM = await require('../wasm');
     xor(SVM);
 }

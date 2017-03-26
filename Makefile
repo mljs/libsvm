@@ -11,7 +11,7 @@ svm.o: libsvm/svm.cpp libsvm/svm.h
 	$(CXX) $(CFLAGS) -c libsvm/svm.cpp -o ./svm.o
 
 wasm: js-interfaces.c svm.o libsvm/svm.h
-	mkdir -p $(BUILD_DIR)/wasm; $(CC) $(CFLAGS) js-interfaces.c ./svm.o -o $(BUILD_DIR)/wasm/libsvm.js --pre-js src/wasmPreJS.js -s NO_FILESYSTEM=1 -s BINARYEN=1 -s "BINARYEN_METHOD='native-wasm,asmjs'" -s EXPORTED_FUNCTIONS=$(EXPORTED_FUNCTIONS)
+	mkdir -p $(BUILD_DIR)/wasm; $(CC) $(CFLAGS) js-interfaces.c ./svm.o -o $(BUILD_DIR)/wasm/libsvm.js --pre-js src/wasmPreJS.js -s BINARYEN_ASYNC_COMPILATION=1 -s NO_FILESYSTEM=1 -s BINARYEN=1 -s "BINARYEN_METHOD='native-wasm'" -s EXPORTED_FUNCTIONS=$(EXPORTED_FUNCTIONS)
 
 asm: js-interfaces.c svm.o libsvm/svm.h
 	mkdir -p $(BUILD_DIR)/asm; $(CC) $(CFLAGS) js-interfaces.c ./svm.o -o $(BUILD_DIR)/asm/libsvm.js --pre-js src/asmPreJS.js -s NO_FILESYSTEM=1 -s EXPORTED_FUNCTIONS=$(EXPORTED_FUNCTIONS)
