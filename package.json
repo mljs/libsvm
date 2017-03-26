@@ -2,13 +2,13 @@
   "name": "libsvm-js",
   "version": "0.0.0",
   "description": "A port of libsvm to javascript using emscripten",
-  "main": "src/SVM.js",
+  "main": "wasm.js",
   "directories": {
     "example": "examples",
     "test": "test"
   },
   "scripts": {
-    "build": "rimraf dist && WASM=1 make; make clean",
+    "build": "rimraf dist && make; make clean",
     "demo-build": "rimraf demo-dist && BABEL_ENV=production webpack -p",
     "deploy": "npm run demo-build && cp demos/index.html demo-dist/ && gh-pages -d demo-dist",
     "eslint": "eslint src demos",

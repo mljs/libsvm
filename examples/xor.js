@@ -1,7 +1,6 @@
 'use strict';
 
-async function exec() {
-    const SVM = await require('../src/SVM');
+function xor(SVM) {
     let svm = new SVM();
     const features = [[1,1],[-1, -1],[1,-1],[-1, 1]];
     const labels = [1,1,-1,-1];
@@ -16,5 +15,21 @@ async function exec() {
     console.log('labels', svm.getLabels());
 }
 
+function execAsm() {
+    const SVM = require('../asm');
+    xor(SVM);
+}
 
-exec();
+async function execWasm() {
+    const SVM = await require('../wasm');
+    xor(SVM);
+}
+
+try {
+    execAsm(); // Synchronous
+    execWasm(); // Asynchronous
+
+} catch(e) {
+    console.log('failed');
+    console.log(e);
+}
