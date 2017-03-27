@@ -9,8 +9,8 @@
   },
   "scripts": {
     "build": "rimraf dist && make; make clean",
-    "demo-build": "rimraf demo-dist && BABEL_ENV=production webpack -p",
-    "deploy": "npm run demo-build && cp demos/index.html demo-dist/ && gh-pages -d demo-dist",
+    "demo-build": "rimraf demo-dist && BABEL_ENV=production webpack -p --config webpack.production.js && cp demos/index.html demo-dist",
+    "deploy": "npm run demo-build && gh-pages -d demo-dist",
     "eslint": "eslint src demos",
     "eslint-fix": "eslint --fix src demos",
     "serve": "webpack-dev-server",
