@@ -1,7 +1,7 @@
 const path = require('path');
 var Module = module.exports = {};
 
-if(typeof window === 'undefined') {
+if (typeof window === 'undefined') {
 // When loaded with nodejs, the absolute file path is needed
     Module.wasmBinaryFile = path.resolve(__dirname, 'libsvm.wasm');
 } else {
