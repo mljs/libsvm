@@ -2,12 +2,13 @@
 
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.common');
+const port = 3000;
 
 webpackConfig.entry = [
     'react-hot-loader/patch',
     // activate HMR for React
 
-    'webpack-dev-server/client?http://localhost:3000',
+    `webpack-dev-server/client?http://localhost:${port}`,
     // bundle the client for webpack-dev-server
     // and connect to the provided endpoint
 
@@ -34,7 +35,7 @@ webpackConfig.devServer = {
     inline: true,
     historyApiFallback: true,
     contentBase: 'demos',
-    port: 3000
+    port: port
 };
 
 webpackConfig.output.publicPath = '/';
