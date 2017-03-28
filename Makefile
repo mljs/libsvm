@@ -3,7 +3,7 @@ CXX = em++
 
 CFLAGS = -Wall -Wconversion -O3 -fPIC --memory-init-file 0
 BUILD_DIR=dist
-EXPORTED_FUNCTIONS="['_parse_command_line', '_create_svm_nodes', '_add_instance', '_libsvm_train_problem', '_libsvm_train', '_libsvm_predict_one', '_get_svr_epsilon', '_svm_free_model_content', '_svm_get_svm_type', '_svm_get_nr_sv', '_svm_get_nr_class', '_svm_get_sv_indices', '_svm_get_labels']"
+EXPORTED_FUNCTIONS="['_parse_command_line', '_create_svm_nodes', '_add_instance', '_libsvm_train_problem', '_libsvm_train', '_libsvm_predict_one', '_get_svr_epsilon', '_svm_free_model', '_svm_get_svm_type', '_svm_get_nr_sv', '_svm_get_nr_class', '_svm_get_sv_indices', '_svm_get_labels']"
 
 all: wasm asm
 

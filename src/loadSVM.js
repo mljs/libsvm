@@ -8,10 +8,10 @@ module.exports = function (libsvm) {
     const create_svm_nodes = libsvm.cwrap('create_svm_nodes', 'number', ['number', 'number']);
     const train_problem = libsvm.cwrap('libsvm_train_problem', 'number', ['number', 'string']);
     const svm_get_nr_sv = libsvm.cwrap('svm_get_nr_sv', 'number', ['number']);
-    const svm_free_model = libsvm.cwrap('svm_free_model_content', null, ['number']);
     const svm_get_nr_class = libsvm.cwrap('svm_get_nr_class', 'number', ['number']);
     const svm_get_sv_indices = libsvm.cwrap('svm_get_sv_indices', null, ['number', 'number']);
     const svm_get_labels = libsvm.cwrap('svm_get_labels', null, ['number', 'number']);
+    const svm_free_model = libsvm.cwrap('svm_free_model', null, ['number']);
     /* eslint-enable camelcase */
 
     const SVM_TYPES = {

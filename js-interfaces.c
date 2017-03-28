@@ -124,13 +124,16 @@ struct svm_problem* create_svm_nodes(int nb_features, int nb_dimensions)
 	prob->l = nb_features;
 	prob->y = Malloc(double,prob->l);
 	prob->x = Malloc(struct svm_node *, prob->l);
-	struct svm_node* x_space = NULL;
-	x_space = (struct svm_node*) realloc(x_space, sizeof(struct svm_node) * prob->l * (nb_dimensions + 1));
+    struct svm_node* x_space = Malloc(struct svm_node, prob->l * (nb_dimensions + 1));
 
 	for(int i = 0; i < prob->l; ++i)
 		prob->x[i] = x_space + i * (nb_dimensions + 1);
 
 	return prob;
+}
+
+void svm_free_model(struct svm_model *model) {
+    svm_free_and_destroy_model(&model);
 }
 
 struct svm_model* libsvm_train_problem(struct svm_problem* prob, const char* command)
@@ -148,8 +151,8 @@ struct svm_model* libsvm_train_problem(struct svm_problem* prob, const char* com
 
 	svm_destroy_param(&param);
 	free(prob->y);
-	for(int i=0; i<prob->l; i++) {
-	    free(prob->x[i]);
+	if(prob->l > 0) {
+        free(prob->x[0]);
 	}
 	free(prob->x);
 	free(prob);
