@@ -7,14 +7,6 @@ const port = 3000;
 webpackConfig.entry = [
     'react-hot-loader/patch',
     // activate HMR for React
-
-    `webpack-dev-server/client?http://localhost:${port}`,
-    // bundle the client for webpack-dev-server
-    // and connect to the provided endpoint
-
-    'webpack/hot/only-dev-server',
-    // bundle the client for hot reloading
-    // only- means to only hot reload for successful updates
 ].concat(webpackConfig.entry);
 
 webpackConfig.devtool = 'inline-source-map';
@@ -38,7 +30,7 @@ webpackConfig.devServer = {
     port: port
 };
 
-webpackConfig.output.publicPath = '/';
+// webpackConfig.output.publicPath = '/';
 // necessary for HMR to know where to load the hot update chunks
 
 module.exports = webpackConfig;

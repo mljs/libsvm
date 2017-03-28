@@ -34,10 +34,3 @@ if (module.hot) {
         render(App);
     });
 }
-
-
-// ReactDom.render((
-//     <Provider store={store}>
-//         <App/>
-//     </Provider>
-// ), app);
