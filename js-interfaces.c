@@ -148,6 +148,9 @@ struct svm_model* libsvm_train_problem(struct svm_problem* prob, const char* com
 
 	svm_destroy_param(&param);
 	free(prob->y);
+	for(int i=0; i<prob->l; i++) {
+	    free(prob->x[i]);
+	}
 	free(prob->x);
 	free(prob);
 

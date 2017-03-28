@@ -54,10 +54,7 @@ module.exports = function (libsvm) {
         }
 
         train(samples, labels) {
-            if (this.model !== null) {
-                svm_free_model(this.model);
-                this.model = null;
-            }
+            this.free();
             const nbSamples = samples.length;
             const nbFeatures = samples[0].length;
             const problem = create_svm_nodes(nbSamples, nbFeatures);
@@ -66,6 +63,13 @@ module.exports = function (libsvm) {
             }
             const command = util.getCommand(this.options);
             this.model = train_problem(problem, command); // this also frees problem
+        }
+
+        free() {
+            if (this.model !== null) {
+                svm_free_model(this.model);
+                this.model = null;
+            }
         }
 
         getCommand() {

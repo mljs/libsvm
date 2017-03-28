@@ -1,7 +1,9 @@
 'use strict';
 
+const argv = process.argv.slice(2);
+
 async function exec() {
-    const SVM = await require('../wasm');
+    const SVM = await require(`../${argv[0]}`);
     const data = require('ml-dataset-iris');
 
     const features = data.getNumbers();
@@ -14,9 +16,10 @@ async function exec() {
 
 
     console.time('iris');
-    for(let i=0; i<100; i++) {
+    for(let i=0; i<1000; i++) {
         const svm = new SVM({quiet: true});
         svm.train(features, labels);
+        svm.free();
     }
 
     console.timeEnd('iris');
