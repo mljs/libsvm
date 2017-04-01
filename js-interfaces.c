@@ -3,6 +3,7 @@
 #include<errno.h>
 #include<string.h>
 #include<ctype.h>
+#include "js-interfaces.h"
 #include "libsvm/svm.h"
 #define Malloc(type,n) (type *)malloc((n)*sizeof(type))
 
