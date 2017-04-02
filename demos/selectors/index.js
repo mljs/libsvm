@@ -77,7 +77,7 @@ export const getSVRData = createSelector([
             };
         });
         if (points.length) {
-            const svm = new SVM({...SVRConfig, quiet: true, type: SVM.SVM_TYPES.EPSILON_SVR});
+            const svm = new SVM({...SVRConfig, quiet: true});
             svm.train(SVRPoints.points.map(p => [p[0]]), SVRPoints.points.map(p => p[1]));
             SVs = svm.getSVIndices();
 
