@@ -381,7 +381,7 @@ function _add_instance($prob,$features,$nb_dimensions,$y,$i) {
 function _create_svm_nodes($nb_features,$nb_dimensions) {
  $nb_features = $nb_features|0;
  $nb_dimensions = $nb_dimensions|0;
- var $add = 0, $add$ptr = 0, $arrayidx = 0, $call = 0, $call2 = 0, $call5 = 0, $call9 = 0, $cmp = 0, $cmp17 = 0, $i$018 = 0, $inc = 0, $mul = 0, $mul12 = 0, $mul4 = 0, $mul7 = 0, $mul8 = 0, $x = 0, $y = 0, label = 0, sp = 0;
+ var $add = 0, $add$ptr = 0, $arrayidx = 0, $call = 0, $call2 = 0, $call5 = 0, $call9 = 0, $cmp = 0, $cmp16 = 0, $i$017 = 0, $inc = 0, $mul = 0, $mul12 = 0, $mul4 = 0, $mul7 = 0, $mul8 = 0, $x = 0, $y = 0, label = 0, sp = 0;
  sp = STACKTOP;
  $call = (_malloc(12)|0);
  store4($call,$nb_features);
@@ -396,32 +396,42 @@ function _create_svm_nodes($nb_features,$nb_dimensions) {
  $add = (($nb_dimensions) + 1)|0;
  $mul7 = $add << 4;
  $mul8 = Math_imul($mul7, $nb_features)|0;
- $call9 = (_realloc(0,$mul8)|0);
- $cmp17 = ($nb_features|0)>(0);
- if ($cmp17) {
-  $i$018 = 0;
+ $call9 = (_malloc($mul8)|0);
+ $cmp16 = ($nb_features|0)>(0);
+ if ($cmp16) {
+  $i$017 = 0;
  } else {
   return ($call|0);
  }
  while(1) {
-  $mul12 = Math_imul($i$018, $add)|0;
+  $mul12 = Math_imul($i$017, $add)|0;
   $add$ptr = (($call9) + ($mul12<<4)|0);
-  $arrayidx = (($call5) + ($i$018<<2)|0);
+  $arrayidx = (($call5) + ($i$017<<2)|0);
   store4($arrayidx,$add$ptr);
-  $inc = (($i$018) + 1)|0;
+  $inc = (($i$017) + 1)|0;
   $cmp = ($inc|0)<($nb_features|0);
   if ($cmp) {
-   $i$018 = $inc;
+   $i$017 = $inc;
   } else {
    break;
   }
  }
  return ($call|0);
 }
+function _svm_free_model($model) {
+ $model = $model|0;
+ var $model$addr = 0, label = 0, sp = 0;
+ sp = STACKTOP;
+ STACKTOP = STACKTOP + 16|0;
+ $model$addr = sp;
+ store4($model$addr,$model);
+ _svm_free_and_destroy_model($model$addr);
+ STACKTOP = sp;return;
+}
 function _libsvm_train_problem($prob,$command) {
  $prob = $prob|0;
  $command = $command|0;
- var $$off = 0, $0 = 0, $1 = 0, $2 = 0.0, $3 = 0, $4 = 0, $call = 0, $cmp3 = 0, $param = 0, $switch = 0, $x = 0, $y = 0, label = 0, sp = 0;
+ var $$off = 0, $0 = 0, $1 = 0, $2 = 0.0, $3 = 0, $4 = 0, $5 = 0, $6 = 0, $7 = 0, $call = 0, $cmp12 = 0, $cmp3 = 0, $param = 0, $switch = 0, $x = 0, $y = 0, label = 0, sp = 0;
  sp = STACKTOP;
  STACKTOP = STACKTOP + 96|0;
  $param = sp;
@@ -446,9 +456,20 @@ function _libsvm_train_problem($prob,$command) {
  $y = ((($prob)) + 4|0);
  $3 = load4($y);
  _free($3);
+ $4 = load4($prob);
+ $cmp12 = ($4|0)>(0);
  $x = ((($prob)) + 8|0);
- $4 = load4($x);
- _free($4);
+ if (!($cmp12)) {
+  $7 = load4($x);
+  _free($7);
+  _free($prob);
+  STACKTOP = sp;return ($call|0);
+ }
+ $5 = load4($x);
+ $6 = load4($5);
+ _free($6);
+ $7 = load4($x);
+ _free($7);
  _free($prob);
  STACKTOP = sp;return ($call|0);
 }
@@ -492,12 +513,10 @@ function _libsvm_train($data,$labels,$nb_features,$nb_dimensions,$command) {
  $nb_features = $nb_features|0;
  $nb_dimensions = $nb_dimensions|0;
  $command = $command|0;
- var $$off$i = 0, $0 = 0, $1 = 0, $10 = 0, $11 = 0, $2 = 0.0, $3 = 0.0, $4 = 0, $5 = 0, $6 = 0.0, $7 = 0, $8 = 0, $9 = 0.0, $add$i = 0, $add$ptr$i = 0, $add$us = 0, $add6$us = 0, $arrayidx$i = 0, $arrayidx15 = 0, $arrayidx15$us = 0;
- var $arrayidx16 = 0, $arrayidx16$us = 0, $arrayidx7$us = 0, $call$i = 0, $call$i24 = 0, $call2$i = 0, $call5$i = 0, $call9$i = 0, $cmp17$i = 0, $cmp227 = 0, $cmp3$i = 0, $exitcond = 0, $exitcond32 = 0, $exitcond33 = 0, $exitcond34 = 0, $i$018$i = 0, $i$030 = 0, $i$030$us = 0, $inc$i = 0, $inc18 = 0;
- var $inc18$us = 0, $index$us = 0, $index14 = 0, $index14$us = 0, $j$028$us = 0, $mul$i = 0, $mul$us = 0, $mul12$i = 0, $mul4$i = 0, $mul7$i = 0, $mul8$i = 0, $param$i = 0, $switch$i = 0, $value$us = 0, $x$i = 0, $y$i = 0, label = 0, sp = 0;
+ var $0 = 0, $1 = 0, $2 = 0.0, $3 = 0.0, $4 = 0, $5 = 0, $6 = 0.0, $add$i = 0, $add$ptr$i = 0, $add$us = 0, $add6$us = 0, $arrayidx$i = 0, $arrayidx15 = 0, $arrayidx15$us = 0, $arrayidx16 = 0, $arrayidx16$us = 0, $arrayidx7$us = 0, $call$i = 0, $call2$i = 0, $call20 = 0;
+ var $call5$i = 0, $call9$i = 0, $cmp16$i = 0, $cmp224 = 0, $exitcond = 0, $exitcond29 = 0, $exitcond30 = 0, $exitcond31 = 0, $i$017$i = 0, $i$027 = 0, $i$027$us = 0, $inc$i = 0, $inc18 = 0, $inc18$us = 0, $index$us = 0, $index14 = 0, $index14$us = 0, $j$025$us = 0, $mul$i = 0, $mul$us = 0;
+ var $mul12$i = 0, $mul4$i = 0, $mul7$i = 0, $mul8$i = 0, $value$us = 0, $x$i = 0, $y$i = 0, label = 0, sp = 0;
  sp = STACKTOP;
- STACKTOP = STACKTOP + 96|0;
- $param$i = sp;
  $call$i = (_malloc(12)|0);
  store4($call$i,$nb_features);
  $mul$i = $nb_features << 3;
@@ -511,110 +530,93 @@ function _libsvm_train($data,$labels,$nb_features,$nb_dimensions,$command) {
  $add$i = (($nb_dimensions) + 1)|0;
  $mul7$i = $nb_features << 4;
  $mul8$i = Math_imul($mul7$i, $add$i)|0;
- $call9$i = (_realloc(0,$mul8$i)|0);
- $cmp17$i = ($nb_features|0)>(0);
- L1: do {
-  if ($cmp17$i) {
-   $i$018$i = 0;
-   while(1) {
-    $mul12$i = Math_imul($i$018$i, $add$i)|0;
-    $add$ptr$i = (($call9$i) + ($mul12$i<<4)|0);
-    $arrayidx$i = (($call5$i) + ($i$018$i<<2)|0);
-    store4($arrayidx$i,$add$ptr$i);
-    $inc$i = (($i$018$i) + 1)|0;
-    $exitcond34 = ($inc$i|0)==($nb_features|0);
-    if ($exitcond34) {
-     break;
-    } else {
-     $i$018$i = $inc$i;
-    }
-   }
-   if ($cmp17$i) {
-    $cmp227 = ($nb_dimensions|0)>(0);
-    if ($cmp227) {
-     $i$030$us = 0;
-    } else {
-     $i$030 = 0;
-     while(1) {
-      $4 = (($call5$i) + ($i$030<<2)|0);
-      $5 = load4($4);
-      $index14 = (($5) + ($nb_dimensions<<4)|0);
-      store4($index14,-1);
-      $arrayidx15 = (($labels) + ($i$030<<3)|0);
-      $6 = loadd($arrayidx15);
-      $arrayidx16 = (($call2$i) + ($i$030<<3)|0);
-      stored($arrayidx16,$6);
-      $inc18 = (($i$030) + 1)|0;
-      $exitcond33 = ($inc18|0)==($nb_features|0);
-      if ($exitcond33) {
-       break L1;
-      } else {
-       $i$030 = $inc18;
-      }
-     }
-    }
-    while(1) {
-     $0 = (($call5$i) + ($i$030$us<<2)|0);
-     $1 = load4($0);
-     $mul$us = Math_imul($i$030$us, $nb_dimensions)|0;
-     $j$028$us = 0;
-     while(1) {
-      $add$us = (($j$028$us) + 1)|0;
-      $index$us = (($1) + ($j$028$us<<4)|0);
-      store4($index$us,$add$us);
-      $add6$us = (($j$028$us) + ($mul$us))|0;
-      $arrayidx7$us = (($data) + ($add6$us<<3)|0);
-      $2 = loadd($arrayidx7$us);
-      $value$us = (((($1) + ($j$028$us<<4)|0)) + 8|0);
-      stored($value$us,$2);
-      $exitcond = ($add$us|0)==($nb_dimensions|0);
-      if ($exitcond) {
-       break;
-      } else {
-       $j$028$us = $add$us;
-      }
-     }
-     $index14$us = (($1) + ($nb_dimensions<<4)|0);
-     store4($index14$us,-1);
-     $arrayidx15$us = (($labels) + ($i$030$us<<3)|0);
-     $3 = loadd($arrayidx15$us);
-     $arrayidx16$us = (($call2$i) + ($i$030$us<<3)|0);
-     stored($arrayidx16$us,$3);
-     $inc18$us = (($i$030$us) + 1)|0;
-     $exitcond32 = ($inc18$us|0)==($nb_features|0);
-     if ($exitcond32) {
-      break;
-     } else {
-      $i$030$us = $inc18$us;
-     }
-    }
-   }
-  }
- } while(0);
- _parse_command_line($command,$param$i);
- $7 = load4($param$i);
- $8 = ((($param$i)) + 16|0);
- $9 = loadd($8);
- $cmp3$i = $9 == 0.0;
- $$off$i = (($7) + -3)|0;
- $switch$i = ($$off$i>>>0)<(2);
- if ($switch$i) {
-  if ($cmp3$i) {
-   stored($8,0.10000000000000001);
-  }
+ $call9$i = (_malloc($mul8$i)|0);
+ $cmp16$i = ($nb_features|0)>(0);
+ if ($cmp16$i) {
+  $i$017$i = 0;
  } else {
-  if ($cmp3$i) {
-   stored($8,0.5);
+  $call20 = (_libsvm_train_problem($call$i,$command)|0);
+  return ($call20|0);
+ }
+ while(1) {
+  $mul12$i = Math_imul($i$017$i, $add$i)|0;
+  $add$ptr$i = (($call9$i) + ($mul12$i<<4)|0);
+  $arrayidx$i = (($call5$i) + ($i$017$i<<2)|0);
+  store4($arrayidx$i,$add$ptr$i);
+  $inc$i = (($i$017$i) + 1)|0;
+  $exitcond31 = ($inc$i|0)==($nb_features|0);
+  if ($exitcond31) {
+   break;
+  } else {
+   $i$017$i = $inc$i;
   }
  }
- $call$i24 = (_svm_train($call$i,$param$i)|0);
- _svm_destroy_param($param$i);
- $10 = load4($y$i);
- _free($10);
- $11 = load4($x$i);
- _free($11);
- _free($call$i);
- STACKTOP = sp;return ($call$i24|0);
+ if (!($cmp16$i)) {
+  $call20 = (_libsvm_train_problem($call$i,$command)|0);
+  return ($call20|0);
+ }
+ $cmp224 = ($nb_dimensions|0)>(0);
+ if ($cmp224) {
+  $i$027$us = 0;
+ } else {
+  $i$027 = 0;
+  while(1) {
+   $4 = (($call5$i) + ($i$027<<2)|0);
+   $5 = load4($4);
+   $index14 = (($5) + ($nb_dimensions<<4)|0);
+   store4($index14,-1);
+   $arrayidx15 = (($labels) + ($i$027<<3)|0);
+   $6 = loadd($arrayidx15);
+   $arrayidx16 = (($call2$i) + ($i$027<<3)|0);
+   stored($arrayidx16,$6);
+   $inc18 = (($i$027) + 1)|0;
+   $exitcond30 = ($inc18|0)==($nb_features|0);
+   if ($exitcond30) {
+    break;
+   } else {
+    $i$027 = $inc18;
+   }
+  }
+  $call20 = (_libsvm_train_problem($call$i,$command)|0);
+  return ($call20|0);
+ }
+ while(1) {
+  $0 = (($call5$i) + ($i$027$us<<2)|0);
+  $1 = load4($0);
+  $mul$us = Math_imul($i$027$us, $nb_dimensions)|0;
+  $j$025$us = 0;
+  while(1) {
+   $add$us = (($j$025$us) + 1)|0;
+   $index$us = (($1) + ($j$025$us<<4)|0);
+   store4($index$us,$add$us);
+   $add6$us = (($j$025$us) + ($mul$us))|0;
+   $arrayidx7$us = (($data) + ($add6$us<<3)|0);
+   $2 = loadd($arrayidx7$us);
+   $value$us = (((($1) + ($j$025$us<<4)|0)) + 8|0);
+   stored($value$us,$2);
+   $exitcond = ($add$us|0)==($nb_dimensions|0);
+   if ($exitcond) {
+    break;
+   } else {
+    $j$025$us = $add$us;
+   }
+  }
+  $index14$us = (($1) + ($nb_dimensions<<4)|0);
+  store4($index14$us,-1);
+  $arrayidx15$us = (($labels) + ($i$027$us<<3)|0);
+  $3 = loadd($arrayidx15$us);
+  $arrayidx16$us = (($call2$i) + ($i$027$us<<3)|0);
+  stored($arrayidx16$us,$3);
+  $inc18$us = (($i$027$us) + 1)|0;
+  $exitcond29 = ($inc18$us|0)==($nb_features|0);
+  if ($exitcond29) {
+   break;
+  } else {
+   $i$027$us = $inc18$us;
+  }
+ }
+ $call20 = (_libsvm_train_problem($call$i,$command)|0);
+ return ($call20|0);
 }
 function _get_svr_epsilon($model) {
  $model = $model|0;
@@ -9001,6 +9003,25 @@ function _svm_predict($model,$x) {
  $call11 = (+_svm_predict_values($model,$x,$call10));
  _free($call10);
  return (+$call11);
+}
+function _svm_free_and_destroy_model($model_ptr_ptr) {
+ $model_ptr_ptr = $model_ptr_ptr|0;
+ var $0 = 0, $1 = 0, $cmp = 0, $cmp1 = 0, label = 0, sp = 0;
+ sp = STACKTOP;
+ $cmp = ($model_ptr_ptr|0)==(0|0);
+ if ($cmp) {
+  return;
+ }
+ $0 = load4($model_ptr_ptr);
+ $cmp1 = ($0|0)==(0|0);
+ if ($cmp1) {
+  return;
+ }
+ _svm_free_model_content($0);
+ $1 = load4($model_ptr_ptr);
+ _free($1);
+ store4($model_ptr_ptr,0);
+ return;
 }
 function _svm_get_svm_type($model) {
  $model = $model|0;
@@ -21539,6 +21560,6 @@ var FUNCTION_TABLE_viiii = [b7,__ZNK10__cxxabiv117__class_type_info27has_unambig
 var FUNCTION_TABLE_viiiii = [b8,__ZNK10__cxxabiv117__class_type_info16search_below_dstEPNS_19__dynamic_cast_infoEPKvib,__ZNK10__cxxabiv120__si_class_type_info16search_below_dstEPNS_19__dynamic_cast_infoEPKvib,b8];
 var FUNCTION_TABLE_diii = [b9,__ZNK6Kernel11kernel_polyEii,__ZNK6Kernel13kernel_linearEii,__ZNK6Kernel10kernel_rbfEii,__ZNK6Kernel14kernel_sigmoidEii,__ZNK6Kernel18kernel_precomputedEii,b9,b9];
 
-  return { _parse_command_line: _parse_command_line, _svm_get_labels: _svm_get_labels, _libsvm_train_problem: _libsvm_train_problem, _svm_free_model_content: _svm_free_model_content, _libsvm_train: _libsvm_train, _svm_get_nr_sv: _svm_get_nr_sv, _get_svr_epsilon: _get_svr_epsilon, ___cxa_is_pointer_type: ___cxa_is_pointer_type, _libsvm_predict_one: _libsvm_predict_one, _memset: _memset, _add_instance: _add_instance, _sbrk: _sbrk, _memcpy: _memcpy, _svm_get_sv_indices: _svm_get_sv_indices, _svm_get_svm_type: _svm_get_svm_type, _svm_get_nr_class: _svm_get_nr_class, _emscripten_get_global_libc: _emscripten_get_global_libc, _llvm_bswap_i32: _llvm_bswap_i32, ___cxa_can_catch: ___cxa_can_catch, _free: _free, _create_svm_nodes: _create_svm_nodes, _malloc: _malloc, runPostSets: runPostSets, stackAlloc: stackAlloc, stackSave: stackSave, stackRestore: stackRestore, establishStackSpace: establishStackSpace, setTempRet0: setTempRet0, getTempRet0: getTempRet0, setThrew: setThrew, stackAlloc: stackAlloc, stackSave: stackSave, stackRestore: stackRestore, establishStackSpace: establishStackSpace, setThrew: setThrew, setTempRet0: setTempRet0, getTempRet0: getTempRet0, dynCall_iiii: dynCall_iiii, dynCall_viiiiii: dynCall_viiiiii, dynCall_di: dynCall_di, dynCall_vi: dynCall_vi, dynCall_ii: dynCall_ii, dynCall_viii: dynCall_viii, dynCall_v: dynCall_v, dynCall_viiii: dynCall_viiii, dynCall_viiiii: dynCall_viiiii, dynCall_diii: dynCall_diii };
+  return { _parse_command_line: _parse_command_line, _svm_get_labels: _svm_get_labels, _libsvm_train_problem: _libsvm_train_problem, _libsvm_train: _libsvm_train, _svm_get_nr_sv: _svm_get_nr_sv, _get_svr_epsilon: _get_svr_epsilon, ___cxa_is_pointer_type: ___cxa_is_pointer_type, _libsvm_predict_one: _libsvm_predict_one, _memset: _memset, _add_instance: _add_instance, _sbrk: _sbrk, _memcpy: _memcpy, _svm_get_sv_indices: _svm_get_sv_indices, _svm_get_svm_type: _svm_get_svm_type, _svm_get_nr_class: _svm_get_nr_class, _emscripten_get_global_libc: _emscripten_get_global_libc, _svm_free_model: _svm_free_model, _llvm_bswap_i32: _llvm_bswap_i32, ___cxa_can_catch: ___cxa_can_catch, _free: _free, _create_svm_nodes: _create_svm_nodes, _malloc: _malloc, runPostSets: runPostSets, stackAlloc: stackAlloc, stackSave: stackSave, stackRestore: stackRestore, establishStackSpace: establishStackSpace, setTempRet0: setTempRet0, getTempRet0: getTempRet0, setThrew: setThrew, stackAlloc: stackAlloc, stackSave: stackSave, stackRestore: stackRestore, establishStackSpace: establishStackSpace, setThrew: setThrew, setTempRet0: setTempRet0, getTempRet0: getTempRet0, dynCall_iiii: dynCall_iiii, dynCall_viiiiii: dynCall_viiiiii, dynCall_di: dynCall_di, dynCall_vi: dynCall_vi, dynCall_ii: dynCall_ii, dynCall_viii: dynCall_viii, dynCall_v: dynCall_v, dynCall_viiii: dynCall_viiii, dynCall_viiiii: dynCall_viiiii, dynCall_diii: dynCall_diii };
 })
 ;
