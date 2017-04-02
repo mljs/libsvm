@@ -45,7 +45,7 @@ module.exports = function (libsvm) {
          * @param {number} [options.tolerance=0.001] - Tolerance
          * @param {boolean} [options.shrinking=true] - Use shrinking euristics (faster),
          * @param {boolean} [options.probabilityEstimates=false] - weather to train SVC/SVR model for probability estimates,
-         * @param {number} [options.weight] - Set weight for each possible class
+         * @param {object} [options.weight] - Set weight for each possible class
          * @param {boolean} [options.quiet=true] - Print info during training if false
          */
         constructor(options) {

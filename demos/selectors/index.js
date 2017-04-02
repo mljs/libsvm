@@ -1,5 +1,10 @@
 import {createSelectorCreator, defaultMemoize} from 'reselect';
 import isEqual from 'lodash.isequal';
+import countBy from 'lodash.countby';
+import reduce from 'lodash.reduce';
+import mapValues from 'lodash.mapvalues';
+import {LABELS_COLORS, ONE_CLASS_LABEL_COLORS, TWO_CLASS_LABEL_COLORS} from '../constants';
+
 import {CANVAS_RESOLUTION, CANVAS_SCALE_FACTOR} from '../constants';
 
 const createSelector = createSelectorCreator(defaultMemoize, (val1, val2) => {
@@ -11,6 +16,28 @@ const getSVCPoints = state => state.SVCPoints.present;
 const getStyle = state => state.style;
 const getSVRConfig = state => state.form.SVRConfig ? state.form.SVRConfig.values : undefined;
 const getSVRPoints = state => state.SVRPoints.present;
+
+export const getLabelColors = createSelector(
+    [getSVCConfig],
+    SVCConfig => {
+        if(SVCConfig && SVCConfig.type === SVM.SVM_TYPES.ONE_CLASS) {
+            return TWO_CLASS_LABEL_COLORS;
+        } else {
+            return LABELS_COLORS
+        }
+    }
+);
+
+export const getLabelChooseColors = createSelector(
+    [getSVCConfig],
+    SVCConfig => {
+        if(SVCConfig && SVCConfig.type === SVM.SVM_TYPES.ONE_CLASS) {
+            return ONE_CLASS_LABEL_COLORS;
+        } else {
+            return LABELS_COLORS
+        }
+    }
+);
 
 export const getSVCData = createSelector(
     [getSVCConfig, getSVCPoints, getStyle],
@@ -31,13 +58,30 @@ export const getSVCData = createSelector(
                 };
             });
             if (points.length) {
+                if(SVCConfig.weight) {
+                    const classes = countBy(SVCPoints.labels);
+                    const total = reduce(classes, (sum, n) => sum + n, 0);
+                    SVCConfig.weight = mapValues(classes, c => c / total);
+                    console.log(SVCConfig.weight);
+                } else {
+                    SVCConfig.weight = null;
+                }
                 const svm = new SVM({...SVCConfig, quiet: true});
+                console.log(svm.getCommand());
                 svm.train(SVCPoints.points, SVCPoints.labels);
                 SVs = svm.getSVIndices();
 
                 for (let i = 0; i < canvasSize; i++) {
                     for (let j = 0; j < canvasSize; j++) {
-                        background.push(svm.predictOne([j / canvasSize, i / canvasSize]));
+                        let val = svm.predictOne([j / canvasSize, i / canvasSize]);
+                        if(SVCConfig.type === SVM.SVM_TYPES.ONE_CLASS) {
+                            if(val < 0) {
+                                val = 1;
+                            } else {
+                                val = 0
+                            }
+                        }
+                        background.push(val);
                     }
                 }
             }

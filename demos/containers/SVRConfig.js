@@ -41,7 +41,7 @@ class SVRConfig extends Component {
                         </td>
                     </tr>
                     <tr>
-                        <td>Cost - {costValue && costValue.toExponential(2)}</td>
+                        <td>Cost &nbsp;&nbsp; {costValue && costValue.toExponential(2)}</td>
                         <td>
                             <Field name="cost" component="input" step="0.2" type="range" min="-3" max="3"
                                    normalize={log10Normalize} format={Math.log10}
@@ -50,7 +50,7 @@ class SVRConfig extends Component {
                         </td>
                     </tr>
                     <tr style={{display: kernelValue === KERNEL_TYPES.LINEAR ? 'none' : ''}}>
-                        <td>Gamma - {gammaValue && gammaValue.toExponential(2)}</td>
+                        <td>Gamma &nbsp;&nbsp; {gammaValue && gammaValue.toExponential(2)}</td>
                         <td>
                             <Field name="gamma" component="input" step="0.2" type="range" min="-3" max="3"
                                    normalize={log10Normalize} format={Math.log10}
@@ -64,7 +64,7 @@ class SVRConfig extends Component {
                         </td>
                     </tr>
                     <tr style={{display: typeValue === SVM.SVM_TYPES.EPSILON_SVR ? '' : 'none'}}>
-                        <td>Epsilon - {epsilonValue && epsilonValue.toExponential(2)}</td>
+                        <td>Epsilon &nbsp;&nbsp; {epsilonValue && epsilonValue.toExponential(2)}</td>
                         <td>
                             <Field name="epsilon" component="input" step="0.02" type="range" min="0.01" max="0.5"
                                    style={{verticalAlign: 'text-top'}}
@@ -73,7 +73,7 @@ class SVRConfig extends Component {
                         </td>
                     </tr>
                     <tr style={{display: typeValue === SVM.SVM_TYPES.NU_SVR ? '' : 'none'}}>
-                        <td>Nu - {nuValue && nuValue.toExponential(2)}</td>
+                        <td>Nu &nbsp;&nbsp; {nuValue && nuValue.toExponential(2)}</td>
                         <td>
                             <Field name="nu" component="input" step="0.02" type="range" min="0.01" max="0.5"
                                    style={{verticalAlign: 'text-top'}}

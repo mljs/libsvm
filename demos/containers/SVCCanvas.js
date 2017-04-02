@@ -1,11 +1,13 @@
 
 import {connect} from 'react-redux';
 import {addPoint} from '../actions/SVC';
-import {getSVCData} from '../selectors/index';
+import {getSVCData, getLabelColors} from '../selectors/index';
 import Canvas from '../components/Canvas';
 
 function mapStateToProps(state) {
-    return getSVCData(state);
+    const props = getSVCData(state);
+    props.labelColors = getLabelColors(state);
+    return props;
 }
 
 

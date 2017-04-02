@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {CANVAS_RESOLUTION, CANVAS_SCALE_FACTOR, LABELS_COLORS} from '../constants';
 import {changeLabel} from '../actions/SVC';
+import {getLabelChooseColors} from '../selectors/index';
 
 class ChooseLabel extends Component {
     constructor(props) {
@@ -28,7 +29,7 @@ class ChooseLabel extends Component {
             <div style={this.props.style}>
                 <div style={{width: this.props.width}}>
                     <div className="choose-label-container">
-                        {LABELS_COLORS.map(this.renderColorButton.bind(this))}
+                        {this.props.labelColors.map(this.renderColorButton.bind(this))}
                     </div>
                 </div>
             </div>
@@ -39,7 +40,8 @@ class ChooseLabel extends Component {
 function mapStateToProps(state) {
     return {
         width: CANVAS_RESOLUTION[state.style.currentBreakpoint] * CANVAS_SCALE_FACTOR[state.style.currentBreakpoint],
-        activeLabel: state.SVCPoints.present.currentLabel
+        activeLabel: state.SVCPoints.present.currentLabel,
+        labelColors: getLabelChooseColors(state)
     };
 }
 

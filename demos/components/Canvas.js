@@ -2,9 +2,6 @@ import React, {Component} from 'react';
 import {LABELS_COLORS} from '../constants';
 const chroma = require('chroma-js');
 
-const colorsRgb = LABELS_COLORS.map(c => chroma(c).rgb());
-const colorsBrighter = LABELS_COLORS.map(c => chroma(c).brighten().hex());
-
 class Canvas extends Component {
     componentDidMount() {
         this.ctx = this.canvas.getContext('2d');
@@ -66,6 +63,7 @@ class Canvas extends Component {
     drawText(info) {
         if (!info) return;
         this.ctx.font = '14px serif';
+        this.ctx.fillStyle = 'black';
         this.ctx.fillText(info, this.convertXCoordinates(0.9), this.convertYCoordinates(0.97));
     }
 
@@ -79,6 +77,9 @@ class Canvas extends Component {
         const {width, height, scale} = this.props;
         const realWidth = width * scale;
         const realHeight = height * scale;
+
+        const colorsRgb = this.props.labelColors.map(c => chroma(c).rgb());
+
         const data = this.ctx.createImageData(realWidth, realHeight);
         for (let i = 0; i < width; i++) {
             for (let j = 0; j < height; j++) {
@@ -113,6 +114,7 @@ class Canvas extends Component {
     }
 
     drawPoints() {
+        const colorsBrighter = this.props.labelColors.map(c => chroma(c).brighten().hex());
         const {width, height, scale, SVs} = this.props;
         const SVIdx = {};
         SVs.forEach(idx => SVIdx[idx] = 1);
@@ -147,5 +149,9 @@ class Canvas extends Component {
         this.drawText(info);
     }
 }
+
+Canvas.defaultProps = {
+    labelColors: LABELS_COLORS
+};
 
 export default Canvas;
