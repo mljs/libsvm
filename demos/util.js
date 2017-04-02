@@ -12,7 +12,6 @@ export function getDistinctColors(numColors) {
 }
 
 
-
 function hsl2rgb(h, s, l) {
     var m1, m2, hue, r, g, b;
     s /= 100;

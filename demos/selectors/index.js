@@ -20,10 +20,10 @@ const getSVRPoints = state => state.SVRPoints.present;
 export const getLabelColors = createSelector(
     [getSVCConfig],
     SVCConfig => {
-        if(SVCConfig && SVCConfig.type === SVM.SVM_TYPES.ONE_CLASS) {
+        if (SVCConfig && SVCConfig.type === SVM.SVM_TYPES.ONE_CLASS) {
             return TWO_CLASS_LABEL_COLORS;
         } else {
-            return LABELS_COLORS
+            return LABELS_COLORS;
         }
     }
 );
@@ -31,10 +31,10 @@ export const getLabelColors = createSelector(
 export const getLabelChooseColors = createSelector(
     [getSVCConfig],
     SVCConfig => {
-        if(SVCConfig && SVCConfig.type === SVM.SVM_TYPES.ONE_CLASS) {
+        if (SVCConfig && SVCConfig.type === SVM.SVM_TYPES.ONE_CLASS) {
             return ONE_CLASS_LABEL_COLORS;
         } else {
-            return LABELS_COLORS
+            return LABELS_COLORS;
         }
     }
 );
@@ -58,27 +58,25 @@ export const getSVCData = createSelector(
                 };
             });
             if (points.length) {
-                if(SVCConfig.weight) {
+                if (SVCConfig.weight) {
                     const classes = countBy(SVCPoints.labels);
                     const total = reduce(classes, (sum, n) => sum + n, 0);
                     SVCConfig.weight = mapValues(classes, c => c / total);
-                    console.log(SVCConfig.weight);
                 } else {
                     SVCConfig.weight = null;
                 }
                 const svm = new SVM({...SVCConfig, quiet: true});
-                console.log(svm.getCommand());
                 svm.train(SVCPoints.points, SVCPoints.labels);
                 SVs = svm.getSVIndices();
 
                 for (let i = 0; i < canvasSize; i++) {
                     for (let j = 0; j < canvasSize; j++) {
                         let val = svm.predictOne([j / canvasSize, i / canvasSize]);
-                        if(SVCConfig.type === SVM.SVM_TYPES.ONE_CLASS) {
-                            if(val < 0) {
+                        if (SVCConfig.type === SVM.SVM_TYPES.ONE_CLASS) {
+                            if (val < 0) {
                                 val = 1;
                             } else {
-                                val = 0
+                                val = 0;
                             }
                         }
                         background.push(val);

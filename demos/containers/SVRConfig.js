@@ -60,7 +60,7 @@ class SVRConfig extends Component {
                     <tr style={{display: kernelValue === KERNEL_TYPES.POLYNOMIAL ? '' : 'none'}}>
                         <td>Polynomial degree</td>
                         <td>
-                            <Field name="degree" component="input" type="number"/>
+                            <Field name="degree" component="input" type="number" />
                         </td>
                     </tr>
                     <tr style={{display: typeValue === SVM.SVM_TYPES.EPSILON_SVR ? '' : 'none'}}>

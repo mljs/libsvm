@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {CANVAS_RESOLUTION, CANVAS_SCALE_FACTOR, LABELS_COLORS} from '../constants';
+import {CANVAS_RESOLUTION, CANVAS_SCALE_FACTOR} from '../constants';
 import {changeLabel} from '../actions/SVC';
 import {getLabelChooseColors} from '../selectors/index';
 
