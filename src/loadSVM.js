@@ -12,6 +12,8 @@ module.exports = function (libsvm) {
     const svm_get_sv_indices = libsvm.cwrap('svm_get_sv_indices', null, ['number', 'number']);
     const svm_get_labels = libsvm.cwrap('svm_get_labels', null, ['number', 'number']);
     const svm_free_model = libsvm.cwrap('svm_free_model', null, ['number']);
+    const svm_cross_validation = libsvm.cwrap('libsvm_cross_validation', null, ['number', 'string', 'number', 'number']);
+    const free_problem = libsvm.cwrap('free_problem', null, ['number']);
     /* eslint-enable camelcase */
 
     const SVM_TYPES = {
@@ -55,14 +57,21 @@ module.exports = function (libsvm) {
 
         train(samples, labels) {
             this.free();
-            const nbSamples = samples.length;
-            const nbFeatures = samples[0].length;
-            const problem = create_svm_nodes(nbSamples, nbFeatures);
-            for (let i = 0; i < nbSamples; i++) {
-                add_instance(problem, new Uint8Array(new Float64Array(samples[i]).buffer), nbFeatures, labels[i], i);
-            }
-            const command = util.getCommand(this.options);
-            this.model = train_problem(problem, command); // this also frees problem
+            const problem = createProblem(samples, labels);
+            const command = this.getCommand();
+            this.model = train_problem(problem, command);
+            // Free the problem
+            free_problem(problem);
+        }
+
+        crossValidation(samples, labels, kFold) {
+            const problem = createProblem(samples, labels);
+            const target = libsvm._malloc(labels.length * 8);
+            svm_cross_validation(problem, this.getCommand(), kFold, target);
+            const data = libsvm.HEAPF64.subarray(target / 8, target / 8 + labels.length);
+            const arr = Array.from(data);
+            libsvm._free(target);
+            return arr;
         }
 
         free() {
@@ -115,5 +124,17 @@ module.exports = function (libsvm) {
         return arr;
     }
 
+    function createProblem(samples, labels) {
+        const nbSamples = samples.length;
+        const nbFeatures = samples[0].length;
+        const problem = create_svm_nodes(nbSamples, nbFeatures);
+        for (let i = 0; i < nbSamples; i++) {
+            add_instance(problem, new Uint8Array(new Float64Array(samples[i]).buffer), nbFeatures, labels[i], i);
+        }
+        return problem;
+    }
+
     return SVM;
 };
+
+

@@ -17,6 +17,8 @@ struct svm_model* libsvm_train_problem(struct svm_problem* prob, const char* com
 double libsvm_predict_one(struct svm_model* model, double* data, int size);
 struct svm_model* libsvm_train(double *data, double *labels, int nb_features, int nb_dimensions, const char* command);
 double get_svr_epsilon(struct svm_model* model);
+void free_problem(struct svm_problem* prob);
+void libsvm_cross_validation(struct svm_problem* problem, const char* command, int kFold, double* target);
 
 #ifdef __cplusplus
 }

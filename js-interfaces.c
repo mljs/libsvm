@@ -151,14 +151,23 @@ struct svm_model* libsvm_train_problem(struct svm_problem* prob, const char* com
 	struct svm_model* model = svm_train(prob, &param);
 
 	svm_destroy_param(&param);
-	free(prob->y);
-	if(prob->l > 0) {
-        free(prob->x[0]);
-	}
-	free(prob->x);
-	free(prob);
-
 	return model;
+}
+
+void libsvm_cross_validation(struct svm_problem* prob, const char* command, int kFold, double* target) {
+    struct svm_parameter param;
+    parse_command_line(command, &param);
+    svm_cross_validation(prob, &param, kFold, target);
+    svm_destroy_param(&param);
+}
+
+void free_problem(struct svm_problem* prob) {
+    free(prob->y);
+    if(prob->l > 0) {
+        free(prob->x[0]);
+    }
+    free(prob->x);
+    free(prob);
 }
 
 double libsvm_predict_one(struct svm_model* model, double* data, int size) {
