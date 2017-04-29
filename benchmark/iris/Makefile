@@ -21,4 +21,4 @@ iris-cv: js-interfaces.o iris-cv.cpp util.o svm.o
 	$(CXX) $(CFLAGS) iris-cv.cpp util.o svm.o js-interfaces.o -o iris-cv -lm
 
 clean:
-	rm *.o
+	rm *.o iris iris-cv

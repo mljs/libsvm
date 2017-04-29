@@ -24,7 +24,8 @@ async function exec() {
     const cost = Array.from({length: COST_GRID_SIZE}).map(normalize(COST_GRID_SIZE, COST_MIN, COST_MAX)).map(pow10);
     const gamma = Array.from({length: GAMMA_GRID_SIZE}).map(normalize(GAMMA_GRID_SIZE, GAMMA_MIN, GAMMA_MAX)).map(pow10);
 
-    console.time('iris');
+    const timeLabel = `iris ${argv[0]}: `;
+    console.time(timeLabel);
     for(let c of cost) {
         for(let g of gamma) {
             const svm = new SVM({
@@ -37,7 +38,7 @@ async function exec() {
         }
     }
 
-    console.timeEnd('iris');
+    console.timeEnd(timeLabel);
 }
 
 exec();

@@ -19,6 +19,7 @@
 
 int main() {
     using namespace std::chrono;
+
     double data[NB_SAMPLES][NB_FEATURES];
     double labels[NB_SAMPLES];
     load_iris(data, labels);
@@ -60,6 +61,6 @@ int main() {
     auto t2 = steady_clock::now();
 
     duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
-    std::cout << time_span.count()*1000 << " ms\n";
+    std::cout << "iris-cv cpp: " << time_span.count()*1000 << " ms\n";
 
 }

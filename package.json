@@ -14,7 +14,9 @@
     "eslint": "eslint src demos",
     "eslint-fix": "eslint --fix src demos",
     "serve": "webpack-dev-server",
-    "test": "mocha --require should --recursive test"
+    "test": "mocha --require should --recursive test",
+    "build-benchmark": "(cd benchmark/iris; make)",
+    "benchmark": "npm run build-benchmark && (node benchmark/iris/iris-cv.js asm; node benchmark/iris/iris-cv.js wasm; cd benchmark/iris && ./iris-cv)"
   },
   "repository": {
     "type": "git",
