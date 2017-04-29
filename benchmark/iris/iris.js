@@ -10,7 +10,7 @@ const GAMMA_MIN = -3;
 const GAMMA_MAX = 3;
 
 async function exec() {
-    const SVM = await require(`../${argv[0]}`);
+    const SVM = await require(`../../${argv[0]}`);
     const data = require('ml-dataset-iris');
 
     const features = data.getNumbers();

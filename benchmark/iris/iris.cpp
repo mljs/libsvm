@@ -1,13 +1,11 @@
-#include "../js-interfaces.h"
-#include <fstream>
+#include "../../js-interfaces.h"
+#include "./util.h"
 #include <iostream>
 #include <time.h>
 #include <chrono>
 #include <math.h>
 #include <stdio.h>
 
-#define NB_SAMPLES 150
-#define NB_FEATURES 4
 #define COST_GRID_SIZE 10
 #define GAMMA_GRID_SIZE 10
 #define COST_MIN -3
@@ -20,6 +18,8 @@ int main() {
     using namespace std::chrono;
     double data[NB_SAMPLES][NB_FEATURES];
     double labels[NB_SAMPLES];
+    load_iris(data, labels);
+
     double cost[COST_GRID_SIZE];
     double gamma[GAMMA_GRID_SIZE];
 
@@ -30,17 +30,6 @@ int main() {
 
     for(int i=0; i<GAMMA_GRID_SIZE; i++) {
         gamma[i] = pow(10, GAMMA_MIN + (double)i / (GAMMA_GRID_SIZE - 1) * (GAMMA_MAX - GAMMA_MIN));
-    }
-
-    std::ifstream ifstr("iris.txt", std::ifstream::in);
-    int count = 0;
-    while(ifstr.good()) {
-        std::string str;
-        ifstr >> labels[count];
-        for(int i = 0; i < NB_FEATURES; i++) {
-            ifstr >> data[count][i];
-        }
-        count++;
     }
 
 
@@ -63,6 +52,5 @@ int main() {
     auto t2 = steady_clock::now();
 
     duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
-    std::cout << time_span.count()*100 << " ms\n";
-
+    std::cout << time_span.count()*1000 << " ms\n";
 }
