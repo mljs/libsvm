@@ -1,12 +1,11 @@
 CXX ?= g++
 CFLAGS = -Wall -Wconversion -O3 -fPIC
 
-all: iris
+all: cross-validation grid-search
 
 svm.o: ../../libsvm/svm.cpp ../../libsvm/svm.h
 	$(CXX) $(CFLAGS) -c ../../libsvm/svm.cpp
 
-all: iris iris-cv
 
 util.o: util.h util.cpp
 	$(CXX) $(CFLAGS) -c util.cpp -o util.o
@@ -14,11 +13,11 @@ util.o: util.h util.cpp
 js-interfaces.o: ../../js-interfaces.c
 	$(CXX) $(CFLAGS) -c ../../js-interfaces.c -o js-interfaces.o
 
-iris: js-interfaces.o iris.cpp util.o svm.o
-	$(CXX) $(CFLAGS) iris.cpp util.o svm.o js-interfaces.o -o iris -lm
+grid-search: js-interfaces.o grid-search.cpp util.o svm.o
+	$(CXX) $(CFLAGS) grid-search.cpp util.o svm.o js-interfaces.o -o grid-search -lm
 	
-iris-cv: js-interfaces.o iris-cv.cpp util.o svm.o
-	$(CXX) $(CFLAGS) iris-cv.cpp util.o svm.o js-interfaces.o -o iris-cv -lm
+cross-validation: js-interfaces.o cross-validation.cpp util.o svm.o
+	$(CXX) $(CFLAGS) cross-validation.cpp util.o svm.o js-interfaces.o -o cross-validation -lm
 
 clean:
-	rm *.o iris iris-cv
+	rm *.o grid-search cross-validation

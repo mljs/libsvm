@@ -16,7 +16,7 @@
     "serve": "webpack-dev-server",
     "test": "mocha --require should --recursive test",
     "build-benchmark": "(cd benchmark/iris; make)",
-    "benchmark": "npm run build-benchmark && (node benchmark/iris/iris-cv.js asm; node benchmark/iris/iris-cv.js wasm; cd benchmark/iris && ./iris-cv)"
+    "benchmark": "node benchmark/bin iris/cross-validation,iris/grid-search native,asm;"
   },
   "repository": {
     "type": "git",

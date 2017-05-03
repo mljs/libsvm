@@ -2,9 +2,12 @@
 #include <fstream>
 #include <iostream>
 
-void load_iris(double data[NB_SAMPLES][NB_FEATURES], double labels[NB_SAMPLES]) {
-    std::ifstream ifstr("iris.txt", std::ifstream::in);
+bool load_iris(double data[NB_SAMPLES][NB_FEATURES], double labels[NB_SAMPLES], const char* filename) {
+    std::ifstream ifstr(filename, std::ifstream::in);
     int count = 0;
+    if(!ifstr.good()) {
+        return false;
+    }
     while(ifstr.good()) {
         if(count >= NB_SAMPLES) {
             std::cout << "Stop reading data because reached size limit" << std::endl;
@@ -17,4 +20,5 @@ void load_iris(double data[NB_SAMPLES][NB_FEATURES], double labels[NB_SAMPLES]) 
 
         count++;
     }
+    return true;
 }

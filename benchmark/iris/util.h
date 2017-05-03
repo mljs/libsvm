@@ -4,6 +4,6 @@
 #define NB_SAMPLES 150
 #define NB_FEATURES 4
 
-void load_iris(double[NB_SAMPLES][NB_FEATURES], double[NB_SAMPLES]);
+bool load_iris(double[NB_SAMPLES][NB_FEATURES], double[NB_SAMPLES], const char* filename);
 
 #endif

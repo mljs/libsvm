@@ -7,6 +7,7 @@ import Home from '../components/Home';
 import SVR from '../components/SVR';
 import Navigation from '../components/Navigation';
 import {Route, HashRouter as Router} from 'react-router-dom';
+import Benchmarks from './Benchmarks';
 
 class App extends Component {
     componentWillMount() {
@@ -24,6 +25,7 @@ class App extends Component {
             <Router>
                 <div className="container">
                     <Navigation />
+                    <Route exact path="/benchmarks" component={Benchmarks} />
                     <Route exact path="/" component={Home} />
                     <Route exact path="/SVC" component={SVC} />
                     <Route exact path="/SVR" component={SVR} />
