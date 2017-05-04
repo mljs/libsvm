@@ -4,8 +4,15 @@
 const Table = require('cli-table');
 const spawn = require('child_process').spawn;
 const argv = process.argv.slice(2);
-const modes = argv[1].split(',');
-const benchmarks = argv[0].split(',');
+let benchmarks = argv[0];
+
+let modes = argv[1];
+console.log(modes, benchmarks);
+if(benchmarks === 'all') benchmarks = ['iris/cross-validation', 'iris/grid-search'];
+else benchmarks = benchmarks.split(',');
+if(modes === 'all') modes = ['native', 'asm', 'wasm'];
+else modes = modes.split(',');
+
 const time = +argv[2] || 10;
 
 if(modes.includes('asm') || modes.includes('wasm')) {

@@ -16,7 +16,7 @@
     "serve": "webpack-dev-server",
     "test": "mocha --require should --recursive test",
     "build-benchmark": "(cd benchmark/iris; make)",
-    "benchmark": "npm run build-benchmark && node benchmark/bin iris/cross-validation,iris/grid-search native,asm,wasm 5",
+    "benchmark": "npm run build-benchmark && node benchmark/bin all all 5",
     "xyz": "echo $1"
   },
   "repository": {
