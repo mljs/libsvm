@@ -6,9 +6,9 @@ const COST_MIN = -3;
 const COST_MAX = 3;
 const GAMMA_MIN = -3;
 const GAMMA_MAX = 3;
-const MILISECONDS = 10000;
 
-function exec(SVM) {
+function exec(SVM, time) {
+    const MILISECONDS = time * 1000;
     const data = require('ml-dataset-iris');
 
     const features = data.getNumbers();

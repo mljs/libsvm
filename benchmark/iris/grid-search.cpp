@@ -12,12 +12,13 @@
 #define COST_MAX 3
 #define GAMMA_MIN -3
 #define GAMMA_MAX 3
-#define SECONDS 10
 
 
 int main(int argc, char** argv) {
-    char* filename = argv[1];
     using namespace std::chrono;
+    char* filename = argv[1];
+    double time = atof(argv[2]);
+
     double data[NB_SAMPLES][NB_FEATURES];
     double labels[NB_SAMPLES];
 
@@ -62,7 +63,7 @@ int main(int argc, char** argv) {
         t2 = steady_clock::now();
         time_span = duration_cast<duration<double>>(t2 - t1);
         count++;
-    } while(time_span.count() < SECONDS);
+    } while(time_span.count() < time);
 
-    std::cout << count << " iterations in " << SECONDS << " seconds." << std::endl;
+    std::cout << count << " iterations in " << time << " seconds." << std::endl;
 }

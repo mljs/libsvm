@@ -11,12 +11,11 @@
 #define NB_FEATURES 4
 #define COST 1.0
 #define GAMMA 0.2
-#define SECONDS 10
-
 
 int main(int argc, char** argv) {
-    char* filename = argv[1];
     using namespace std::chrono;
+    char* filename = argv[1];
+    double time = atof(argv[2]);
 
     double data[NB_SAMPLES][NB_FEATURES];
     double labels[NB_SAMPLES];
@@ -45,7 +44,7 @@ int main(int argc, char** argv) {
 
         time_span = duration_cast<duration<double>>(t2 - t1);
         count++;
-    } while(time_span.count() < SECONDS);
+    } while(time_span.count() < time);
 
 
 //    int correct = 0;
@@ -55,6 +54,6 @@ int main(int argc, char** argv) {
 //
 //    std::cout << "correct: " << correct << std::endl;
 
-    std::cout << "iris-cv cpp: " << count << " iterations in " << SECONDS << " seconds\n";
+    std::cout << "iris-cv cpp: " << count << " iterations in " << time << " seconds\n";
     return 0;
 }

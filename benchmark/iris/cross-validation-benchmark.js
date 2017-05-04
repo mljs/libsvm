@@ -1,10 +1,10 @@
 'use strict';
 
-const MILISECONDS = 10000;
 const gamma = 0.2;
 const cost = 1;
 
-function exec(SVM) {
+function exec(SVM, time) {
+    const MILISECONDS = time * 1000;
     const data = require('ml-dataset-iris');
 
     const features = data.getNumbers();
