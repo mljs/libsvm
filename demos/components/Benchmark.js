@@ -7,11 +7,14 @@ export default class Benchmarks extends Component {
         this.state = {};
     }
     async onRun() {
-        const asmTime = await runBenchmark(this.props.benchmark, 'asm');
+        const asmTime = await runBenchmark(this.props.benchmark, 'asm', 5);
         this.setState({
             asmTime
         });
-        const wasmTime = await runBenchmark(this.props.benchmark, 'wasm');
+
+        await wait();
+
+        const wasmTime = await runBenchmark(this.props.benchmark, 'wasm', 5);
         this.setState({
             wasmTime
         });
@@ -26,4 +29,10 @@ export default class Benchmarks extends Component {
             </div>
         )
     }
+}
+
+function wait() {
+    return new Promise(resolve => {
+        setTimeout(resolve, 0);
+    });
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-export default async function exec(benchmark, mode) {
+export default async function exec(benchmark, mode, time) {
     let SVM;
     if(mode === 'asm') {
         SVM = await import('../asm');
@@ -10,8 +10,8 @@ export default async function exec(benchmark, mode) {
         throw new Error('Invalid mode');
     }
 
-    const count = benchmark(SVM);
-    console.log(`${mode}: ${count} iterations.`);
+    const count = benchmark(SVM, time);
+    console.log(`${mode}: ${count} iterations in ${time} seconds.`);
 
     return count;
 }
