@@ -38,7 +38,9 @@
     "url": "https://github.com/mljs/libsvm/issues"
   },
   "homepage": "https://github.com/mljs/libsvm#readme",
-  "dependencies": {},
+  "dependencies": {
+    "react-loading": "^0.1.2"
+  },
   "devDependencies": {
     "babel-core": "^6.23.1",
     "babel-eslint": "^7.2.1",
@@ -90,6 +92,7 @@
     "url-loader": "^0.5.8",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.1",
-    "webpack-visualizer-plugin": "^0.1.11"
+    "webpack-visualizer-plugin": "^0.1.11",
+    "worker-loader": "^0.8.0"
   }
 }

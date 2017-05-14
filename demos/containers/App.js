@@ -9,6 +9,7 @@ import Navigation from '../components/Navigation';
 import {Route, HashRouter as Router} from 'react-router-dom';
 import Benchmarks from './Benchmarks';
 
+
 class App extends Component {
     componentWillMount() {
         const onResize = () => {

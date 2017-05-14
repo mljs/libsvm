@@ -3980,6 +3980,10 @@ react-hot-loader@beta:
     redbox-react "^1.2.5"
     source-map "^0.4.4"
 
+react-loading@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/react-loading/-/react-loading-0.1.2.tgz#4da95b3d4b55904fd8294c1eb40f8512a6ca04f6"
+
 react-proxy@^3.0.0-alpha.0:
   version "3.0.0-alpha.1"
   resolved "https://registry.yarnpkg.com/react-proxy/-/react-proxy-3.0.0-alpha.1.tgz#4400426bcfa80caa6724c7755695315209fa4b07"
@@ -5031,6 +5035,12 @@ wordwrap@0.0.2:
 wordwrap@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-1.0.0.tgz#27584810891456a4171c8d0226441ade90cbcaeb"
+
+worker-loader@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/worker-loader/-/worker-loader-0.8.0.tgz#13582960dcd7d700dc829d3fd252a7561696167e"
+  dependencies:
+    loader-utils "^1.0.2"
 
 wrap-ansi@^2.0.0:
   version "2.1.0"

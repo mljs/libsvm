@@ -1,5 +1,6 @@
 'use strict';
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
     entry: [
@@ -58,7 +59,16 @@ module.exports = {
         ]
     },
     plugins: [
-
+        new webpack.LoaderOptionsPlugin({
+            options: {
+                worker: {
+                    output: {
+                        filename: "hash.worker.js",
+                        chunkFilename: "[id].hash.worker.js"
+                    }
+                }
+            }
+        })
     ],
     node: {
         fs: 'empty'

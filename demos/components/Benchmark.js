@@ -1,38 +1,63 @@
 import React, {Component} from 'react';
-import runBenchmark from '../../benchmark/browser';
+import Loading from 'react-loading';
 
 export default class Benchmarks extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            asmTime: '-',
+            wasmTime: '-'
+        };
     }
+
+    componentDidMount() {
+        const Worker = require('worker-loader!../../benchmark/worker');
+        this.worker = new Worker;
+        this.worker.onmessage = event => {
+            this.setState({
+                [event.data.method === 'asm' ? 'asmTime' : 'wasmTime']: event.data.result
+            });
+        };
+    }
+
     async onRun() {
-        const asmTime = await runBenchmark(this.props.benchmark, 'asm', 5);
-        this.setState({
-            asmTime
+        this.worker.postMessage({
+            benchmark: this.props.benchmark,
+            method: 'asm',
+            time: 5
         });
-
-        await wait();
-
-        const wasmTime = await runBenchmark(this.props.benchmark, 'wasm', 5);
+        this.worker.postMessage({
+            benchmark: this.props.benchmark,
+            method: 'wasm',
+            time: 5
+        });
         this.setState({
-            wasmTime
+            asmTime: 'running',
+            wasmTime: 'running'
         });
     }
+
     render() {
+        const {asmTime, wasmTime} = this.state;
+        const disabled = asmTime === 'running' || wasmTime === 'running';
         return (
             <div>
                 <h3>{this.props.name}</h3>
-                asm: {this.state.asmTime} &nbsp;
-                wasm: {this.state.wasmTime} &nbsp;
-                <input type="button" value="Run" onClick={this.onRun.bind(this)} />
+                <div style={{lineHeight: '32px', display: 'flex'}}>
+                    asm: {asmTime === 'running' ? <MySpinner /> : asmTime} &nbsp;
+                    wasm: {wasmTime === 'running' ? <MySpinner /> : wasmTime } &nbsp;
+                    <input type="button" className="btn btn-info" value="Run" onClick={this.onRun.bind(this)} disabled={disabled}/>
+                </div>
             </div>
         )
     }
 }
 
-function wait() {
-    return new Promise(resolve => {
-        setTimeout(resolve, 0);
-    });
+
+function MySpinner() {
+    return (
+        <div style={{display: 'inline-block', height: 32, width: 32}}>
+            <Loading type="bubbles" width={32} height={32} color="black"/>
+        </div>
+    )
 }
