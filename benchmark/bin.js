@@ -61,15 +61,16 @@ async function run(mode, time, benchmark) {
     else if(mode === 'native') {
         let str = '';
         const prom = new Promise((resolve, reject) => {
-            const dir = benchmark.split('/')[0];
-            const cmd = `${__dirname}/${benchmark}`;
+            const [dir, exec] = benchmark.split('/');
+            const cmd = `${__dirname}/${dir}/bin/${exec}`;
             const args = [`${__dirname}/${dir}/data.txt`, time];
+            console.log(cmd);
             const child = spawn(cmd, args);
             child.on('close', function() {
                 resolve();
             });
             child.on('error', function() {
-                reject(new Error(`Could not execute ${cmd} ${arg}`));
+                reject(new Error(`Could not execute ${cmd} ${args}`));
             });
             child.stdout.on('data', data => str += data);
             child.stdout.pipe(process.stdout);
