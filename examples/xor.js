@@ -1,12 +1,17 @@
 'use strict';
 
 function xor(SVM) {
-    let svm = new SVM();
-    const features = [[1,1],[-1, -1],[1,-1],[-1, 1]];
-    const labels = [1,1,-1,-1];
+    let svm = new SVM({
+        kernel: SVM.KERNEL_TYPES.RBF,
+        type: SVM.SVM_TYPES.C_SVC,
+        gamma: 1,
+        cost: 1
+    });
+    const features = [[0,0],[1, 1],[1,0],[0, 1]];
+    const labels = [0, 0, 1, 1];
     svm.train(features, labels);
-    for(var i=0; i<features.length; i++) {
-        var pred = svm.predictOne(features[i]);
+    for(let i=0; i<features.length; i++) {
+        const pred = svm.predictOne(features[i]);
         console.log(`actual: ${labels[i]}, predicted: ${pred}`);
     }
 

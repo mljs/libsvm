@@ -119,6 +119,30 @@ void add_instance(struct svm_problem* prob, double* features, int nb_dimensions,
     prob->y[i] = y;
 }
 
+char* serialize_model(struct svm_model* model)
+{
+    int success = svm_save_model("testfile.txt", model);
+    if(success < 0) return success;
+    FILE *f = fopen("testfile.txt", "rb");
+    fseek(f, 0, SEEK_END);
+    long fsize = ftell(f);
+    fseek(f, 0, SEEK_SET);  //same as rewind(f);
+
+    char *string = malloc(fsize + 1);
+    fread(string, fsize, 1, f);
+    fclose(f);
+
+    string[fsize] = 0;
+    return string;
+}
+
+struct svm_model* deserialize_model(const char* serialized) {
+    FILE *f = fopen("testfile.txt", "w");
+    fprintf(f, "%s", serialized);
+    fclose(f);
+    return svm_load_model("testfile.txt");
+}
+
 struct svm_problem* create_svm_nodes(int nb_features, int nb_dimensions)
 {
 	struct svm_problem* prob = Malloc(struct svm_problem, 1);

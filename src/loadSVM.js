@@ -14,6 +14,9 @@ module.exports = function (libsvm) {
     const svm_free_model = libsvm.cwrap('svm_free_model', null, ['number']);
     const svm_cross_validation = libsvm.cwrap('libsvm_cross_validation', null, ['number', 'string', 'number', 'number']);
     const free_problem = libsvm.cwrap('free_problem', null, ['number']);
+    const serialize_model = libsvm.cwrap('serialize_model', 'number', ['number']);
+    const deserialize_model = libsvm.cwrap('deserialize_model', 'number', ['string']);
+
     /* eslint-enable camelcase */
 
     const SVM_TYPES = {
@@ -110,7 +113,21 @@ module.exports = function (libsvm) {
             return getIntArrayFromModel(svm_get_sv_indices, this.model, nSV)
                 .map(i => i - 1);
         }
+
+        serializeModel() {
+            if(!this.model) throw new Error('Cannot serialize model. No model was trained');
+            const result = serialize_model(this.model);
+            const str = libsvm.Pointer_stringify(result);
+            libsvm._free(result);
+            return str;
+        }
     }
+
+    SVM.load = function(serializedModel) {
+        const svm = new SVM();
+        svm.model = deserialize_model(serializedModel);
+        return svm;
+    };
 
     SVM.SVM_TYPES = SVM_TYPES;
     SVM.KERNEL_TYPES = KERNEL_TYPES;
