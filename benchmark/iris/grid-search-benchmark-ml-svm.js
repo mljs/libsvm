@@ -4,7 +4,9 @@ const util = require('./util');
 const gamma = util.gamma;
 const cost = util.cost;
 
-function exec(SVM, time) {
+const SVM = require('ml-svm');
+
+function exec(time) {
     const MILISECONDS = time * 1000;
     const data = require('ml-dataset-iris');
 
@@ -23,12 +25,16 @@ function exec(SVM, time) {
         for(let c of cost) {
             for(let g of gamma) {
                 const svm = new SVM({
-                    quiet: true,
-                    cost: c,
-                    gamma: g
+                    C: c,
+                    kernel: 'rbf',
+                    kernelOptions: {
+                        sigma: g
+                    },
+                    tolerance: 0.001,
+                    maxPasses: 1,
+                    maxIterations: 10000
                 });
                 svm.train(features, labels);
-                svm.free();
             }
         }
         count++;
@@ -39,5 +45,5 @@ function exec(SVM, time) {
     return count;
 }
 
-
-module.exports = exec;
+const count = exec(5);
+console.log('#iterations: ', count);

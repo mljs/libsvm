@@ -73,6 +73,7 @@
     "lodash.reduce": "^4.6.0",
     "lodash.throttle": "^4.1.1",
     "ml-dataset-iris": "^1.0.0",
+    "ml-svm": "^2.1.2",
     "mocha": "^3.2.0",
     "mocha-better-spec-reporter": "^3.1.0",
     "react": "^15.4.2",
