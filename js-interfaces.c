@@ -122,13 +122,13 @@ void add_instance(struct svm_problem* prob, double* features, int nb_dimensions,
 char* serialize_model(struct svm_model* model)
 {
     int success = svm_save_model("testfile.txt", model);
-    if(success < 0) return success;
+    if(success < 0) return NULL;
     FILE *f = fopen("testfile.txt", "rb");
     fseek(f, 0, SEEK_END);
     long fsize = ftell(f);
     fseek(f, 0, SEEK_SET);  //same as rewind(f);
 
-    char *string = malloc(fsize + 1);
+    char *string = Malloc(char, fsize + 1);
     fread(string, fsize, 1, f);
     fclose(f);
 
