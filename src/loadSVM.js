@@ -159,23 +159,29 @@ module.exports = function (libsvm) {
             libsvm._free(result);
             return str;
         }
+
+        /**
+         * Create a SVM instance from the serialized model.
+         * @param {string} serializedModel - The serialized model.
+         * @return {SVM} - SVM instance that contains the model.
+         */
+        static load(serializedModel) {
+            const svm = new SVM();
+            svm.model = deserialize_model(serializedModel);
+            svm._deserialized = true;
+            return svm;
+        }
     }
 
     /**
-     * Create a SVM instance from the serialized model.
-     * @param {string} serializedModel - The serialized model.
-     * @return {SVM} - SVM instance that contains the model.
-     */
-    SVM.load = function (serializedModel) {
-        const svm = new SVM();
-        svm.model = deserialize_model(serializedModel);
-        svm._deserialized = true;
-        return svm;
-    };
-
-    /**
      * SVM classification and regression types
+     * @memberof SVM
      * @type {{C_SVC: string, NU_SVC: string, ONE_CLASS: string, EPSILON_SVR: string, NU_SVR: string}}
+     * @property C_SVC - The C support vector classifier type
+     * @property NU_SVC - The nu support vector classifier type
+     * @property ONE_CLASS - The one-class support vector classifier type
+     * @property EPSILON_SVR - The epsilon support vector regression type
+     * @property NU_SVR - The nu support vector regression type
      */
     SVM.SVM_TYPES = {
         C_SVC: '0',         // C support vector classification
@@ -188,7 +194,12 @@ module.exports = function (libsvm) {
 
     /**
      * SVM kernel types
+     * @memberof SVM
      * @type {{LINEAR: string, POLYNOMIAL: string, RBF: string, SIGMOID: string}}
+     * @property LINEAR - Linear kernel
+     * @property POLYNOMIAL - Polynomial kernel
+     * @property RBF - Radial basis function (gaussian) kernel
+     * @property SIGMOID - Sigmoid kernel
      */
     SVM.KERNEL_TYPES = {
         LINEAR: '0',

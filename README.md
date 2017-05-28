@@ -27,14 +27,19 @@ Speed is also affected by the version of emscripten that generated the build or 
 
 * [SVM](#SVM)
     * [new SVM(options)](#new_SVM_new)
-    * [.train(samples, labels)](#SVM+train)
-    * [.crossValidation(samples, labels, kFold)](#SVM+crossValidation) ⇒ <code>Array.&lt;number&gt;</code>
-    * [.free()](#SVM+free)
-    * [.predictOne(sample)](#SVM+predictOne) ⇒ <code>number</code>
-    * [.predict(samples)](#SVM+predict) ⇒ <code>Array.&lt;number&gt;</code>
-    * [.getLabels()](#SVM+getLabels) ⇒ <code>Array.&lt;number&gt;</code>
-    * [.getSVIndices()](#SVM+getSVIndices) ⇒ <code>Array.&lt;number&gt;</code>
-    * [.serializeModel()](#SVM+serializeModel) ⇒ <code>string</code>
+    * _instance_
+        * [.train(samples, labels)](#SVM+train)
+        * [.crossValidation(samples, labels, kFold)](#SVM+crossValidation) ⇒ <code>Array.&lt;number&gt;</code>
+        * [.free()](#SVM+free)
+        * [.predictOne(sample)](#SVM+predictOne) ⇒ <code>number</code>
+        * [.predict(samples)](#SVM+predict) ⇒ <code>Array.&lt;number&gt;</code>
+        * [.getLabels()](#SVM+getLabels) ⇒ <code>Array.&lt;number&gt;</code>
+        * [.getSVIndices()](#SVM+getSVIndices) ⇒ <code>Array.&lt;number&gt;</code>
+        * [.serializeModel()](#SVM+serializeModel) ⇒ <code>string</code>
+    * _static_
+        * [.SVM_TYPES](#SVM.SVM_TYPES) : <code>Object</code>
+        * [.KERNEL_TYPES](#SVM.KERNEL_TYPES) : <code>Object</code>
+        * [.load(serializedModel)](#SVM.load) ⇒ [<code>SVM</code>](#SVM)
 
 <a name="new_SVM_new"></a>
 
@@ -152,3 +157,46 @@ Uses libsvm's serialization method of the model.
 
 **Kind**: instance method of [<code>SVM</code>](#SVM)  
 **Returns**: <code>string</code> - The serialization string.  
+<a name="SVM.SVM_TYPES"></a>
+
+### SVM.SVM_TYPES : <code>Object</code>
+SVM classification and regression types
+
+**Kind**: static property of [<code>SVM</code>](#SVM)  
+**Properties**
+
+| Name | Description |
+| --- | --- |
+| C_SVC | The C support vector classifier type |
+| NU_SVC | The nu support vector classifier type |
+| ONE_CLASS | The one-class support vector classifier type |
+| EPSILON_SVR | The epsilon support vector regression type |
+| NU_SVR | The nu support vector regression type |
+
+<a name="SVM.KERNEL_TYPES"></a>
+
+### SVM.KERNEL_TYPES : <code>Object</code>
+SVM kernel types
+
+**Kind**: static property of [<code>SVM</code>](#SVM)  
+**Properties**
+
+| Name | Description |
+| --- | --- |
+| LINEAR | Linear kernel |
+| POLYNOMIAL | Polynomial kernel |
+| RBF | Radial basis function (gaussian) kernel |
+| SIGMOID | Sigmoid kernel |
+
+<a name="SVM.load"></a>
+
+### SVM.load(serializedModel) ⇒ [<code>SVM</code>](#SVM)
+Create a SVM instance from the serialized model.
+
+**Kind**: static method of [<code>SVM</code>](#SVM)  
+**Returns**: [<code>SVM</code>](#SVM) - - SVM instance that contains the model.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| serializedModel | <code>string</code> | The serialized model. |
+
