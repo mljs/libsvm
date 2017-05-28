@@ -12,7 +12,7 @@ export default class Benchmarks extends Component {
 
     componentDidMount() {
         const Worker = require('worker-loader!../../benchmark/worker');
-        this.worker = new Worker;
+        this.worker = new Worker();
         this.worker.onmessage = event => {
             this.setState({
                 [event.data.method === 'asm' ? 'asmTime' : 'wasmTime']: event.data.result
@@ -46,10 +46,10 @@ export default class Benchmarks extends Component {
                 <div style={{lineHeight: '32px', display: 'flex'}}>
                     asm: {asmTime === 'running' ? <MySpinner /> : asmTime} &nbsp;
                     wasm: {wasmTime === 'running' ? <MySpinner /> : wasmTime } &nbsp;
-                    <input type="button" className="btn btn-info" value="Run" onClick={this.onRun.bind(this)} disabled={disabled}/>
+                    <input type="button" className="btn btn-info" value="Run" onClick={this.onRun.bind(this)} disabled={disabled} />
                 </div>
             </div>
-        )
+        );
     }
 }
 
@@ -57,7 +57,7 @@ export default class Benchmarks extends Component {
 function MySpinner() {
     return (
         <div style={{display: 'inline-block', height: 32, width: 32}}>
-            <Loading type="bubbles" width={32} height={32} color="black"/>
+            <Loading type="bubbles" width={32} height={32} color="black" />
         </div>
-    )
+    );
 }

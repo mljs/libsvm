@@ -1,4 +1,3 @@
-
 module.exports = function (libsvm) {
     const util = require('./util');
 
@@ -18,21 +17,6 @@ module.exports = function (libsvm) {
     const deserialize_model = libsvm.cwrap('deserialize_model', 'number', ['string']);
 
     /* eslint-enable camelcase */
-
-    const SVM_TYPES = {
-        C_SVC: '0',         // C support vector classification
-        NU_SVC: '1',        // NU support vector classification
-        ONE_CLASS: '2',     // ONE CLASS classification
-        EPSILON_SVR: '3',   // Epsilon support vector regression
-        NU_SVR: '4'         // Nu suuport vector regression
-    };
-
-    const KERNEL_TYPES = {
-        LINEAR: '0',
-        POLYNOMIAL: '1',
-        RBF: '2',         // Radial basis function
-        SIGMOID: '3'
-    };
 
     class SVM {
         /**
@@ -58,7 +42,17 @@ module.exports = function (libsvm) {
             this.model = null;
         }
 
+        /**
+         * Trains the SVM model.
+         * @param {Array<Array<number>>} samples - The training samples. First level of array are the samples, second
+         * level are the individual features
+         * @param {Array<number>} labels - The training labels. It should have the same size as the samples. If you are
+         * training a classification model, the labels should be distinct integers for each class. If you are training
+         * a regression model, each label should be the value of the predicted variable.
+         * @throws if SVM instance was instantiated from SVM.load.
+         */
         train(samples, labels) {
+            if (this._deserialized) throw new Error('Train cannot be called on instance created with SVM.load');
             this.free();
             const problem = createProblem(samples, labels);
             const command = this.getCommand();
@@ -67,7 +61,20 @@ module.exports = function (libsvm) {
             free_problem(problem);
         }
 
+        /**
+         * Performs k-fold cross-validation (KF-CV). KF-CV separates the data-set into kFold random equally sized partitions,
+         * and uses each as a validation set, with all other partitions used in the training set. Observations left over
+         * from if kFold does not divide the number of observations are left out of the cross-validation process. If
+         * kFold is one, this is equivalent to a leave-on-out cross-validation
+         * @param {Array<Array<number>>} samples - The training samples.
+         * @param {Array<number>} labels - The training labels.
+         * @param {number} kFold - Number of datasets into which to split the training set.
+         * @throws if SVM instance was instantiated from SVM.load.
+         * @return {Array<number>} The array of predicted labels produced by the cross validation. Has a size equal to
+         * the number of samples provided as input.
+         */
         crossValidation(samples, labels, kFold) {
+            if (this._deserialized) throw new Error('crossValidation cannot be called on instance created with SVM.load');
             const problem = createProblem(samples, labels);
             const target = libsvm._malloc(labels.length * 8);
             svm_cross_validation(problem, this.getCommand(), kFold, target);
@@ -77,6 +84,14 @@ module.exports = function (libsvm) {
             return arr;
         }
 
+        /**
+         * Free the memory allocated for the model. Since this memory is stored in the memory model of emscripten, it is
+         * allocated within an ArrayBuffer and WILL NOT BE GARBARGE COLLECTED, you have to explicitly free it. So
+         * not calling this will result in memory leaks. As of today in the browser, there is no way to hook the
+         * garabage collection of the SVM object to free it automatically.
+         * Free the memory that was created by the compiled libsvm library to.
+         * store the model. This model is reused every time the predict method is called.
+         */
         free() {
             if (this.model !== null) {
                 svm_free_model(this.model);
@@ -88,6 +103,11 @@ module.exports = function (libsvm) {
             return util.getCommand(this.options);
         }
 
+        /**
+         * Predict the label of one sample.
+         * @param {Array<number>} sample - The sample to predict.
+         * @return {number} - The predicted label.
+         */
         predictOne(sample) {
             if (this.model === null) {
                 throw new Error('Cannot predict, you must train first');
@@ -95,6 +115,11 @@ module.exports = function (libsvm) {
             return predict_one(this.model, new Uint8Array(new Float64Array(sample).buffer), sample.length);
         }
 
+        /**
+         * Predict the label of many samples.
+         * @param {Array<Array<number>>} samples - The samples to predict.
+         * @return {Array<number>} - The predicted labels.
+         */
         predict(samples) {
             let arr = [];
             for (let i = 0; i < samples.length; i++) {
@@ -103,19 +128,32 @@ module.exports = function (libsvm) {
             return arr;
         }
 
+        /**
+         * Get the array of labels from the model. Useful when creating an SVM instance with SVM.load
+         * @returns {Array<number>} - The list of labels.
+         */
         getLabels() {
             const nbLabels = svm_get_nr_class(this.model);
             return getIntArrayFromModel(svm_get_labels, this.model, nbLabels);
         }
 
+        // TODO: add link to train
+        /**
+         * Get the indices of the support vectors from the training set passed to the train method.
+         * @return {Array<number>} - The list of indices from the training samples.
+         */
         getSVIndices() {
             const nSV = svm_get_nr_sv(this.model);
             return getIntArrayFromModel(svm_get_sv_indices, this.model, nSV)
                 .map(i => i - 1);
         }
 
+        /**
+         * Uses libsvm's serialization method of the model.
+         * @return {string} The serialization string.
+         */
         serializeModel() {
-            if(!this.model) throw new Error('Cannot serialize model. No model was trained');
+            if (!this.model) throw new Error('Cannot serialize model. No model was trained');
             const result = serialize_model(this.model);
             const str = libsvm.Pointer_stringify(result);
             libsvm._free(result);
@@ -123,14 +161,41 @@ module.exports = function (libsvm) {
         }
     }
 
-    SVM.load = function(serializedModel) {
+    /**
+     * Create a SVM instance from the serialized model.
+     * @param {string} serializedModel - The serialized model.
+     * @return {SVM} - SVM instance that contains the model.
+     */
+    SVM.load = function (serializedModel) {
         const svm = new SVM();
         svm.model = deserialize_model(serializedModel);
+        svm._deserialized = true;
         return svm;
     };
 
-    SVM.SVM_TYPES = SVM_TYPES;
-    SVM.KERNEL_TYPES = KERNEL_TYPES;
+    /**
+     * SVM classification and regression types
+     * @type {{C_SVC: string, NU_SVC: string, ONE_CLASS: string, EPSILON_SVR: string, NU_SVR: string}}
+     */
+    SVM.SVM_TYPES = {
+        C_SVC: '0',         // C support vector classification
+        NU_SVC: '1',        // NU support vector classification
+        ONE_CLASS: '2',     // ONE CLASS classification
+        EPSILON_SVR: '3',   // Epsilon support vector regression
+        NU_SVR: '4'         // Nu support vector regression
+    };
+
+
+    /**
+     * SVM kernel types
+     * @type {{LINEAR: string, POLYNOMIAL: string, RBF: string, SIGMOID: string}}
+     */
+    SVM.KERNEL_TYPES = {
+        LINEAR: '0',
+        POLYNOMIAL: '1',
+        RBF: '2',         // Radial basis function
+        SIGMOID: '3'
+    };
 
     function getIntArrayFromModel(fn, model, size) {
         const offset = libsvm._malloc(size * 4);
@@ -153,5 +218,4 @@ module.exports = function (libsvm) {
 
     return SVM;
 };
-
 
