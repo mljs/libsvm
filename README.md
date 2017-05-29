@@ -3,6 +3,7 @@ This library uses emscripten to port [libsvm](https://github.com/cjlin1/libsvm) 
 
 libsvm version: 3.22
 
+[Check out the demos](https://mljs.github.io/libsvm/) to see the library in action!
 
 # What are asm and Webassembly ?
 From [asmjs.org](http;//asmjs.org)
@@ -10,12 +11,15 @@ From [asmjs.org](http;//asmjs.org)
 
 From [webassembly.org](http://webassembly.org)
 > WebAssembly or wasm is a new portable, size- and load-time-efficient format suitable for compilation to the web
+
 # Should I use asm or WebAssembly ?
 Both. You should try to use WebAssembly first and fall back to asm in order to support all browsers.
 
 WebAssembly is currently supported in the latest stable versions of Chrome, Firefox.
 
 # Benchmarks
+You can compare the performance of the library in various environments. Run `npm run benchmark` to run the benchmarks with native c/c++ code and with the compiled code with your local version of node.js. For browser performance, go to the [web benchmark page](https://mljs.github.io/libsvm/#benchmarks).
+
 Speed is mainly affected by the javascript engine that compiles it. Since WebAssembly has been stabilized and is an optimization phase, more recent engines are almost always faster.
 
 Speed is also affected by the version of emscripten that generated the build or the options used in the build. I will try to keep up with any improvement that might significantly impact the performance.

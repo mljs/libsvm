@@ -5,7 +5,7 @@ export default function () {
     return (
         <div>
             <div>
-                This will run a few typical SVM scenarios using asm or wasm. The scenario will be run as many times as possibles for 5 seconds. The reported score is the number of iteration. Higher is better. Those benchmarks can be compared with their native counterparts from the command line with <code>npm run benchmark</code>. This will also benchmark node.js.
+                This will run a few typical SVM scenarios using asm or wasm. The scenario will be run as many times as possibles for 5 seconds. The reported score is the number of iteration. Higher is better. Those benchmarks can be compared with their native counterparts from the command line with <code>npm run benchmark</code>.
             </div>
             <Benchmark benchmark="iris/cross-validation" name="Iris cross-validation" description={() => {
                 return (
