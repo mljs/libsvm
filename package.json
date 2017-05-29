@@ -39,10 +39,7 @@
     "url": "https://github.com/mljs/libsvm/issues"
   },
   "homepage": "https://github.com/mljs/libsvm#readme",
-  "dependencies": {
-    "react-icons": "^2.2.5",
-    "react-loading": "^0.1.2"
-  },
+  "dependencies": {},
   "devDependencies": {
     "babel-core": "^6.23.1",
     "babel-eslint": "^7.2.1",
@@ -82,6 +79,8 @@
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-hot-loader": "beta",
+    "react-icons": "^2.2.5",
+    "react-loading": "^0.1.2",
     "react-redux": "^5.0.3",
     "react-router": "^4.0.0",
     "react-router-dom": "^4.0.0",
