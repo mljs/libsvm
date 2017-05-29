@@ -3,10 +3,9 @@ import {updateStyleBreakpoint} from '../actions/index';
 import throttle from 'lodash.throttle';
 import {connect} from 'react-redux';
 import SVC from '../components/SVC';
-import Home from '../components/Home';
 import SVR from '../components/SVR';
 import Navigation from '../components/Navigation';
-import {Route, HashRouter as Router} from 'react-router-dom';
+import {Route, HashRouter as Router, Redirect} from 'react-router-dom';
 import Benchmarks from './Benchmarks';
 
 
@@ -26,10 +25,10 @@ class App extends Component {
             <Router>
                 <div className="container">
                     <Navigation />
-                    <Route exact path="/benchmarks" component={Benchmarks} />
-                    <Route exact path="/" component={Home} />
+                    <Redirect from="/" to="/SVC" />
                     <Route exact path="/SVC" component={SVC} />
                     <Route exact path="/SVR" component={SVR} />
+                    <Route exact path="/benchmarks" component={Benchmarks} />
                 </div>
             </Router>
         );

@@ -20,6 +20,7 @@ Speed is mainly affected by the javascript engine that compiles it. Since WebAss
 
 Speed is also affected by the version of emscripten that generated the build or the options used in the build. I will try to keep up with any improvement that might significantly impact the performance.
 
+# API Documentation
 <a name="SVM"></a>
 
 ## SVM
@@ -200,3 +201,6 @@ Create a SVM instance from the serialized model.
 | --- | --- | --- |
 | serializedModel | <code>string</code> | The serialized model. |
 
+
+# LICENSE
+BSD-3-Clause

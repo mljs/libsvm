@@ -40,6 +40,7 @@
   },
   "homepage": "https://github.com/mljs/libsvm#readme",
   "dependencies": {
+    "react-icons": "^2.2.5",
     "react-loading": "^0.1.2"
   },
   "devDependencies": {

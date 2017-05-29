@@ -10,14 +10,14 @@ export default function () {
             <Benchmark benchmark="iris/cross-validation" name="Iris cross-validation" description={() => {
                 return (
                     <p>
-                        C_SVC eave-one-out cross-validation with RBF kernel on the <a target="_blank" href="https://en.wikipedia.org/wiki/Iris_flower_data_set">iris dataset</a>.
+                        <code>C_SVC</code> leave-one-out cross-validation with RBF kernel on the <a target="_blank" href="https://en.wikipedia.org/wiki/Iris_flower_data_set">iris dataset</a>.
                     </p>
                 );
             }} />
             <Benchmark benchmark="iris/grid-search" name="Iris grid-search" description={() => {
                 return (
                     <p>
-                        C_SVC 6-by-6 grid grid search of gamma and C parameters on the <a target="_blank" href="https://en.wikipedia.org/wiki/Iris_flower_data_set">iris dataset</a>.
+                        <code>C_SVC</code> 6-by-6 grid grid search of gamma and C parameters on the <a target="_blank" href="https://en.wikipedia.org/wiki/Iris_flower_data_set">iris dataset</a>.
                     </p>
                 )
             }}/>
