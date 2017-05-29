@@ -40,9 +40,12 @@ export default class Benchmarks extends Component {
     render() {
         const {asmTime, wasmTime} = this.state;
         const disabled = asmTime === 'running' || wasmTime === 'running';
+        const Description = this.props.description || (() => null);
         return (
             <div>
+                <hr/>
                 <h3>{this.props.name}</h3>
+                <Description />
                 <div style={{lineHeight: '32px', display: 'flex'}}>
                     asm: {asmTime === 'running' ? <MySpinner /> : asmTime} &nbsp;
                     wasm: {wasmTime === 'running' ? <MySpinner /> : wasmTime } &nbsp;

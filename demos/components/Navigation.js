@@ -3,7 +3,7 @@ import {NavLink} from 'react-router-dom';
 
 export default function () {
     return (
-        <nav className="navbar navbar-toggleable-md navbar-light bg-faded" style={{backgroundColor: '#e3f2fd'}}>
+        <nav className="navbar navbar-toggleable-md navbar-light bg-faded" style={{backgroundColor: '#e3f2fd', marginBottom: 15}}>
             <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon" />
             </button>
@@ -13,6 +13,7 @@ export default function () {
                     <NavLink className="nav-item nav-link active" to="/">Home <span className="sr-only">(current)</span></NavLink>
                     <NavLink className="nav-item nav-link" to="/SVC">SVC</NavLink>
                     <NavLink className="nav-item nav-link" to="/SVR">SVR</NavLink>
+                    <NavLink className="nav-item nav-link" to="/benchmarks">Benchmarks</NavLink>
                 </div>
             </div>
         </nav>
