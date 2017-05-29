@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import SVC from '../components/SVC';
 import SVR from '../components/SVR';
 import Navigation from '../components/Navigation';
-import {Route, HashRouter as Router, Redirect} from 'react-router-dom';
+import {Route, HashRouter as Router, Redirect, Switch} from 'react-router-dom';
 import Benchmarks from './Benchmarks';
 
 
@@ -25,10 +25,12 @@ class App extends Component {
             <Router>
                 <div className="container">
                     <Navigation />
-                    <Redirect from="/" to="/SVC" />
-                    <Route exact path="/SVC" component={SVC} />
-                    <Route exact path="/SVR" component={SVR} />
-                    <Route exact path="/benchmarks" component={Benchmarks} />
+                    <Switch>
+                        <Redirect exact from="/" to="/SVC"/>
+                        <Route exact path="/SVC" component={SVC}/>
+                        <Route exact path="/SVR" component={SVR}/>
+                        <Route exact path="/benchmarks" component={Benchmarks}/>
+                    </Switch>
                 </div>
             </Router>
         );
