@@ -8,8 +8,11 @@ export default function () {
             <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon" />
             </button>
-            <a href="https://github.com/mljs/libsvm"><MarkGithub className="nav-item" size={32} style={{marginRight: 15}}/></a>
-            <div className="navbar-brand">LibSVM</div>
+            <div>
+                <a href="https://github.com/mljs/libsvm"><MarkGithub className="nav-item" size={32} style={{marginRight: 15}}/></a>
+                <div className="navbar-brand">LibSVM</div>
+            </div>
+
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div className="navbar-nav">
                     <NavLink className="nav-item nav-link" to="/SVC">SVC</NavLink>
