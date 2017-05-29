@@ -130,7 +130,7 @@ module.exports = function (libsvm) {
 
         /**
          * Get the array of labels from the model. Useful when creating an SVM instance with SVM.load
-         * @returns {Array<number>} - The list of labels.
+         * @return {Array<number>} - The list of labels.
          */
         getLabels() {
             const nbLabels = svm_get_nr_class(this.model);

@@ -43,7 +43,7 @@ export default class Benchmarks extends Component {
         const Description = this.props.description || (() => null);
         return (
             <div>
-                <hr/>
+                <hr />
                 <h3>{this.props.name}</h3>
                 <Description />
                 <div style={{lineHeight: '32px', display: 'flex'}}>

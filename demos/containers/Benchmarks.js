@@ -19,8 +19,8 @@ export default function () {
                     <p>
                         <code>C_SVC</code> 6-by-6 grid grid search of gamma and C parameters on the <a target="_blank" href="https://en.wikipedia.org/wiki/Iris_flower_data_set">iris dataset</a>.
                     </p>
-                )
-            }}/>
+                );
+            }} />
         </div>
     );
 }

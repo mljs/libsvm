@@ -26,10 +26,10 @@ class App extends Component {
                 <div className="container">
                     <Navigation />
                     <Switch>
-                        <Redirect exact from="/" to="/SVC"/>
-                        <Route exact path="/SVC" component={SVC}/>
-                        <Route exact path="/SVR" component={SVR}/>
-                        <Route exact path="/benchmarks" component={Benchmarks}/>
+                        <Redirect exact from="/" to="/SVC" />
+                        <Route exact path="/SVC" component={SVC} />
+                        <Route exact path="/SVR" component={SVR} />
+                        <Route exact path="/benchmarks" component={Benchmarks} />
                     </Switch>
                 </div>
             </Router>
