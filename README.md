@@ -24,6 +24,19 @@ Speed is mainly affected by the javascript engine that compiles it. Since WebAss
 
 Speed is also affected by the version of emscripten that generated the build or the options used in the build. I will try to keep up with any improvement that might significantly impact the performance.
 
+## Cross-validation benchmark
+I'm not reporting all the benchmarks in the readme, you can run them yourself if you need to. This is to get a feeling for how performance compares on every platform. The performance results are only given relative to how they run natively (with compiled c++ code).
+
+| Platform | Rel asm perf | Rel wasm perf |
+| --- | --- | --- |
+| Native | 100% | 100% |
+| Node.js 8.0.0 | 34.2% | 19.1% |
+| Node.js v7.10.0 | 14.4% | -- |
+| Chrome 58.0.3029.110 | -- | -- |
+| Chrome 59.0.3071.83 | -- | -- | 
+| Chrome  60.0.3112.7 | -- | -- |
+| Firefox 53.0.3 | -- | -- |
+
 # API Documentation
 <a name="SVM"></a>
 
