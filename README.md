@@ -15,7 +15,7 @@ From [webassembly.org](http://webassembly.org)
 # Should I use asm or WebAssembly ?
 Both. You should try to use WebAssembly first and fall back to asm in order to support all browsers.
 
-WebAssembly is currently supported in the latest stable versions of Chrome, Firefox.
+WebAssembly is currently supported in the latest stable versions of Chrome, Firefox and on preview versions of Safari and Edge.
 
 # Benchmarks
 You can compare the performance of the library in various environments. Run `npm run benchmark` to run the benchmarks with native c/c++ code and with the compiled code with your local version of node.js. For browser performance, go to the [web benchmark page](https://mljs.github.io/libsvm/#benchmarks).
