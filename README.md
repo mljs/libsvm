@@ -31,11 +31,11 @@ I'm not reporting all the benchmarks in the readme, you can run them yourself if
 | --- | --- | --- |
 | Native | 100% | 100% |
 | Node.js 8.0.0 | 34.2% | 19.1% |
-| Node.js v7.10.0 | 14.4% | -- |
-| Chrome 58.0.3029.110 | -- | -- |
-| Chrome 59.0.3071.83 | -- | -- | 
-| Chrome  60.0.3112.7 | -- | -- |
-| Firefox 53.0.3 | -- | -- |
+| Node.js v7.10.0 | 14.4% | N/A |
+| Chrome 58.0.3029.110 | 22.2% | 20.3% |
+| Chrome 59.0.3071.83 | 33.3% | 51.6% | 
+| Chrome  60.0.3112.7 | 22.9% | 51.6% |
+| Firefox 53.0.3 | 28.8% | 69.3% |
 
 # API Documentation
 <a name="SVM"></a>
