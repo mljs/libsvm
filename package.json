@@ -3,10 +3,7 @@
   "version": "0.0.0",
   "description": "A port of libsvm to javascript using emscripten",
   "main": "wasm.js",
-  "directories": {
-    "example": "examples",
-    "test": "test"
-  },
+  "files": ["src", "dist", "asm.js", "wasm.js", "LICENSE"],
   "scripts": {
     "build": "rimraf dist && make; make clean",
     "demo-build": "rimraf demo-dist && BABEL_ENV=production webpack -p --config webpack.production.js && cp demos/index.html demo-dist",

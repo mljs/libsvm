@@ -9,7 +9,9 @@ export default function () {
                 <span className="navbar-toggler-icon" />
             </button>
             <div style={{display: 'flex'}}>
-                <a href="https://github.com/mljs/libsvm"><MarkGithub className="nav-item" size={32} style={{marginRight: 15}} /></a>
+                <a href="https://github.com/mljs/libsvm">
+                    <MarkGithub className="nav-item" size={32} style={{marginRight: 15}} />
+                </a>
                 <div className="navbar-brand">LibSVM</div>
             </div>
 
