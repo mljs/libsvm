@@ -3,9 +3,17 @@ This library uses [emscripten](https://github.com/kripken/emscripten) to port [l
 
 [Check out the demos](https://mljs.github.io/libsvm/) to see the library in action!
 
+What is libsvm?
+libsvm is a [c++ library](https://github.com/cjlin1/libsvm) developped by Chih-Chung Chang and Chih-Jen Lin that allows to do support vector machine (aka SVM) classification and regression.
+
+Resources about libsvm:
+- [libsvm website](https://github.com/cjlin1/libsvm)
+- [libsvm github repository](https://github.com/cjlin1/libsvm)
+- [Wikipedia article](https://en.wikipedia.org/wiki/Support_vector_machine)
+- Chih-Chung Chang and Chih-Jen Lin, LIBSVM : a library for support vector machines. ACM Transactions on Intelligent Systems and Technology, 2:27:1--27:27, 2011.
+
 # Usage
 
-## Loading the library
 The main entry point loads the WebAssembly build and is asynchronous.
 ```js
 require('libsvm-js').then(SVM => {
