@@ -1,6 +1,5 @@
 # [DEMO](https://mljs.github.io/libsvm/)
 
-# libsvm-js
 Port of to port libsvm v3.22 using [emscripten](https://github.com/kripken/emscripten) , for usage in the browser or nodejs. 2 build targets: asm and WebAssembly.
 
 What is libsvm?
