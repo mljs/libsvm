@@ -1,4 +1,4 @@
-# libsvm
+# libsvm-js
 This library uses [emscripten](https://github.com/kripken/emscripten) to port [libsvm](https://github.com/cjlin1/libsvm) to asm and WebAssembly, for usage in the browser or nodejs. The ported libsvm version is 3.22.
 
 [Check out the demos](https://mljs.github.io/libsvm/) to see the library in action!
@@ -13,7 +13,12 @@ Resources about libsvm:
 - Chih-Chung Chang and Chih-Jen Lin, LIBSVM : a library for support vector machines. ACM Transactions on Intelligent Systems and Technology, 2:27:1--27:27, 2011.
 
 # Usage
+## Install
+```bash
+npm install libsvm-js
+```
 
+## Load
 The main entry point loads the WebAssembly build and is asynchronous.
 ```js
 require('libsvm-js').then(SVM => {
@@ -21,13 +26,13 @@ require('libsvm-js').then(SVM => {
 });
 ```
 
-There is an alternative entry point if you want to use asm. This entrypoint is synchronous.
+There is an alternative entry point if you want to use asm build. This entrypoint is synchronous.
 ```js
 const SVM = require('libsvm-js/asm');
 const svm = new SVM(); // ...
 ```
-## Example
-This example illustrates how to use the library to do SVC_C classification on an xor problem
+## Basic usage
+This example illustrates how to use the library to train and use an SVM classifier.
 ```js
 async function xor(SVM) {
     const SVM = await require('../wasm');
