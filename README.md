@@ -1,21 +1,48 @@
 # libsvm
-This library uses emscripten to port [libsvm](https://github.com/cjlin1/libsvm) to asm and WebAssembly, for usage in the browser or nodejs.
-
-libsvm version: 3.22
+This library uses emscripten to port [libsvm](https://github.com/cjlin1/libsvm) to asm and WebAssembly, for usage in the browser or nodejs. The ported libsvm version is 3.22.
 
 [Check out the demos](https://mljs.github.io/libsvm/) to see the library in action!
 
-# What are asm and Webassembly ?
-From [asmjs.org](http;//asmjs.org)
-> asm is an optimizable subset of javascript.
+# Usage
 
-From [webassembly.org](http://webassembly.org)
-> WebAssembly or wasm is a new portable, size- and load-time-efficient format suitable for compilation to the web
+## Loading the library
+The main entry point loads the WebAssembly build and is asynchronous.
+```js
+require('libsvm-js').then(SVM => {
+   const svm = new SVM(); // ...
+});
+```
 
-# Should I use asm or WebAssembly ?
-Both. You should try to use WebAssembly first and fall back to asm in order to support all browsers.
+There is an alternative entry point if you want to use asm. This entrypoint is synchronous.
+```js
+const SVM = require('libsvm-js/asm');
+const svm = new SVM(); // ...
+```
+## Example
+This example illustrates how to use the library to do SVC_C classification on an xor problem
+```js
+async function xor(SVM) {
+    const SVM = await require('../wasm');
+    const svm = new SVM({
+        kernel: SVM.KERNEL_TYPES.RBF, // The type of kernel I want to use
+        type: SVM.SVM_TYPES.C_SVC,    // The type of SVM I want to run
+        gamma: 1,                     // RBF kernel gamma parameter
+        cost: 1                       // C_SVC cost parameter
+    });
+    
+    // This is the xor problem
+    // 
+    //  1  0
+    //  0  1
+    
+    const features = [[0,0],[1, 1],[1,0],[0, 1]];
+    const labels = [0, 0, 1, 1];
+    svm.train(features, labels);  // train the model
+    const predictedLabel = svm.predictOne([0.7, 0.8]);   // 0
+}
 
-WebAssembly is currently supported in the latest stable versions of Chrome, Firefox and on preview versions of Safari and Edge.
+xor().then(() => console.log('done!'));
+```
 
 # Benchmarks
 You can compare the performance of the library in various environments. Run `npm run benchmark` to run the benchmarks with native c/c++ code and with the compiled code with your local version of node.js. For browser performance, go to the [web benchmark page](https://mljs.github.io/libsvm/#benchmarks).
@@ -36,6 +63,19 @@ I report the results here for the cross-validation benchmark on the iris dataset
 | Chrome 59.0.3071.83 | 33.3% | 51.6% | 
 | Chrome  60.0.3112.7 | 22.9% | 51.6% |
 | Firefox 53.0.3 | 28.8% | 69.3% |
+
+
+# What are asm and WebAssembly ?
+From [asmjs.org](http;//asmjs.org)
+> asm is an optimizable subset of javascript.
+
+From [webassembly.org](http://webassembly.org)
+> WebAssembly or wasm is a new portable, size- and load-time-efficient format suitable for compilation to the web
+
+# Should I use asm or WebAssembly ?
+Both. You should try to use WebAssembly first and fall back to asm in order to support all browsers.
+
+WebAssembly is currently supported in the latest stable versions of Chrome, Firefox and on preview versions of Safari and Edge.
 
 # API Documentation
 <a name="SVM"></a>
