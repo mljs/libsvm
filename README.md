@@ -1,5 +1,5 @@
 # libsvm
-This library uses emscripten to port [libsvm](https://github.com/cjlin1/libsvm) to asm and WebAssembly, for usage in the browser or nodejs. The ported libsvm version is 3.22.
+This library uses [emscripten](https://github.com/kripken/emscripten) to port [libsvm](https://github.com/cjlin1/libsvm) to asm and WebAssembly, for usage in the browser or nodejs. The ported libsvm version is 3.22.
 
 [Check out the demos](https://mljs.github.io/libsvm/) to see the library in action!
 
