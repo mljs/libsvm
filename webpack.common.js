@@ -10,7 +10,8 @@ module.exports = {
     ],
     output: {
         path: path.resolve(__dirname, 'demo-dist'),
-        filename: 'bundle.js'
+        filename: 'bundle.js',
+        publicPath: '/libsvm/'
     },
 
 
