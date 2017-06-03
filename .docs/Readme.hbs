@@ -23,7 +23,7 @@ npm install libsvm-js
 The main entry point loads the WebAssembly build and is asynchronous.
 ```js
 require('libsvm-js').then(SVM => {
-const svm = new SVM(); // ...
+    const svm = new SVM(); // ...
 });
 ```
 
@@ -35,24 +35,26 @@ const svm = new SVM(); // ...
 ## Basic usage
 This example illustrates how to use the library to train and use an SVM classifier.
 ```js
-async function xor(SVM) {
-const SVM = await require('../wasm');
-const svm = new SVM({
-kernel: SVM.KERNEL_TYPES.RBF, // The type of kernel I want to use
-type: SVM.SVM_TYPES.C_SVC,    // The type of SVM I want to run
-gamma: 1,                     // RBF kernel gamma parameter
-cost: 1                       // C_SVC cost parameter
-});
 
-// This is the xor problem
-//
-//  1  0
-//  0  1
+async function xor() {
+    const SVM = await
+    require('libsvm-js');
+    const svm = new SVM({
+        kernel: SVM.KERNEL_TYPES.RBF, // The type of kernel I want to use
+        type: SVM.SVM_TYPES.C_SVC,    // The type of SVM I want to run
+        gamma: 1,                     // RBF kernel gamma parameter
+        cost: 1                       // C_SVC cost parameter
+    });
 
-const features = [[0,0],[1, 1],[1,0],[0, 1]];
-const labels = [0, 0, 1, 1];
-svm.train(features, labels);  // train the model
-const predictedLabel = svm.predictOne([0.7, 0.8]);   // 0
+    // This is the xor problem
+    //
+    //  1  0
+    //  0  1
+    const features = [[0, 0], [1, 1], [1, 0], [0, 1]];
+    const labels = [0, 0, 1, 1];
+    svm.train(features, labels);  // train the model
+    const predictedLabel = svm.predictOne([0.7, 0.8]);
+    console.log(predictedLabel) // 0
 }
 
 xor().then(() => console.log('done!'));
