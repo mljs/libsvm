@@ -1,11 +1,85 @@
-# libsvm
-This library uses emscripten to port [libsvm](https://github.com/cjlin1/libsvm) to asm and WebAssembly, for usage in the browser or nodejs.
+# [DEMO](https://mljs.github.io/libsvm/)
 
-libsvm version: 3.22
+Port of to port libsvm v3.22 using [emscripten](https://github.com/kripken/emscripten) , for usage in the browser or nodejs. 2 build targets: asm and WebAssembly.
 
-[Check out the demos](https://mljs.github.io/libsvm/) to see the library in action!
+What is libsvm?
+libsvm is a [c++ library](https://github.com/cjlin1/libsvm) developped by Chih-Chung Chang and Chih-Jen Lin that allows to do support vector machine (aka SVM) classification and regression.
 
-# What are asm and Webassembly ?
+Resources about libsvm:
+- [libsvm website](https://www.csie.ntu.edu.tw/~cjlin/libsvm/)
+- [libsvm github repository](https://github.com/cjlin1/libsvm)
+- [Wikipedia article](https://en.wikipedia.org/wiki/Support_vector_machine)
+- Chih-Chung Chang and Chih-Jen Lin, LIBSVM : a library for support vector machines. ACM Transactions on Intelligent Systems and Technology, 2:27:1--27:27, 2011.
+
+
+
+# Usage
+## Install
+```bash
+npm install libsvm-js
+```
+
+## Load
+The main entry point loads the WebAssembly build and is asynchronous.
+```js
+require('libsvm-js').then(SVM => {
+const svm = new SVM(); // ...
+});
+```
+
+There is an alternative entry point if you want to use asm build. This entrypoint is synchronous.
+```js
+const SVM = require('libsvm-js/asm');
+const svm = new SVM(); // ...
+```
+## Basic usage
+This example illustrates how to use the library to train and use an SVM classifier.
+```js
+async function xor(SVM) {
+const SVM = await require('../wasm');
+const svm = new SVM({
+kernel: SVM.KERNEL_TYPES.RBF, // The type of kernel I want to use
+type: SVM.SVM_TYPES.C_SVC,    // The type of SVM I want to run
+gamma: 1,                     // RBF kernel gamma parameter
+cost: 1                       // C_SVC cost parameter
+});
+
+// This is the xor problem
+//
+//  1  0
+//  0  1
+
+const features = [[0,0],[1, 1],[1,0],[0, 1]];
+const labels = [0, 0, 1, 1];
+svm.train(features, labels);  // train the model
+const predictedLabel = svm.predictOne([0.7, 0.8]);   // 0
+}
+
+xor().then(() => console.log('done!'));
+```
+
+# Benchmarks
+You can compare the performance of the library in various environments. Run `npm run benchmark` to run the benchmarks with native c/c++ code and with the compiled code with your local version of node.js. For browser performance, go to the [web benchmark page](https://mljs.github.io/libsvm/#benchmarks).
+
+Speed is mainly affected by the javascript engine that compiles it. Since WebAssembly has been stabilized and is an optimization phase, more recent engines are almost always faster.
+
+Speed is also affected by the version of emscripten that generated the build or the options used in the build. I will try to keep up with any improvement that might significantly impact the performance.
+
+## Cross-validation benchmark
+I report the results here for the cross-validation benchmark on the iris dataset to get a feeling for how performance compares on different platforms. There are other benchmarks that can be run from the terminal in node.js or in the browser. The performance results are given relative to how they run natively (with compiled c++ code). The benchmarks only consider runtime performance, not load and parse performance.
+
+| Platform | Rel asm perf | Rel wasm perf |
+| --- | --- | --- |
+| Native | 100% | 100% |
+| Node.js 8.0.0 | 34.2% | 19.1% |
+| Node.js v7.10.0 | 14.4% | N/A |
+| Chrome 58.0.3029.110 | 22.2% | 20.3% |
+| Chrome 59.0.3071.83 | 33.3% | 51.6% |
+| Chrome  60.0.3112.7 | 22.9% | 51.6% |
+| Firefox 53.0.3 | 28.8% | 69.3% |
+
+
+# What are asm and WebAssembly ?
 From [asmjs.org](http;//asmjs.org)
 > asm is an optimizable subset of javascript.
 
@@ -15,14 +89,9 @@ From [webassembly.org](http://webassembly.org)
 # Should I use asm or WebAssembly ?
 Both. You should try to use WebAssembly first and fall back to asm in order to support all browsers.
 
-WebAssembly is currently supported in the latest stable versions of Chrome, Firefox.
+WebAssembly is currently supported in the latest stable versions of Chrome, Firefox and on preview versions of Safari and Edge.
 
-# Benchmarks
-You can compare the performance of the library in various environments. Run `npm run benchmark` to run the benchmarks with native c/c++ code and with the compiled code with your local version of node.js. For browser performance, go to the [web benchmark page](https://mljs.github.io/libsvm/#benchmarks).
-
-Speed is mainly affected by the javascript engine that compiles it. Since WebAssembly has been stabilized and is an optimization phase, more recent engines are almost always faster.
-
-Speed is also affected by the version of emscripten that generated the build or the options used in the build. I will try to keep up with any improvement that might significantly impact the performance.
+# API Documentation
 
 # API Documentation
 {{>main}}

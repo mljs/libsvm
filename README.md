@@ -23,7 +23,7 @@ npm install libsvm-js
 The main entry point loads the WebAssembly build and is asynchronous.
 ```js
 require('libsvm-js').then(SVM => {
-   const svm = new SVM(); // ...
+const svm = new SVM(); // ...
 });
 ```
 
@@ -36,23 +36,23 @@ const svm = new SVM(); // ...
 This example illustrates how to use the library to train and use an SVM classifier.
 ```js
 async function xor(SVM) {
-    const SVM = await require('../wasm');
-    const svm = new SVM({
-        kernel: SVM.KERNEL_TYPES.RBF, // The type of kernel I want to use
-        type: SVM.SVM_TYPES.C_SVC,    // The type of SVM I want to run
-        gamma: 1,                     // RBF kernel gamma parameter
-        cost: 1                       // C_SVC cost parameter
-    });
-    
-    // This is the xor problem
-    // 
-    //  1  0
-    //  0  1
-    
-    const features = [[0,0],[1, 1],[1,0],[0, 1]];
-    const labels = [0, 0, 1, 1];
-    svm.train(features, labels);  // train the model
-    const predictedLabel = svm.predictOne([0.7, 0.8]);   // 0
+const SVM = await require('../wasm');
+const svm = new SVM({
+kernel: SVM.KERNEL_TYPES.RBF, // The type of kernel I want to use
+type: SVM.SVM_TYPES.C_SVC,    // The type of SVM I want to run
+gamma: 1,                     // RBF kernel gamma parameter
+cost: 1                       // C_SVC cost parameter
+});
+
+// This is the xor problem
+//
+//  1  0
+//  0  1
+
+const features = [[0,0],[1, 1],[1,0],[0, 1]];
+const labels = [0, 0, 1, 1];
+svm.train(features, labels);  // train the model
+const predictedLabel = svm.predictOne([0.7, 0.8]);   // 0
 }
 
 xor().then(() => console.log('done!'));
@@ -74,7 +74,7 @@ I report the results here for the cross-validation benchmark on the iris dataset
 | Node.js 8.0.0 | 34.2% | 19.1% |
 | Node.js v7.10.0 | 14.4% | N/A |
 | Chrome 58.0.3029.110 | 22.2% | 20.3% |
-| Chrome 59.0.3071.83 | 33.3% | 51.6% | 
+| Chrome 59.0.3071.83 | 33.3% | 51.6% |
 | Chrome  60.0.3112.7 | 22.9% | 51.6% |
 | Firefox 53.0.3 | 28.8% | 69.3% |
 
@@ -90,6 +90,8 @@ From [webassembly.org](http://webassembly.org)
 Both. You should try to use WebAssembly first and fall back to asm in order to support all browsers.
 
 WebAssembly is currently supported in the latest stable versions of Chrome, Firefox and on preview versions of Safari and Edge.
+
+# API Documentation
 
 # API Documentation
 <a name="SVM"></a>
