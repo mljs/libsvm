@@ -7,6 +7,7 @@ import SVR from '../components/SVR';
 import Navigation from '../components/Navigation';
 import {Route, HashRouter as Router, Redirect, Switch} from 'react-router-dom';
 import Benchmarks from './Benchmarks';
+import runtime from 'serviceworker-webpack-plugin/lib/runtime';
 
 
 class App extends Component {
@@ -18,6 +19,12 @@ class App extends Component {
 
         window.addEventListener('resize', throttle(onResize, 150));
         onResize();
+    }
+
+    componentDidMount() {
+        if ('serviceWorker' in navigator) {
+            runtime.register();
+        }
     }
 
     render() {

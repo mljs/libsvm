@@ -1,6 +1,7 @@
 'use strict';
 const path = require('path');
 const webpack = require('webpack');
+const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 
 module.exports = {
     entry: [
@@ -68,7 +69,10 @@ module.exports = {
                     }
                 }
             }
-        })
+        }),
+        new ServiceWorkerWebpackPlugin({
+            entry: path.join(__dirname, 'demos/sw.js'),
+        }),
     ],
     node: {
         fs: 'empty'

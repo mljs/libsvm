@@ -3,7 +3,13 @@
   "version": "0.1.0",
   "description": "A port of libsvm to javascript using emscripten",
   "main": "wasm.js",
-  "files": ["src", "dist", "asm.js", "wasm.js", "LICENSE"],
+  "files": [
+    "src",
+    "dist",
+    "asm.js",
+    "wasm.js",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "rimraf dist && make; make clean",
     "demo-build": "rimraf demo-dist && BABEL_ENV=production webpack -p --config webpack.production.js && cp demos/index.html demo-dist",
@@ -87,6 +93,7 @@
     "redux-undo": "1.0.0-beta9-7",
     "reselect": "^2.5.4",
     "rimraf": "^2.6.1",
+    "serviceworker-webpack-plugin": "^0.2.2",
     "should": "^11.2.0",
     "style-loader": "^0.13.2",
     "tether": "^1.4.0",
