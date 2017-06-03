@@ -3,6 +3,8 @@ const path = require('path');
 const webpack = require('webpack');
 const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 
+const publicPath = '/libsvm/';
+
 module.exports = {
     entry: [
         './demos/app.js',
@@ -11,7 +13,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'demo-dist'),
         filename: 'bundle.js',
-        publicPath: '/libsvm/'
+        publicPath
     },
 
 
@@ -73,6 +75,7 @@ module.exports = {
         }),
         new ServiceWorkerWebpackPlugin({
             entry: path.join(__dirname, 'demos/sw.js'),
+            publicPath
         }),
     ],
     node: {
