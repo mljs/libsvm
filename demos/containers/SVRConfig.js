@@ -20,18 +20,18 @@ class SVRConfig extends Component {
                 <table className="svm-config-table">
                     <tbody>
                     <tr>
-                        <td>Regression type</td>
+                        <td><label htmlFor="SVR_type">Regression type</label></td>
                         <td>
-                            <Field name="type" component="select">
+                            <Field name="type" component="select" id="SVR_type">
                                 <option value={SVM.SVM_TYPES.EPSILON_SVR}>EPSILON_SVR</option>
                                 <option value={SVM.SVM_TYPES.NU_SVR}>NU_SVR</option>
                             </Field>
                         </td>
                     </tr>
                     <tr>
-                        <td>Kernel</td>
+                        <td><label htmlFor="SVR_kernel">Kernel</label></td>
                         <td>
-                            <Field name="kernel" component="select">
+                            <Field name="kernel" component="select" id="SVR_kernel">
                                 {Object.keys(KERNEL_TYPES).map(kernel => {
                                     return <option value={KERNEL_TYPES[kernel]}
                                                    key={KERNEL_TYPES[kernel]}>{kernel}
@@ -41,43 +41,47 @@ class SVRConfig extends Component {
                         </td>
                     </tr>
                     <tr>
-                        <td>Cost &nbsp;&nbsp; {costValue && costValue.toExponential(2)}</td>
+                        <td><label htmlFor="SVR_cost">Cost &nbsp;&nbsp; {costValue && costValue.toExponential(2)}</label></td>
                         <td>
                             <Field name="cost" component="input" step="0.2" type="range" min="-3" max="3"
                                    normalize={log10Normalize} format={Math.log10}
                                    style={{verticalAlign: 'text-top'}}
+                                   id="SVC_cost"
                             />
                         </td>
                     </tr>
                     <tr style={{display: kernelValue === KERNEL_TYPES.LINEAR ? 'none' : ''}}>
-                        <td>Gamma &nbsp;&nbsp; {gammaValue && gammaValue.toExponential(2)}</td>
+                        <td><label htmlFor="SVR_gamma">Gamma &nbsp;&nbsp; {gammaValue && gammaValue.toExponential(2)}</label></td>
                         <td>
                             <Field name="gamma" component="input" step="0.2" type="range" min="-3" max="3"
                                    normalize={log10Normalize} format={Math.log10}
+                                   id="SVR_gamma"
                             />
                         </td>
                     </tr>
                     <tr style={{display: kernelValue === KERNEL_TYPES.POLYNOMIAL ? '' : 'none'}}>
-                        <td>Polynomial degree</td>
+                        <td><label htmlFor="SVR_degree">Polynomial degree</label></td>
                         <td>
-                            <Field name="degree" component="input" type="number" />
+                            <Field name="degree" component="input" type="number" id="SVR_degree" />
                         </td>
                     </tr>
                     <tr style={{display: typeValue === SVM.SVM_TYPES.EPSILON_SVR ? '' : 'none'}}>
-                        <td>Epsilon &nbsp;&nbsp; {epsilonValue && epsilonValue.toExponential(2)}</td>
+                        <td><label htmlFor="SVR_epsilon">Epsilon &nbsp;&nbsp; {epsilonValue && epsilonValue.toExponential(2)}</label></td>
                         <td>
                             <Field name="epsilon" component="input" step="0.02" type="range" min="0.01" max="0.5"
                                    style={{verticalAlign: 'text-top'}}
                                    normalize={n => +n}
+                                   id="SVR_epsilon"
                             />
                         </td>
                     </tr>
                     <tr style={{display: typeValue === SVM.SVM_TYPES.NU_SVR ? '' : 'none'}}>
-                        <td>Nu &nbsp;&nbsp; {nuValue && nuValue.toExponential(2)}</td>
+                        <td><label htmlFor="SVR_nu">Nu &nbsp;&nbsp; {nuValue && nuValue.toExponential(2)}</label></td>
                         <td>
                             <Field name="nu" component="input" step="0.02" type="range" min="0.01" max="0.5"
                                    style={{verticalAlign: 'text-top'}}
                                    normalize={n => +n}
+                                   id="SVR_nu"
                             />
                         </td>
                     </tr>

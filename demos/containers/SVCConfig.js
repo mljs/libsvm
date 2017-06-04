@@ -20,9 +20,9 @@ class SVCConfig extends Component {
                 <table className="svm-config-table">
                     <tbody>
                     <tr>
-                        <td>Classification type</td>
+                        <td><label htmlFor="SVC_type" >Classification type</label></td>
                         <td>
-                            <Field name="type" component="select">
+                            <Field name="type" component="select" id="SVC_type">
                                 <option value={SVM.SVM_TYPES.C_SVC}>C_SVC</option>
                                 <option value={SVM.SVM_TYPES.NU_SVC}>NU_SVC</option>
                                 <option value={SVM.SVM_TYPES.ONE_CLASS}>ONE_CLASS</option>
@@ -30,9 +30,9 @@ class SVCConfig extends Component {
                         </td>
                     </tr>
                     <tr>
-                        <td>Kernel</td>
+                        <td><label htmlFor="SVC_kernel" >Kernel caca</label></td>
                         <td>
-                            <Field name="kernel" component="select">
+                            <Field name="kernel" component="select" id="SVC_kernel">
                                 {Object.keys(KERNEL_TYPES).map(kernel => {
                                     return <option value={KERNEL_TYPES[kernel]}
                                                    key={KERNEL_TYPES[kernel]}>{kernel}
@@ -42,42 +42,45 @@ class SVCConfig extends Component {
                         </td>
                     </tr>
                     <tr style={{display: typeValue === SVM.SVM_TYPES.C_SVC ? '' : 'none'}}>
-                        <td>Cost &nbsp;&nbsp; {costValue && costValue.toExponential(2)}</td>
+                        <td><label htmlFor="SVC_cost">Cost &nbsp;&nbsp; {costValue && costValue.toExponential(2)}</label></td>
                         <td>
                             <Field name="cost" component="input" step="0.2" type="range" min="-3" max="3"
                                    normalize={log10Normalize} format={Math.log10}
                                    style={{verticalAlign: 'text-top'}}
+                                   id="SVC_cost"
                             />
                         </td>
                     </tr>
                     <tr style={{display: typeValue !== SVM.SVM_TYPES.C_SVC ? '' : 'none'}}>
-                        <td>Nu &nbsp;&nbsp; {nuValue && nuValue.toExponential(2)}</td>
+                        <td><label htmlFor="SVC_nu">Nu &nbsp;&nbsp; {nuValue && nuValue.toExponential(2)}</label></td>
                         <td>
                             <Field name="nu" component="input" step="0.1" type="range" min="0" max="1"
                                    normalize={val => +val}
                                    style={{verticalAlign: 'text-top'}}
+                                   id="SVC_nu"
                             />
                         </td>
                     </tr>
                     <tr style={{display: kernelValue === KERNEL_TYPES.LINEAR ? 'none' : ''}}>
-                        <td>Gamma &nbsp;&nbsp; {gammaValue && gammaValue.toExponential(2)}</td>
+                        <td><label htmlFor="SVC_gamma">Gamma &nbsp;&nbsp; {gammaValue && gammaValue.toExponential(2)}</label></td>
                         <td>
                             <Field name="gamma" component="input" step="0.2" type="range" min="-3" max="3"
                                    normalize={log10Normalize} format={Math.log10}
                                    style={{verticalAlign: 'text-top'}}
+                                   id="SVC_gamma"
                             />
                         </td>
                     </tr>
                     <tr style={{display: kernelValue === KERNEL_TYPES.POLYNOMIAL ? '' : 'none'}}>
-                        <td>Polynomial degree</td>
+                        <td><label htmlFor="SVC_degree">Polynomial degree</label></td>
                         <td>
-                            <Field name="degree" component="input" type="number" />
+                            <Field id="SVC_degree" name="degree" component="input" type="number" />
                         </td>
                     </tr>
                     <tr style={{display: typeValue !== SVM.SVM_TYPES.ONE_CLASS ? '' : 'none'}}>
-                        <td>Correct for unbalanced data set</td>
+                        <td><label htmlFor="SVC_weight">Correct for unbalanced data set</label></td>
                         <td>
-                            <Field name="weight" component="input" type="checkbox" />
+                            <Field id="SVC_weight" name="weight" component="input" type="checkbox" />
                         </td>
                     </tr>
                     </tbody>
