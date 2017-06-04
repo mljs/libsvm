@@ -9,6 +9,7 @@ import 'tether';
 import 'bootstrap';
 import './style.css';
 import 'font-awesome-webpack';
+import './manifest.json';
 
 const app = document.getElementById('app');
 

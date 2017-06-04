@@ -45,6 +45,13 @@ module.exports = {
                 }
             },
             {
+                test: /manifest\.json$/,
+                loader: 'file-loader',
+                query: {
+                    name: 'manifest.json'
+                }
+            },
+            {
                 test: require.resolve('jquery'),
                 loader: 'imports-loader'
             },
