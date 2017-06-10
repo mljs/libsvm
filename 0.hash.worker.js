@@ -104,16 +104,6 @@ exports.default = function () {
     return exec;
 }();
 
-;
-
-var _temp = function () {
-    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-        return;
-    }
-}();
-
-;
-
 /***/ }),
 /* 2 */,
 /* 3 */,
@@ -1347,21 +1337,6 @@ function exec(SVM, time) {
 }
 
 module.exports = exec;
-;
-
-var _temp = function () {
-    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-        return;
-    }
-
-    __REACT_HOT_LOADER__.register(exec, 'exec', '/home/stropitek/projects/mljs/libsvm-js/benchmark/iris/cross-validation-benchmark.js');
-
-    __REACT_HOT_LOADER__.register(gamma, 'gamma', '/home/stropitek/projects/mljs/libsvm-js/benchmark/iris/cross-validation-benchmark.js');
-
-    __REACT_HOT_LOADER__.register(cost, 'cost', '/home/stropitek/projects/mljs/libsvm-js/benchmark/iris/cross-validation-benchmark.js');
-}();
-
-;
 
 /***/ }),
 /* 179 */
@@ -1461,21 +1436,6 @@ function exec(SVM, time) {
 }
 
 module.exports = exec;
-;
-
-var _temp = function () {
-    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-        return;
-    }
-
-    __REACT_HOT_LOADER__.register(exec, 'exec', '/home/stropitek/projects/mljs/libsvm-js/benchmark/iris/grid-search-benchmark.js');
-
-    __REACT_HOT_LOADER__.register(gamma, 'gamma', '/home/stropitek/projects/mljs/libsvm-js/benchmark/iris/grid-search-benchmark.js');
-
-    __REACT_HOT_LOADER__.register(cost, 'cost', '/home/stropitek/projects/mljs/libsvm-js/benchmark/iris/grid-search-benchmark.js');
-}();
-
-;
 
 /***/ }),
 /* 180 */
@@ -1513,35 +1473,6 @@ function pow10(val) {
 module.exports = {
     gamma: gamma, cost: cost
 };
-;
-
-var _temp = function () {
-    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-        return;
-    }
-
-    __REACT_HOT_LOADER__.register(normalize, 'normalize', '/home/stropitek/projects/mljs/libsvm-js/benchmark/iris/util.js');
-
-    __REACT_HOT_LOADER__.register(pow10, 'pow10', '/home/stropitek/projects/mljs/libsvm-js/benchmark/iris/util.js');
-
-    __REACT_HOT_LOADER__.register(COST_GRID_SIZE, 'COST_GRID_SIZE', '/home/stropitek/projects/mljs/libsvm-js/benchmark/iris/util.js');
-
-    __REACT_HOT_LOADER__.register(GAMMA_GRID_SIZE, 'GAMMA_GRID_SIZE', '/home/stropitek/projects/mljs/libsvm-js/benchmark/iris/util.js');
-
-    __REACT_HOT_LOADER__.register(COST_MIN, 'COST_MIN', '/home/stropitek/projects/mljs/libsvm-js/benchmark/iris/util.js');
-
-    __REACT_HOT_LOADER__.register(COST_MAX, 'COST_MAX', '/home/stropitek/projects/mljs/libsvm-js/benchmark/iris/util.js');
-
-    __REACT_HOT_LOADER__.register(GAMMA_MIN, 'GAMMA_MIN', '/home/stropitek/projects/mljs/libsvm-js/benchmark/iris/util.js');
-
-    __REACT_HOT_LOADER__.register(GAMMA_MAX, 'GAMMA_MAX', '/home/stropitek/projects/mljs/libsvm-js/benchmark/iris/util.js');
-
-    __REACT_HOT_LOADER__.register(gamma, 'gamma', '/home/stropitek/projects/mljs/libsvm-js/benchmark/iris/util.js');
-
-    __REACT_HOT_LOADER__.register(cost, 'cost', '/home/stropitek/projects/mljs/libsvm-js/benchmark/iris/util.js');
-}();
-
-;
 
 /***/ }),
 /* 181 */,
