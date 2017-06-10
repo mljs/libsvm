@@ -2,6 +2,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 const publicPath = '/libsvm/';
 
@@ -70,6 +72,8 @@ module.exports = {
         ]
     },
     plugins: [
+        new LodashModuleReplacementPlugin(),
+        new BundleAnalyzerPlugin(),
         new webpack.LoaderOptionsPlugin({
             options: {
                 worker: {

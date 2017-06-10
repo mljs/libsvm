@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {updateStyleBreakpoint} from '../actions/index';
-import throttle from 'lodash.throttle';
+import {throttle} from 'lodash-es';
 import {connect} from 'react-redux';
 import SVC from '../components/SVC';
 import SVR from '../components/SVR';

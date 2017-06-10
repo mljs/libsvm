@@ -1,8 +1,5 @@
 import {createSelectorCreator, defaultMemoize} from 'reselect';
-import isEqual from 'lodash.isequal';
-import countBy from 'lodash.countby';
-import reduce from 'lodash.reduce';
-import mapValues from 'lodash.mapvalues';
+import {isEqual, countBy, reduce, mapValues} from 'lodash-es';
 import {LABELS_COLORS, ONE_CLASS_LABEL_COLORS, TWO_CLASS_LABEL_COLORS} from '../constants';
 
 import {CANVAS_RESOLUTION, CANVAS_SCALE_FACTOR} from '../constants';

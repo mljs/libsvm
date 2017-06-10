@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Loading from 'react-loading';
+import Loading from 'react-loading-animation';
 
 export default class Benchmarks extends Component {
     constructor(props) {
@@ -32,14 +32,17 @@ export default class Benchmarks extends Component {
             time: 5
         });
         this.setState({
-            asmTime: 'running',
-            wasmTime: 'running'
+            asmTime: 'sent',
+            wasmTime: 'sent'
         });
     }
 
     render() {
         const {asmTime, wasmTime} = this.state;
         const disabled = asmTime === 'running' || wasmTime === 'running';
+        let AsmRender = getResultComponent(asmTime);
+        let WasmRender = getResultComponent(wasmTime);
+
         const Description = this.props.description || (() => null);
         return (
             <div>
@@ -47,8 +50,8 @@ export default class Benchmarks extends Component {
                 <h3>{this.props.name}</h3>
                 <Description />
                 <div style={{lineHeight: '32px', display: 'flex'}}>
-                    asm: {asmTime === 'running' ? <MySpinner /> : asmTime} &nbsp;
-                    wasm: {wasmTime === 'running' ? <MySpinner /> : wasmTime } &nbsp;
+                    asm: &nbsp; <AsmRender /> &nbsp;
+                    wasm: &nbsp; <WasmRender /> &nbsp;
                     <input type="button" className="btn btn-info" value="Run" onClick={this.onRun.bind(this)} disabled={disabled} />
                 </div>
             </div>
@@ -56,11 +59,22 @@ export default class Benchmarks extends Component {
     }
 }
 
+function getResultComponent(time) {
+    switch(time) {
+        case 'running':
+            return () => <MySpinner />;
+        case 'sent':
+            return () => <div></div>;
+        default:
+            return () => <div>{time}</div>;
+    }
+}
+
 
 function MySpinner() {
     return (
-        <div style={{display: 'inline-block', height: 32, width: 32}}>
-            <Loading type="bubbles" width={32} height={32} color="black" />
+        <div style={{display: 'inline-block', height: 24, width: 24}}>
+            <Loading style={{width: 24, height: 24}}/>
         </div>
     );
 }
