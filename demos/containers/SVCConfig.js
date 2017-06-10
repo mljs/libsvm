@@ -30,7 +30,7 @@ class SVCConfig extends Component {
                         </td>
                     </tr>
                     <tr>
-                        <td><label htmlFor="SVC_kernel" >Kernel caca</label></td>
+                        <td><label htmlFor="SVC_kernel" >Kernel</label></td>
                         <td>
                             <Field name="kernel" component="select" id="SVC_kernel">
                                 {Object.keys(KERNEL_TYPES).map(kernel => {
