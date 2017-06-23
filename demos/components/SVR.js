@@ -7,7 +7,7 @@ export default function () {
     return (
         <div>
             <h2>Support vector regression</h2>
-            <div className="row">
+            <div className="row justify-content-end mt-4 mb-4">
                 <div className="col-lg-7 col-xl-7 col-md-12 col-sm-12 col-xs-12">
                     <Canvas style={{imageRendering: 'pixelated', float: 'left'}} />
                     <ControlBar vertical={true} style={{paddingLeft: 4}} />
