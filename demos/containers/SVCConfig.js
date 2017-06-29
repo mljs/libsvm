@@ -1,16 +1,22 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Field, reduxForm, formValueSelector} from 'redux-form';
+const util = require('../../src/util');
 const KERNEL_TYPES = SVM.KERNEL_TYPES;
 
-const initialValues = {
+const initialOptions = util.getOptions('-c 1 -g 1 -t 0');
+const initialDefaultOptions = {
     type: SVM.SVM_TYPES.C_SVC,
     cost: 1,
     nu: 0.5,
     gamma: 1,
     degree: 3,
-    kernel: KERNEL_TYPES.RBF
+    kernel: KERNEL_TYPES.LINEAR
 };
+
+const initialValues = Object.assign({}, initialDefaultOptions, initialOptions);
+
+console.log(initialValues);
 
 class SVCConfig extends Component {
     render() {

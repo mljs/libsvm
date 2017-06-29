@@ -62,7 +62,8 @@ export const getSVCData = createSelector(
                 } else {
                     SVCConfig.weight = null;
                 }
-                const svm = new SVM({...SVCConfig, quiet: true});
+                const svm = new SVM({...SVCConfig, quiet: false});
+                console.log(svm.getCommand());
                 svm.train(SVCPoints.points, SVCPoints.labels);
                 SVs = svm.getSVIndices();
 

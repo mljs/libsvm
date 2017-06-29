@@ -32,8 +32,20 @@ function SVCPointsReducer(state = defaultState, action) {
         case SVC_CLEAR_POINTS: {
             return {
                 ...state,
-                points: [],
-                labels: []
+                points: [
+                    [
+                        0.27666666666666667,
+                        0.6866666666666666
+                    ],
+                    [
+                        0.6066666666666667,
+                        0.28
+                    ]
+                ],
+                labels: [
+                    1,
+                    2
+                ]
             };
         }
         default:
