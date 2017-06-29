@@ -16,6 +16,12 @@ const mapOptionToCommand = {
     weight: 'w'
 };
 
+const mapCommandToOptions = {};
+
+for(let key in mapOptionToCommand) {
+    mapCommandToOptions[mapOptionToCommand[key]] = key;
+}
+
 module.exports = {
     getCommand: function getCommand(options) {
         var str = '';
@@ -52,5 +58,19 @@ module.exports = {
         }
 
         return str;
+    },
+
+    getOptions(command) {
+        const options = {};
+        command = command.split(' ').map(str => str.trim()).map(str => str.replace(/^-/, ''));
+        let i = 0;
+        while(i<command.length) {
+            let val = parseFloat(command[++i]);
+            if(Number.isNaN(val)) val = command[i];
+            options[mapCommandToOptions[command[i-1]]] = val;
+            ++i;
+        }
+        console.log(options);
+        return options;
     }
 };
