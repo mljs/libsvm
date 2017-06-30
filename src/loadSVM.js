@@ -57,8 +57,6 @@ module.exports = function (libsvm) {
             const problem = createProblem(samples, labels);
             const command = this.getCommand();
             this.model = train_problem(problem, command);
-            // Free the problem
-            free_problem(problem);
         }
 
         /**
@@ -94,6 +92,7 @@ module.exports = function (libsvm) {
          */
         free() {
             if (this.model !== null) {
+                free_problem(problem);
                 svm_free_model(this.model);
                 this.model = null;
             }
