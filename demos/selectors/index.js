@@ -55,13 +55,6 @@ export const getSVCData = createSelector(
                 };
             });
             if (points.length) {
-                if (SVCConfig.weight) {
-                    const classes = countBy(SVCPoints.labels);
-                    const total = reduce(classes, (sum, n) => sum + n, 0);
-                    SVCConfig.weight = mapValues(classes, c => c / total);
-                } else {
-                    SVCConfig.weight = null;
-                }
                 const svm = new SVM({...SVCConfig, quiet: true});
                 svm.train(SVCPoints.points, SVCPoints.labels);
                 SVs = svm.getSVIndices();

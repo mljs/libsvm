@@ -86,7 +86,7 @@ module.exports = function (libsvm) {
          * Free the memory allocated for the model. Since this memory is stored in the memory model of emscripten, it is
          * allocated within an ArrayBuffer and WILL NOT BE GARBARGE COLLECTED, you have to explicitly free it. So
          * not calling this will result in memory leaks. As of today in the browser, there is no way to hook the
-         * garabage collection of the SVM object to free it automatically.
+         * garbage collection of the SVM object to free it automatically.
          * Free the memory that was created by the compiled libsvm library to.
          * store the model. This model is reused every time the predict method is called.
          */

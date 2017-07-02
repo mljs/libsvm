@@ -77,12 +77,6 @@ class SVCConfig extends Component {
                             <Field id="SVC_degree" name="degree" component="input" type="number" />
                         </td>
                     </tr>
-                    <tr style={{display: typeValue !== SVM.SVM_TYPES.ONE_CLASS ? '' : 'none'}}>
-                        <td><label htmlFor="SVC_weight">Correct for unbalanced data set</label></td>
-                        <td>
-                            <Field id="SVC_weight" name="weight" component="input" type="checkbox" />
-                        </td>
-                    </tr>
                     </tbody>
                 </table>
             </form>
