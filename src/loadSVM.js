@@ -54,9 +54,9 @@ module.exports = function (libsvm) {
         train(samples, labels) {
             if (this._deserialized) throw new Error('Train cannot be called on instance created with SVM.load');
             this.free();
-            const problem = createProblem(samples, labels);
+            this.problem = createProblem(samples, labels);
             const command = this.getCommand();
-            this.model = train_problem(problem, command);
+            this.model = train_problem(this.problem, command);
         }
 
         /**
@@ -91,8 +91,11 @@ module.exports = function (libsvm) {
          * store the model. This model is reused every time the predict method is called.
          */
         free() {
+            if(this.problem) {
+                free_problem(this.problem);
+                this.problem = null;
+            }
             if (this.model !== null) {
-                free_problem(problem);
                 svm_free_model(this.model);
                 this.model = null;
             }
