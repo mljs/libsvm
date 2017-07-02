@@ -79,6 +79,7 @@ module.exports = function (libsvm) {
             const data = libsvm.HEAPF64.subarray(target / 8, target / 8 + labels.length);
             const arr = Array.from(data);
             libsvm._free(target);
+            free_problem(problem);
             return arr;
         }
 
