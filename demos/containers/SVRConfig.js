@@ -1,20 +1,19 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Field, reduxForm, formValueSelector} from 'redux-form';
+import {getFields, KERNEL, getHyperParameters} from '../util/fields';
+import TableConfigField from '../components/TableConfigField';
 const KERNEL_TYPES = SVM.KERNEL_TYPES;
+
 const initialValues = {
     type: SVM.SVM_TYPES.EPSILON_SVR,
-    epsilon: 0.1,
-    nu: 0.1,
-    kernel: KERNEL_TYPES.RBF,
-    degree: 3,
-    gamma: 1,
-    cost: 1
 };
+
+getFields().forEach(field => initialValues[field.name] = field.initial);
 
 class SVRConfig extends Component {
     render() {
-        const {kernelValue, epsilonValue, costValue, gammaValue, nuValue, typeValue} = this.props;
+        const {kernelValue, typeValue} = this.props;
         return (
             <form onSubmit={this.props.handleSubmit}>
                 <table className="svm-config-table">
@@ -28,63 +27,11 @@ class SVRConfig extends Component {
                             </Field>
                         </td>
                     </tr>
-                    <tr>
-                        <td><label htmlFor="SVR_kernel">Kernel</label></td>
-                        <td>
-                            <Field name="kernel" component="select" id="SVR_kernel">
-                                {Object.keys(KERNEL_TYPES).map(kernel => {
-                                    return <option value={KERNEL_TYPES[kernel]}
-                                                   key={KERNEL_TYPES[kernel]}>{kernel}
-                                    </option>;
-                                })}
-                            </Field>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label htmlFor="SVR_cost">Cost &nbsp;&nbsp; {costValue && costValue.toExponential(2)}</label></td>
-                        <td>
-                            <Field name="cost" component="input" step="0.2" type="range" min="-3" max="3"
-                                   normalize={log10Normalize} format={Math.log10}
-                                   style={{verticalAlign: 'text-top'}}
-                                   id="SVC_cost"
-                            />
-                        </td>
-                    </tr>
-                    <tr style={{display: kernelValue === KERNEL_TYPES.LINEAR ? 'none' : ''}}>
-                        <td><label htmlFor="SVR_gamma">Gamma &nbsp;&nbsp; {gammaValue && gammaValue.toExponential(2)}</label></td>
-                        <td>
-                            <Field name="gamma" component="input" step="0.2" type="range" min="-3" max="3"
-                                   normalize={log10Normalize} format={Math.log10}
-                                   id="SVR_gamma"
-                            />
-                        </td>
-                    </tr>
-                    <tr style={{display: kernelValue === KERNEL_TYPES.POLYNOMIAL ? '' : 'none'}}>
-                        <td><label htmlFor="SVR_degree">Polynomial degree</label></td>
-                        <td>
-                            <Field name="degree" component="input" type="number" id="SVR_degree" />
-                        </td>
-                    </tr>
-                    <tr style={{display: typeValue === SVM.SVM_TYPES.EPSILON_SVR ? '' : 'none'}}>
-                        <td><label htmlFor="SVR_epsilon">Epsilon &nbsp;&nbsp; {epsilonValue && epsilonValue.toExponential(2)}</label></td>
-                        <td>
-                            <Field name="epsilon" component="input" step="0.02" type="range" min="0.01" max="0.5"
-                                   style={{verticalAlign: 'text-top'}}
-                                   normalize={n => +n}
-                                   id="SVR_epsilon"
-                            />
-                        </td>
-                    </tr>
-                    <tr style={{display: typeValue === SVM.SVM_TYPES.NU_SVR ? '' : 'none'}}>
-                        <td><label htmlFor="SVR_nu">Nu &nbsp;&nbsp; {nuValue && nuValue.toExponential(2)}</label></td>
-                        <td>
-                            <Field name="nu" component="input" step="0.02" type="range" min="0.01" max="0.5"
-                                   style={{verticalAlign: 'text-top'}}
-                                   normalize={n => +n}
-                                   id="SVR_nu"
-                            />
-                        </td>
-                    </tr>
+                    <TableConfigField {...KERNEL} />
+                    {getHyperParameters(typeValue, kernelValue).map(param => {
+                        const value = this.props.getValue(param.name);
+                        return <TableConfigField {...param} value={value} />
+                    })}
                     </tbody>
                 </table>
             </form>
@@ -111,7 +58,9 @@ function mapStateToProps(state) {
     const nuValue = selector(state, 'nu');
     const typeValue = selector(state, 'type');
     return {
-        epsilonValue, kernelValue, gammaValue, costValue, nuValue, typeValue
+        epsilonValue, kernelValue, gammaValue, costValue, nuValue, typeValue, getValue(name) {
+            return selector(state, name);
+        }
     };
 
 }

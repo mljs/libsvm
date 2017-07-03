@@ -1,20 +1,21 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Field, reduxForm, formValueSelector} from 'redux-form';
-const KERNEL_TYPES = SVM.KERNEL_TYPES;
+import {findHyperParameters} from '../actions/SVC';
+import {getHyperParameters, KERNEL, getFields} from '../util/fields';
+import TableConfigField from '../components/TableConfigField';
 
 const initialValues = {
     type: SVM.SVM_TYPES.C_SVC,
-    cost: 1,
-    nu: 0.5,
-    gamma: 1,
-    degree: 3,
-    kernel: KERNEL_TYPES.RBF
 };
+getFields().forEach(field => initialValues[field.name] = field.initial);
+
+console.log(initialValues);
 
 class SVCConfig extends Component {
     render() {
-        const {gammaValue, costValue, kernelValue, nuValue, typeValue} = this.props;
+        const {kernelValue, typeValue} = this.props;
+
         return (
             <form onSubmit={this.props.handleSubmit}>
                 <table className="svm-config-table">
@@ -29,63 +30,18 @@ class SVCConfig extends Component {
                             </Field>
                         </td>
                     </tr>
+                    <TableConfigField {...KERNEL} />
+                    {getHyperParameters(typeValue, kernelValue).map(param => {
+                        return <TableConfigField key={param.id} {...param} value={this.props.getValue(param.name)}/>
+                    })}
                     <tr>
-                        <td><label htmlFor="SVC_kernel" >Kernel</label></td>
-                        <td>
-                            <Field name="kernel" component="select" id="SVC_kernel">
-                                {Object.keys(KERNEL_TYPES).map(kernel => {
-                                    return <option value={KERNEL_TYPES[kernel]}
-                                                   key={KERNEL_TYPES[kernel]}>{kernel}
-                                            </option>;
-                                })}
-                            </Field>
-                        </td>
-                    </tr>
-                    <tr style={{display: typeValue === SVM.SVM_TYPES.C_SVC ? '' : 'none'}}>
-                        <td><label htmlFor="SVC_cost">Cost &nbsp;&nbsp; {costValue && costValue.toExponential(2)}</label></td>
-                        <td>
-                            <Field name="cost" component="input" step="0.2" type="range" min="-3" max="3"
-                                   normalize={log10Normalize} format={Math.log10}
-                                   style={{verticalAlign: 'text-top'}}
-                                   id="SVC_cost"
-                            />
-                        </td>
-                    </tr>
-                    <tr style={{display: typeValue !== SVM.SVM_TYPES.C_SVC ? '' : 'none'}}>
-                        <td><label htmlFor="SVC_nu">Nu &nbsp;&nbsp; {nuValue && nuValue.toExponential(2)}</label></td>
-                        <td>
-                            <Field name="nu" component="input" step="0.1" type="range" min="0" max="1"
-                                   normalize={val => +val}
-                                   style={{verticalAlign: 'text-top'}}
-                                   id="SVC_nu"
-                            />
-                        </td>
-                    </tr>
-                    <tr style={{display: kernelValue === KERNEL_TYPES.LINEAR ? 'none' : ''}}>
-                        <td><label htmlFor="SVC_gamma">Gamma &nbsp;&nbsp; {gammaValue && gammaValue.toExponential(2)}</label></td>
-                        <td>
-                            <Field name="gamma" component="input" step="0.2" type="range" min="-3" max="3"
-                                   normalize={log10Normalize} format={Math.log10}
-                                   style={{verticalAlign: 'text-top'}}
-                                   id="SVC_gamma"
-                            />
-                        </td>
-                    </tr>
-                    <tr style={{display: kernelValue === KERNEL_TYPES.POLYNOMIAL ? '' : 'none'}}>
-                        <td><label htmlFor="SVC_degree">Polynomial degree</label></td>
-                        <td>
-                            <Field id="SVC_degree" name="degree" component="input" type="number" />
-                        </td>
+                        <input onClick={() => this.props.findHyperParameters()} type="button" value="Find best hyper-parameters" />
                     </tr>
                     </tbody>
                 </table>
             </form>
         );
     }
-}
-
-function log10Normalize(value) {
-    return Math.pow(10, value);
 }
 
 const SVCConfigForm = reduxForm({
@@ -102,8 +58,10 @@ function mapStateToProps(state) {
     const gammaValue = selector(state, 'gamma');
     const typeValue = selector(state, 'type');
     return {
-        kernelValue, costValue, gammaValue, typeValue, nuValue
+        kernelValue, costValue, gammaValue, typeValue, nuValue, getValue: function(name) {
+            return selector(state, name);
+        }
     };
 
 }
-export default connect(mapStateToProps)(SVCConfigForm);
+export default connect(mapStateToProps, {findHyperParameters})(SVCConfigForm);
