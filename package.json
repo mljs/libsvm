@@ -17,7 +17,7 @@
     "docs": "jsdoc2md src/loadSVM.js -t .docs/Readme.hbs --no-cache > README.md",
     "eslint": "eslint src demos",
     "eslint-fix": "eslint --fix src demos",
-    "serve": "webpack-dev-server",
+    "start": "webpack-dev-server",
     "test": "npm run test-mocha && npm run eslint",
     "test-mocha": "mocha --require should --recursive test",
     "build-benchmark": "(cd benchmark/iris; make)",
