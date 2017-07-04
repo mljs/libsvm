@@ -12,8 +12,8 @@ class ChooseLabel extends Component {
     renderColorButton(color, idx) {
         return (
             <div key={idx} style={{backgroundColor: color, marginBottom: 5}}
-                 className={`choose-label-element${this.props.activeLabel === idx ? ' choose-label-element-active' : ''}`}
-                 onClick={() => this.onLabelClick(idx)}
+                className={`choose-label-element${this.props.activeLabel === idx ? ' choose-label-element-active' : ''}`}
+                onClick={() => this.onLabelClick(idx)}
             />
         );
     }

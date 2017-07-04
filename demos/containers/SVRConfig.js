@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {Field, reduxForm, formValueSelector} from 'redux-form';
 import {getFields, KERNEL, getHyperParameters} from '../util/fields';
 import TableConfigField from '../components/TableConfigField';
-const KERNEL_TYPES = SVM.KERNEL_TYPES;
 
 const initialValues = {
     type: SVM.SVM_TYPES.EPSILON_SVR,
@@ -18,29 +17,25 @@ class SVRConfig extends Component {
             <form onSubmit={this.props.handleSubmit}>
                 <table className="svm-config-table">
                     <tbody>
-                    <tr>
-                        <td><label htmlFor="SVR_type">Regression type</label></td>
-                        <td>
-                            <Field name="type" component="select" id="SVR_type">
-                                <option value={SVM.SVM_TYPES.EPSILON_SVR}>EPSILON_SVR</option>
-                                <option value={SVM.SVM_TYPES.NU_SVR}>NU_SVR</option>
-                            </Field>
-                        </td>
-                    </tr>
-                    <TableConfigField {...KERNEL} />
-                    {getHyperParameters(typeValue, kernelValue).map(param => {
-                        const value = this.props.getValue(param.name);
-                        return <TableConfigField {...param} value={value} />
-                    })}
+                        <tr>
+                            <td><label htmlFor="SVR_type">Regression type</label></td>
+                            <td>
+                                <Field name="type" component="select" id="SVR_type">
+                                    <option value={SVM.SVM_TYPES.EPSILON_SVR}>EPSILON_SVR</option>
+                                    <option value={SVM.SVM_TYPES.NU_SVR}>NU_SVR</option>
+                                </Field>
+                            </td>
+                        </tr>
+                        <TableConfigField {...KERNEL} />
+                        {getHyperParameters(typeValue, kernelValue).map(param => {
+                            const value = this.props.getValue(param.name);
+                            return <TableConfigField {...param} value={value} />;
+                        })}
                     </tbody>
                 </table>
             </form>
         );
     }
-}
-
-function log10Normalize(value) {
-    return 10 ** value;
 }
 
 const SVRConfigForm = reduxForm({

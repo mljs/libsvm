@@ -66,33 +66,29 @@ export const DEGREE = {
 export function getFields() {
     return [
         KERNEL, COST, GAMMA, NU, EPSILON, DEGREE
-    ]
+    ];
 }
 
 export function getHyperParameters(type, kernel) {
     const fields = [];
-    if(isNu(type)) {
+    if (isNu(type)) {
         fields.push(NU);
     }
-    if(isCost(type)) {
+    if (isCost(type)) {
         fields.push(COST);
     }
-    if(hasGamma(kernel)) {
+    if (hasGamma(kernel)) {
         fields.push(GAMMA);
     }
 
-    if(kernel === SVM.KERNEL_TYPES.POLYNOMIAL) {
+    if (kernel === SVM.KERNEL_TYPES.POLYNOMIAL) {
         fields.push(DEGREE);
     }
 
-    if(type === SVM.SVM_TYPES.EPSILON_SVR) {
+    if (type === SVM.SVM_TYPES.EPSILON_SVR) {
         fields.push(EPSILON);
     }
     return fields;
-}
-
-function identity(value) {
-    return value;
 }
 
 function pow10(value) {
@@ -111,13 +107,13 @@ function hasGamma(kernel) {
     return kernel === SVM.KERNEL_TYPES.RBF || kernel === SVM.KERNEL_TYPES.SIGMOID || kernel === SVM.KERNEL_TYPES.POLYNOMIAL;
 }
 
-function isClassification(type) {
-    return type === SVM.SVM_TYPES.C_SVC || type === SVM.SVM_TYPES.ONE_CLASS || type === SVM.SVM_TYPES.NU_SVC;
-}
-
-function isRegression(type) {
-    return type === SVM.SVM_TYPES.EPSILON_SVR || type === SVM.SVM_TYPES.NU_SVR;
-}
+// function isClassification(type) {
+//     return type === SVM.SVM_TYPES.C_SVC || type === SVM.SVM_TYPES.ONE_CLASS || type === SVM.SVM_TYPES.NU_SVC;
+// }
+//
+// function isRegression(type) {
+//     return type === SVM.SVM_TYPES.EPSILON_SVR || type === SVM.SVM_TYPES.NU_SVR;
+// }
 
 function toNumber(value) {
     return +value;

@@ -26,6 +26,9 @@ export default function TableConfigField(props) {
                 </tr>
             );
         }
+        default: {
+            throw new Error('Unreachable');
+        }
     }
 
-};
+}

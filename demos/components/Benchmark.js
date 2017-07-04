@@ -60,7 +60,7 @@ export default class Benchmarks extends Component {
 }
 
 function getResultComponent(time) {
-    switch(time) {
+    switch (time) {
         case 'running':
             return () => <MySpinner />;
         case 'sent':
@@ -74,7 +74,7 @@ function getResultComponent(time) {
 function MySpinner() {
     return (
         <div style={{display: 'inline-block', height: 24, width: 24}}>
-            <Loading style={{width: 24, height: 24}}/>
+            <Loading style={{width: 24, height: 24}} />
         </div>
     );
 }

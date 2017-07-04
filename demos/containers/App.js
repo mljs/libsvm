@@ -13,7 +13,7 @@ import runtime from 'serviceworker-webpack-plugin/lib/runtime';
 class App extends Component {
     componentWillMount() {
         const onResize = () => {
-            const breakpoint = window.getComputedStyle(document.querySelector('body'), ':before').getPropertyValue('content').replace(/\"/g, '');
+            const breakpoint = window.getComputedStyle(document.querySelector('body'), ':before').getPropertyValue('content').replace(/"/g, '');
             this.props.updateStyleBreakpoint(breakpoint);
         };
 

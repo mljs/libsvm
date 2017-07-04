@@ -15,9 +15,9 @@ const app = document.getElementById('app');
 
 const render = (Component) => {
     ReactDOM.render(
-            <Provider store={store}>
-                <Component />
-            </Provider>,
+        <Provider store={store}>
+            <Component />
+        </Provider>,
         app
     );
 };

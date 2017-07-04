@@ -10,8 +10,6 @@ const initialValues = {
 };
 getFields().forEach(field => initialValues[field.name] = field.initial);
 
-console.log(initialValues);
-
 class SVCConfig extends Component {
     render() {
         const {kernelValue, typeValue} = this.props;
@@ -20,23 +18,23 @@ class SVCConfig extends Component {
             <form onSubmit={this.props.handleSubmit}>
                 <table className="svm-config-table">
                     <tbody>
-                    <tr>
-                        <td><label htmlFor="SVC_type" >Classification type</label></td>
-                        <td>
-                            <Field name="type" component="select" id="SVC_type">
-                                <option value={SVM.SVM_TYPES.C_SVC}>C_SVC</option>
-                                <option value={SVM.SVM_TYPES.NU_SVC}>NU_SVC</option>
-                                <option value={SVM.SVM_TYPES.ONE_CLASS}>ONE_CLASS</option>
-                            </Field>
-                        </td>
-                    </tr>
-                    <TableConfigField {...KERNEL} />
-                    {getHyperParameters(typeValue, kernelValue).map(param => {
-                        return <TableConfigField key={param.id} {...param} value={this.props.getValue(param.name)}/>
-                    })}
-                    {/*<tr>*/}
+                        <tr>
+                            <td><label htmlFor="SVC_type" >Classification type</label></td>
+                            <td>
+                                <Field name="type" component="select" id="SVC_type">
+                                    <option value={SVM.SVM_TYPES.C_SVC}>C_SVC</option>
+                                    <option value={SVM.SVM_TYPES.NU_SVC}>NU_SVC</option>
+                                    <option value={SVM.SVM_TYPES.ONE_CLASS}>ONE_CLASS</option>
+                                </Field>
+                            </td>
+                        </tr>
+                        <TableConfigField {...KERNEL} />
+                        {getHyperParameters(typeValue, kernelValue).map(param => {
+                            return <TableConfigField key={param.id} {...param} value={this.props.getValue(param.name)} />;
+                        })}
+                        {/*<tr>*/}
                         {/*<input onClick={() => this.props.findHyperParameters()} type="button" value="Find best hyper-parameters" />*/}
-                    {/*</tr>*/}
+                        {/*</tr>*/}
                     </tbody>
                 </table>
             </form>
@@ -58,7 +56,7 @@ function mapStateToProps(state) {
     const gammaValue = selector(state, 'gamma');
     const typeValue = selector(state, 'type');
     return {
-        kernelValue, costValue, gammaValue, typeValue, nuValue, getValue: function(name) {
+        kernelValue, costValue, gammaValue, typeValue, nuValue, getValue: function (name) {
             return selector(state, name);
         }
     };
