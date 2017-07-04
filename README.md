@@ -73,12 +73,10 @@ I report the results here for the cross-validation benchmark on the iris dataset
 | Platform | Rel asm perf | Rel wasm perf |
 | --- | --- | --- |
 | Native | 100% | 100% |
-| Node.js 8.0.0 | 34.2% | 19.1% |
+| Node.js 8.1.2 | 34.2% | 52.6% |
 | Node.js v7.10.0 | 14.4% | N/A |
-| Chrome 58.0.3029.110 | 22.2% | 20.3% |
-| Chrome 59.0.3071.83 | 33.3% | 51.6% |
-| Chrome  60.0.3112.7 | 22.9% | 51.6% |
-| Firefox 53.0.3 | 28.8% | 69.3% |
+| Chrome 59.0.3071.115  | 36.2% | 51.3% |
+| Firefox 54.0 | 35.5% | 70.4% |
 
 
 # What are asm and WebAssembly ?
@@ -92,8 +90,6 @@ From [webassembly.org](http://webassembly.org)
 Both. You should try to use WebAssembly first and fall back to asm in order to support all browsers.
 
 WebAssembly is currently supported in the latest stable versions of Chrome, Firefox and on preview versions of Safari and Edge.
-
-# API Documentation
 
 # API Documentation
 <a name="SVM"></a>
@@ -183,7 +179,7 @@ the number of samples provided as input.
 Free the memory allocated for the model. Since this memory is stored in the memory model of emscripten, it is
 allocated within an ArrayBuffer and WILL NOT BE GARBARGE COLLECTED, you have to explicitly free it. So
 not calling this will result in memory leaks. As of today in the browser, there is no way to hook the
-garabage collection of the SVM object to free it automatically.
+garbage collection of the SVM object to free it automatically.
 Free the memory that was created by the compiled libsvm library to.
 store the model. This model is reused every time the predict method is called.
 
