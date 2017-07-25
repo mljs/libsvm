@@ -4,7 +4,7 @@ const range = require('lodash.range');
 
 'use strict';
 
-const gamma = 10;
+const gamma = 0.2;
 const cost = 1;
 
 function exec(SVM, time, precomputed) {
