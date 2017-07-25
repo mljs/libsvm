@@ -1,8 +1,10 @@
+const omitBy = require('lodash.omitby');
+
 export const KERNEL = {
     id: 'HP_KERNEL',
     name: 'kernel',
     type: 'select',
-    options: SVM.KERNEL_TYPES,
+    options: omitBy(SVM.KERNEL_TYPES, val => val === SVM.KERNEL_TYPES.PRECOMPUTED),
     initial: SVM.KERNEL_TYPES.RBF
 };
 

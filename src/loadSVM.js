@@ -208,7 +208,8 @@ module.exports = function (libsvm) {
         LINEAR: '0',
         POLYNOMIAL: '1',
         RBF: '2', // Radial basis function
-        SIGMOID: '3'
+        SIGMOID: '3',
+        PRECOMPUTED: '4'
     };
 
     function getIntArrayFromModel(fn, model, size) {
