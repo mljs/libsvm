@@ -3,6 +3,7 @@ module.exports = function (libsvm) {
 
     /* eslint-disable camelcase */
     const predict_one = libsvm.cwrap('libsvm_predict_one', 'number', ['number', 'array', 'number']);
+    const predict_one_probability = libsvm.cwrap('libsvm_predict_one_probability', 'number', ['number', 'array', 'number', 'number']);
     const add_instance = libsvm.cwrap('add_instance', null, ['number', 'array', 'number', 'number', 'number']);
     const create_svm_nodes = libsvm.cwrap('create_svm_nodes', 'number', ['number', 'number']);
     const train_problem = libsvm.cwrap('libsvm_train_problem', 'number', ['number', 'string']);
@@ -130,6 +131,42 @@ module.exports = function (libsvm) {
             }
             return arr;
         }
+
+        /**
+         * Predict the label with probability estimate of many samples.
+         * @param {Array<Array<number>>} samples - The samples to predict.
+         * @return {Array<object>} - An array of objects containing the prediction label and the probability estimates for each label
+         */
+        predictProbability(samples) {
+            let arr = [];
+            for (let i = 0; i < samples.length; i++) {
+                arr.push(this.predictOneProbability(samples[i]));
+            }
+            return arr;
+        }
+
+        /** Predict the label with probability estimate.
+         * @param {Array<number>} sample
+         * @return {object} - An object containing the prediction label and the probability estimates for each label
+         */
+
+        predictOneProbability(sample) {
+            const labels = this.getLabels();
+            const nbLabels = labels.length;
+            const estimates = libsvm._malloc(nbLabels * 8);
+            const prediction = predict_one_probability(this.model, new Uint8Array(new Float64Array(sample).buffer), sample.length, estimates);
+            const estimatesArr = Array.from(libsvm.HEAPF64.subarray(estimates / 8, estimates / 8 + nbLabels));
+            const result = {
+                prediction,
+                estimates: labels.map((label, idx) => ({
+                    label,
+                    probability: estimatesArr[idx]
+                }))
+            };
+            libsvm._free(estimates);
+            return result;
+        }
+
 
         /**
          * Get the array of labels from the model. Useful when creating an SVM instance with SVM.load

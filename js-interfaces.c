@@ -194,15 +194,26 @@ void free_problem(struct svm_problem* prob) {
     free(prob);
 }
 
-double libsvm_predict_one(struct svm_model* model, double* data, int size) {
+struct svm_node* init_node(double* data, int size) {
     struct svm_node* node = Malloc(struct svm_node, size + 1);
     for(int i=0; i<size; i++) {
         node[i].index = i + 1;
         node[i].value = data[i];
     }
     node[size].index = -1;
+    return node;
+}
+
+double libsvm_predict_one(struct svm_model* model, double* data, int size) {
+    struct svm_node* node = init_node(data, size);
     double pred = svm_predict(model, node);
     free(node);
+    return pred;
+}
+
+double libsvm_predict_one_probability(struct svm_model* model, double* data, int size, double* prob_estimates) {
+    struct svm_node* node = init_node(data, size);
+    double pred = svm_predict_probability(model, node, prob_estimates);
     return pred;
 }
 
