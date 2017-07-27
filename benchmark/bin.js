@@ -5,15 +5,21 @@ const Table = require('cli-table');
 const spawn = require('child_process').spawn;
 const argv = process.argv.slice(2);
 let benchmarks = argv[0];
-
 let modes = argv[1];
-console.log(modes, benchmarks);
-if(benchmarks === 'all') benchmarks = ['iris/cross-validation', 'iris/grid-search'];
-else benchmarks = benchmarks.split(',');
-if(modes === 'all') modes = ['native', 'asm', 'wasm'];
-else modes = modes.split(',');
+if(benchmarks === 'all' || !benchmarks) {
+    benchmarks = ['iris/cross-validation', 'iris/grid-search', 'iris/precomputed-cv'];
+}
+else {
+    benchmarks = benchmarks.split(',');
+}
+if(modes === 'all' || !modes) {
+    modes = ['native', 'asm', 'wasm'];
+}
+else {
+    modes = modes.split(',');
+}
 
-const time = +argv[2] || 10;
+const time = +argv[2] || 5;
 
 if(modes.includes('asm') || modes.includes('wasm')) {
     console.log('Running benchmark on nodejs version', process.version, '\n');
@@ -36,7 +42,7 @@ async function exec() {
             console.log('\n');
         }
         const max = Math.max.apply(null, counts.filter(c => typeof c === 'number'));
-        counts = counts.map(c => typeof c === 'number' ? toPercent(c, max): c)
+        counts = counts.map(c => typeof c === 'number' ? toPercent(c, max): c);
         table.push([benchmark, ...counts]);
     }
     console.log(table.toString());
@@ -63,7 +69,13 @@ async function run(mode, time, benchmark) {
         const prom = new Promise((resolve, reject) => {
             const [dir, exec] = benchmark.split('/');
             const cmd = `${__dirname}/${dir}/bin/${exec}`;
-            const args = [`${__dirname}/${dir}/data.txt`, time];
+            const args = [];
+            if(benchmark === 'iris/precomputed-cv') {
+                args.push(`${__dirname}/${dir}/data-kernel-rbf-gamma-2e-1.txt`)
+            } else {
+                args.push(`${__dirname}/${dir}/data.txt`);
+            }
+            args.push(time);
             console.log(cmd);
             const child = spawn(cmd, args);
             child.on('close', function() {
@@ -80,7 +92,7 @@ async function run(mode, time, benchmark) {
             await prom;
             count = +/(\d+) iteration/.exec(str)[1];
         } catch(e) {
-            console.error('error executing benchmark', e.message);
+            console.error('error executing benchmark', e, e.message);
             return e.message;
         }
         return count;

@@ -11,6 +11,8 @@
     "LICENSE"
   ],
   "scripts": {
+    "benchmark": "npm run build-benchmark && node benchmark/bin",
+    "build-benchmark": "(cd benchmark/iris; make)",
     "build": "rimraf dist && make; make clean",
     "demo-build": "rimraf demo-dist && BABEL_ENV=production webpack -p --config webpack.production.js && cp demos/index.html demo-dist",
     "deploy": "npm run demo-build && gh-pages -d demo-dist",
@@ -20,8 +22,6 @@
     "start": "webpack-dev-server",
     "test": "npm run test-mocha && npm run eslint",
     "test-mocha": "mocha --require should --recursive test",
-    "build-benchmark": "(cd benchmark/iris; make)",
-    "benchmark": "npm run build-benchmark && node benchmark/bin all all 5",
     "xyz": "echo $1"
   },
   "repository": {

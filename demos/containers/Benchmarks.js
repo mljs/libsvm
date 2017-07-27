@@ -10,7 +10,7 @@ export default function () {
             <Benchmark benchmark="iris/cross-validation" name="Iris cross-validation" description={() => {
                 return (
                     <p>
-                        <code>C_SVC</code> leave-one-out cross-validation with RBF kernel on the <a target="_blank" href="https://en.wikipedia.org/wiki/Iris_flower_data_set">iris dataset</a>.
+                        <code>C_SVC</code> leave-one-out cross-validation with RBF kernel (<code>gamma=0.2</code>) on the <a target="_blank" href="https://en.wikipedia.org/wiki/Iris_flower_data_set">iris dataset</a>.
                     </p>
                 );
             }} />
@@ -18,6 +18,13 @@ export default function () {
                 return (
                     <p>
                         <code>C_SVC</code> 6-by-6 grid grid search of gamma and C parameters on the <a target="_blank" href="https://en.wikipedia.org/wiki/Iris_flower_data_set">iris dataset</a>.
+                    </p>
+                );
+            }} />
+            <Benchmark benchmark="iris/precomputed-cv" name="Iris precomputed kernel" description={() => {
+                return (
+                    <p>
+                        <code>C_SVC</code> leave-on-one cross-validation with a precomputed RBF kernel  (<code>gamma=0.2</code>)<a target="_blank" href="https://en.wikipedia.org/wiki/Iris_flower_data_set">iris dataset</a>.
                     </p>
                 );
             }} />

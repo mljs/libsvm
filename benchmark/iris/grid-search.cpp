@@ -19,10 +19,10 @@ int main(int argc, char** argv) {
     char* filename = argv[1];
     double time = atof(argv[2]);
 
-    double data[NB_SAMPLES][NB_FEATURES];
+    double data[NB_SAMPLES * NB_FEATURES];
     double labels[NB_SAMPLES];
 
-    if(!load_iris(data, labels, filename)) {
+    if(!load_iris(data, labels, NB_SAMPLES, NB_FEATURES, filename)) {
         std::cout << "Could not load data file" << std::endl;
         return 1;
     }
@@ -50,7 +50,7 @@ int main(int argc, char** argv) {
             for(int j = 0; j<GAMMA_GRID_SIZE; j++) {
                 svm_problem* problem = create_svm_nodes(NB_SAMPLES, NB_FEATURES);
                 for(int k=0; k<NB_SAMPLES; k++) {
-                    add_instance(problem, data[k], NB_FEATURES, labels[k], k);
+                    add_instance(problem, data + k * NB_FEATURES, NB_FEATURES, labels[k], k);
                 }
 
                 char cmd[128];

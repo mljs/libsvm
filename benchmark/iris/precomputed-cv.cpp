@@ -15,26 +15,28 @@ int main(int argc, char** argv) {
     char* filename = argv[1];
     double time = atof(argv[2]);
 
-    double data[NB_SAMPLES*NB_FEATURES];
+    double data[NB_SAMPLES * (NB_SAMPLES + 1)];
     double labels[NB_SAMPLES];
-    if(!load_iris(data, labels, NB_SAMPLES, NB_FEATURES, filename)) {
+    if(!load_iris(data, labels, NB_SAMPLES, NB_SAMPLES + 1, filename)) {
         std::cout << "Could not load data file" << std::endl;
         return 1;
     }
+
 
     duration<double> time_span;
     auto t1 = steady_clock::now();
     double target[NB_SAMPLES];
     int count = 0;
     do {
-        svm_problem* problem = create_svm_nodes(NB_SAMPLES, NB_FEATURES);
+        svm_problem* problem = create_svm_nodes(NB_SAMPLES, NB_SAMPLES + 1);
         for(int k=0; k<NB_SAMPLES; k++) {
-            add_instance(problem, data + k * NB_FEATURES, NB_FEATURES, labels[k], k);
+            add_instance(problem, data + k * (NB_SAMPLES + 1), NB_SAMPLES + 1, labels[k], k);
         }
 
 
         char cmd[128];
-        sprintf(cmd, "-q 1 -c %f -g %f", COST, GAMMA);
+        // -t 4 is for precomputed kernel
+        sprintf(cmd, "-q 1 -c %f -t 4", COST);
 
         libsvm_cross_validation(problem, cmd, NB_SAMPLES, target); // loo cv
         free_problem(problem);
@@ -50,7 +52,7 @@ int main(int argc, char** argv) {
         if(target[i] == labels[i]) correct++;
     }
 
-    std::cout << "correct: " << correct << std::endl;
+//    std::cout << "correct: " << correct << std::endl;
 
     std::cout << "iris-cv cpp: " << count << " iterations in " << time << " seconds\n";
     return 0;
