@@ -555,35 +555,69 @@ function _libsvm_predict_one($model,$data,$size) {
  $model = $model|0;
  $data = $data|0;
  $size = $size|0;
- var $0 = 0.0, $add = 0, $add1 = 0, $arrayidx2 = 0, $call = 0, $call6 = 0.0, $cmp15 = 0, $exitcond = 0, $i$016 = 0, $index = 0, $index5 = 0, $mul = 0, $value = 0, label = 0, sp = 0;
+ var $0 = 0.0, $add$i = 0, $add1$i = 0, $arrayidx2$i = 0, $call$i = 0, $call1 = 0.0, $cmp13$i = 0, $exitcond$i = 0, $i$014$i = 0, $index$i = 0, $index5$i = 0, $mul$i = 0, $value$i = 0, label = 0, sp = 0;
  sp = STACKTOP;
- $add = $size << 4;
- $mul = (($add) + 16)|0;
- $call = (_malloc($mul)|0);
- $cmp15 = ($size|0)>(0);
- if ($cmp15) {
-  $i$016 = 0;
+ $add$i = $size << 4;
+ $mul$i = (($add$i) + 16)|0;
+ $call$i = (_malloc($mul$i)|0);
+ $cmp13$i = ($size|0)>(0);
+ if ($cmp13$i) {
+  $i$014$i = 0;
   while(1) {
-   $add1 = (($i$016) + 1)|0;
-   $index = (($call) + ($i$016<<4)|0);
-   store4($index,$add1);
-   $arrayidx2 = (($data) + ($i$016<<3)|0);
-   $0 = loadd($arrayidx2);
-   $value = (((($call) + ($i$016<<4)|0)) + 8|0);
-   stored($value,$0);
-   $exitcond = ($add1|0)==($size|0);
-   if ($exitcond) {
+   $add1$i = (($i$014$i) + 1)|0;
+   $index$i = (($call$i) + ($i$014$i<<4)|0);
+   store4($index$i,$add1$i);
+   $arrayidx2$i = (($data) + ($i$014$i<<3)|0);
+   $0 = loadd($arrayidx2$i);
+   $value$i = (((($call$i) + ($i$014$i<<4)|0)) + 8|0);
+   stored($value$i,$0);
+   $exitcond$i = ($add1$i|0)==($size|0);
+   if ($exitcond$i) {
     break;
    } else {
-    $i$016 = $add1;
+    $i$014$i = $add1$i;
    }
   }
  }
- $index5 = (($call) + ($size<<4)|0);
- store4($index5,-1);
- $call6 = (+_svm_predict($model,$call));
- _free($call);
- return (+$call6);
+ $index5$i = (($call$i) + ($size<<4)|0);
+ store4($index5$i,-1);
+ $call1 = (+_svm_predict($model,$call$i));
+ _free($call$i);
+ return (+$call1);
+}
+function _libsvm_predict_one_probability($model,$data,$size,$prob_estimates) {
+ $model = $model|0;
+ $data = $data|0;
+ $size = $size|0;
+ $prob_estimates = $prob_estimates|0;
+ var $0 = 0.0, $add$i = 0, $add1$i = 0, $arrayidx2$i = 0, $call$i = 0, $call1 = 0.0, $cmp13$i = 0, $exitcond$i = 0, $i$014$i = 0, $index$i = 0, $index5$i = 0, $mul$i = 0, $value$i = 0, label = 0, sp = 0;
+ sp = STACKTOP;
+ $add$i = $size << 4;
+ $mul$i = (($add$i) + 16)|0;
+ $call$i = (_malloc($mul$i)|0);
+ $cmp13$i = ($size|0)>(0);
+ if ($cmp13$i) {
+  $i$014$i = 0;
+  while(1) {
+   $add1$i = (($i$014$i) + 1)|0;
+   $index$i = (($call$i) + ($i$014$i<<4)|0);
+   store4($index$i,$add1$i);
+   $arrayidx2$i = (($data) + ($i$014$i<<3)|0);
+   $0 = loadd($arrayidx2$i);
+   $value$i = (((($call$i) + ($i$014$i<<4)|0)) + 8|0);
+   stored($value$i,$0);
+   $exitcond$i = ($add1$i|0)==($size|0);
+   if ($exitcond$i) {
+    break;
+   } else {
+    $i$014$i = $add1$i;
+   }
+  }
+ }
+ $index5$i = (($call$i) + ($size<<4)|0);
+ store4($index5$i,-1);
+ $call1 = (+_svm_predict_probability($model,$call$i,$prob_estimates));
+ return (+$call1);
 }
 function _libsvm_train($data,$labels,$nb_features,$nb_dimensions,$command) {
  $data = $data|0;
@@ -25981,6 +26015,6 @@ var FUNCTION_TABLE_viiii = [b7,__ZNK10__cxxabiv117__class_type_info27has_unambig
 var FUNCTION_TABLE_viiiii = [b8,__ZNK10__cxxabiv117__class_type_info16search_below_dstEPNS_19__dynamic_cast_infoEPKvib,__ZNK10__cxxabiv120__si_class_type_info16search_below_dstEPNS_19__dynamic_cast_infoEPKvib,b8];
 var FUNCTION_TABLE_diii = [b9,__ZNK6Kernel11kernel_polyEii,__ZNK6Kernel13kernel_linearEii,__ZNK6Kernel10kernel_rbfEii,__ZNK6Kernel14kernel_sigmoidEii,__ZNK6Kernel18kernel_precomputedEii,b9,b9];
 
-  return { _parse_command_line: _parse_command_line, _svm_get_labels: _svm_get_labels, _libsvm_train_problem: _libsvm_train_problem, _libsvm_train: _libsvm_train, _svm_get_nr_sv: _svm_get_nr_sv, _deserialize_model: _deserialize_model, setThrew: setThrew, _get_svr_epsilon: _get_svr_epsilon, _libsvm_cross_validation: _libsvm_cross_validation, _serialize_model: _serialize_model, ___cxa_is_pointer_type: ___cxa_is_pointer_type, _libsvm_predict_one: _libsvm_predict_one, _memset: _memset, _add_instance: _add_instance, _sbrk: _sbrk, _memcpy: _memcpy, stackSave: stackSave, stackAlloc: stackAlloc, _svm_get_sv_indices: _svm_get_sv_indices, getTempRet0: getTempRet0, _svm_get_svm_type: _svm_get_svm_type, setTempRet0: setTempRet0, _svm_get_nr_class: _svm_get_nr_class, _emscripten_get_global_libc: _emscripten_get_global_libc, _svm_free_model: _svm_free_model, stackRestore: stackRestore, _free_problem: _free_problem, _llvm_bswap_i32: _llvm_bswap_i32, ___cxa_can_catch: ___cxa_can_catch, _free: _free, runPostSets: runPostSets, establishStackSpace: establishStackSpace, _create_svm_nodes: _create_svm_nodes, _malloc: _malloc, _emscripten_replace_memory: _emscripten_replace_memory, stackAlloc: stackAlloc, stackSave: stackSave, stackRestore: stackRestore, establishStackSpace: establishStackSpace, setThrew: setThrew, setTempRet0: setTempRet0, getTempRet0: getTempRet0, dynCall_iiii: dynCall_iiii, dynCall_viiiiii: dynCall_viiiiii, dynCall_di: dynCall_di, dynCall_vi: dynCall_vi, dynCall_ii: dynCall_ii, dynCall_viii: dynCall_viii, dynCall_v: dynCall_v, dynCall_viiii: dynCall_viiii, dynCall_viiiii: dynCall_viiiii, dynCall_diii: dynCall_diii };
+  return { _parse_command_line: _parse_command_line, _svm_get_labels: _svm_get_labels, _libsvm_train_problem: _libsvm_train_problem, _libsvm_train: _libsvm_train, _svm_get_nr_sv: _svm_get_nr_sv, _deserialize_model: _deserialize_model, setThrew: setThrew, _get_svr_epsilon: _get_svr_epsilon, _libsvm_cross_validation: _libsvm_cross_validation, _serialize_model: _serialize_model, _libsvm_predict_one_probability: _libsvm_predict_one_probability, ___cxa_is_pointer_type: ___cxa_is_pointer_type, _libsvm_predict_one: _libsvm_predict_one, _memset: _memset, _add_instance: _add_instance, _sbrk: _sbrk, _memcpy: _memcpy, stackSave: stackSave, stackAlloc: stackAlloc, _svm_get_sv_indices: _svm_get_sv_indices, getTempRet0: getTempRet0, _svm_get_svm_type: _svm_get_svm_type, setTempRet0: setTempRet0, _svm_get_nr_class: _svm_get_nr_class, _emscripten_get_global_libc: _emscripten_get_global_libc, _svm_free_model: _svm_free_model, stackRestore: stackRestore, _free_problem: _free_problem, _llvm_bswap_i32: _llvm_bswap_i32, ___cxa_can_catch: ___cxa_can_catch, _free: _free, runPostSets: runPostSets, establishStackSpace: establishStackSpace, _create_svm_nodes: _create_svm_nodes, _malloc: _malloc, _emscripten_replace_memory: _emscripten_replace_memory, stackAlloc: stackAlloc, stackSave: stackSave, stackRestore: stackRestore, establishStackSpace: establishStackSpace, setThrew: setThrew, setTempRet0: setTempRet0, getTempRet0: getTempRet0, dynCall_iiii: dynCall_iiii, dynCall_viiiiii: dynCall_viiiiii, dynCall_di: dynCall_di, dynCall_vi: dynCall_vi, dynCall_ii: dynCall_ii, dynCall_viii: dynCall_viii, dynCall_v: dynCall_v, dynCall_viiii: dynCall_viiii, dynCall_viiiii: dynCall_viiiii, dynCall_diii: dynCall_diii };
 })
 ;
