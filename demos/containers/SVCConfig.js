@@ -32,9 +32,6 @@ class SVCConfig extends Component {
                         {getHyperParameters(typeValue, kernelValue).map(param => {
                             return <TableConfigField key={param.id} {...param} value={this.props.getValue(param.name)} />;
                         })}
-                        {/*<tr>*/}
-                        {/*<input onClick={() => this.props.findHyperParameters()} type="button" value="Find best hyper-parameters" />*/}
-                        {/*</tr>*/}
                     </tbody>
                 </table>
             </form>

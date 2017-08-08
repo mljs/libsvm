@@ -9,10 +9,9 @@ export default class ControlBar extends Component {
                 <button name="undo" type="button" className="btn btn-secondary" onClick={props.undo}><i className="fa fa-undo" /></button>
                 <button name="redo" type="button" className="btn btn-secondary" onClick={props.redo}><i className="fa fa-repeat" /></button>
                 <button name="clear" type="button" className="btn btn-secondary" onClick={props.clear}><i className="fa fa-ban" /></button>
-                <button
-                    id="control-bar-help"
+                <button ref="help"
                     data-toggle="popover"
-                    title="SVC canvas"
+                    title={this.props.helpTitle}
                     data-content={this.props.help}
                     name="explain"
                     type="button"
@@ -24,8 +23,10 @@ export default class ControlBar extends Component {
     }
 
     componentDidMount() {
-        $(function () {
-            $('#control-bar-help').popover()
-        });
+        $(this.refs.help).popover()
+    }
+
+    componentWillUnmount() {
+        $(this.refs.help).popover('hide');
     }
 }
