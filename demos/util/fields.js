@@ -18,7 +18,7 @@ export const COST = {
     format: Math.log10,
     step: 0.2,
     gridSearch: true,
-    initial: 1
+    initial: 10
 };
 
 export const GAMMA = {
@@ -31,7 +31,7 @@ export const GAMMA = {
     format: Math.log10,
     step: 0.2,
     gridSearch: true,
-    initial: 1
+    initial: 10
 };
 
 export const NU = {
@@ -55,7 +55,7 @@ export const EPSILON = {
     normalize: toNumber,
     step: 0.02,
     gridSearch: true,
-    initial: 0.2
+    initial: 0.03
 };
 
 export const DEGREE = {

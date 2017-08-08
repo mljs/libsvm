@@ -6,7 +6,7 @@ import {getHyperParameters, KERNEL, getFields} from '../util/fields';
 import TableConfigField from '../components/TableConfigField';
 
 const initialValues = {
-    type: SVM.SVM_TYPES.C_SVC,
+    type: SVM.SVM_TYPES.C_SVC
 };
 getFields().forEach(field => initialValues[field.name] = field.initial);
 
