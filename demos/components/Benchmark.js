@@ -20,7 +20,7 @@ export default class Benchmarks extends Component {
         };
     }
 
-    async onRun() {
+    onRun() {
         this.worker.postMessage({
             benchmark: this.props.benchmark,
             method: 'asm',

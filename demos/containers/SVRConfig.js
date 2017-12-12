@@ -8,7 +8,7 @@ const initialValues = {
     type: SVM.SVM_TYPES.EPSILON_SVR,
 };
 
-getFields().forEach(field => initialValues[field.name] = field.initial);
+getFields().forEach(field => (initialValues[field.name] = field.initial));
 
 class SVRConfig extends Component {
     render() {

@@ -34,7 +34,7 @@ class Canvas extends Component {
                     onClick={this.onCanvasClick.bind(this)}
                     width={realWidth}
                     height={realHeight}
-                    ref={c => this.canvas = c}
+                    ref={c => (this.canvas = c)}
                     style={this.props.style}
                 />
             </div>
@@ -117,7 +117,7 @@ class Canvas extends Component {
         const colorsBrighter = this.props.labelColors.map(c => chroma(c).brighten().hex());
         const {width, height, scale, SVs} = this.props;
         const SVIdx = {};
-        SVs.forEach(idx => SVIdx[idx] = 1);
+        SVs.forEach(idx => (SVIdx[idx] = 1));
         const radius = scale * Math.min(height, width) / 80;
         this.ctx.imageSmoothingEnabled = false;
         for (let i = 0; i < this.props.points.length; i++) {

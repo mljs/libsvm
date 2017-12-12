@@ -8,7 +8,7 @@ import TableConfigField from '../components/TableConfigField';
 const initialValues = {
     type: SVM.SVM_TYPES.C_SVC
 };
-getFields().forEach(field => initialValues[field.name] = field.initial);
+getFields().forEach(field => (initialValues[field.name] = field.initial));
 
 class SVCConfig extends Component {
     render() {
