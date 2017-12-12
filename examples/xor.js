@@ -18,6 +18,7 @@ function xor(SVM) {
 
     console.log('sv indices', svm.getSVIndices());
     console.log('labels', svm.getLabels());
+    console.log('save model', svm.serializeModel());
 }
 
 function execAsm() {
