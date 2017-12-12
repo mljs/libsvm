@@ -14,14 +14,13 @@ function exec(SVM, time) {
     let labels = data.getClasses();
     const classes = data.getDistinctClasses();
     const c = {};
-    classes.forEach((v, idx) => c[v] = idx);
+    classes.forEach((v, idx) => (c[v] = idx));
     labels = labels.map(l => c[l]);
 
     // We precompute the gaussian kernel
     const kernel = new Kernel('gaussian', {sigma: 1 / Math.sqrt(gamma)});
     const KData = kernel.compute(features).addColumn(0, range(1, labels.length + 1));
 
-    let result;
     const t1 = Date.now();
     let t2 = Date.now();
     let count = 0;
@@ -31,7 +30,7 @@ function exec(SVM, time) {
             cost: cost,
             kernel: SVM.KERNEL_TYPES.PRECOMPUTED
         });
-        result = svm.crossValidation(KData, labels, labels.length);
+        svm.crossValidation(KData, labels, labels.length);
         svm.free();
         count++;
         t2 = Date.now();

@@ -36,7 +36,7 @@ async function exec() {
     for (let benchmark of benchmarks) {
         let counts = [];
         for (let mode of modes) {
-            counts.push(await run(mode, time, benchmark));
+            counts.push(await run(mode, time, benchmark)); //eslint-disable-line no-await-in-loop
             console.log('\n');
         }
         const max = Math.max.apply(null, counts.filter(c => typeof c === 'number'));
@@ -80,7 +80,9 @@ async function run(mode, time, benchmark) {
             child.on('error', function () {
                 reject(new Error(`Could not execute ${cmd} ${args}`));
             });
-            child.stdout.on('data', data => str += data);
+            child.stdout.on('data', data => {
+                str += data;
+            });
             child.stdout.pipe(process.stdout);
         });
 
@@ -95,7 +97,7 @@ async function run(mode, time, benchmark) {
 
     } else {
         console.log(`Unknown mode ${mode}`);
-        return;
+        return 0;
     }
 
     try {

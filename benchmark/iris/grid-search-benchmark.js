@@ -13,7 +13,7 @@ function exec(SVM, time) {
     const classes = data.getDistinctClasses();
 
     const c = {};
-    classes.forEach((v, idx) => c[v] = idx);
+    classes.forEach((v, idx) => (c[v] = idx));
     labels = labels.map(l => c[l]);
 
     const startTime = Date.now();

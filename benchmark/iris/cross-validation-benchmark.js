@@ -12,11 +12,10 @@ function exec(SVM, time) {
     const classes = data.getDistinctClasses();
 
     const c = {};
-    classes.forEach((v, idx) => c[v] = idx);
+    classes.forEach((v, idx) => (c[v] = idx));
     labels = labels.map(l => c[l]);
 
 
-    let result;
     const t1 = Date.now();
     let t2 = Date.now();
     let count = 0;
@@ -26,7 +25,7 @@ function exec(SVM, time) {
             cost: cost,
             gamma: gamma
         });
-        result = svm.crossValidation(features, labels, labels.length);
+        svm.crossValidation(features, labels, labels.length);
         count++;
         t2 = Date.now();
     }
