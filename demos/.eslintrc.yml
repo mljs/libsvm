@@ -1,0 +1,3 @@
+extends: eslint-config-neptun-react
+rules:
+  no-console: 2

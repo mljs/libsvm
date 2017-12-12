@@ -25,7 +25,7 @@ function exec(SVM, time) {
     const t1 = Date.now();
     let t2 = Date.now();
     let count = 0;
-    while(t2 - t1 < MILISECONDS) {
+    while (t2 - t1 < MILISECONDS) {
         const svm = new SVM({
             quiet: true,
             cost: cost,

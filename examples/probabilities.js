@@ -1,8 +1,8 @@
+'use strict';
+
 const Kernel = new require('ml-kernel');
 const SVM = require('../asm');
 const range = require('lodash.range');
-
-'use strict';
 
 const gamma = 0.2;
 const cost = 1;

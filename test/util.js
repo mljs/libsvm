@@ -31,8 +31,8 @@ describe('util', function () {
     });
 
     it('should throw if bad option', function () {
-        (function (){
-            util.getCommand({bad: true})
+        (function () {
+            util.getCommand({bad: true});
         }).should.throw(/Bad option/);
-    })
+    });
 });

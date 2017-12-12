@@ -23,7 +23,7 @@ export default class ControlBar extends Component {
     }
 
     componentDidMount() {
-        $(this.refs.help).popover()
+        $(this.refs.help).popover();
     }
 
     componentWillUnmount() {

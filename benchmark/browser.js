@@ -1,5 +1,3 @@
-'use strict';
-
 export default async function exec(benchmark, mode, time) {
     let SVM;
     if(mode === 'asm') {

@@ -12,7 +12,7 @@ const gamma = Array.from({length: GAMMA_GRID_SIZE}).map(normalize(GAMMA_GRID_SIZ
 const cost = Array.from({length: COST_GRID_SIZE}).map(normalize(COST_GRID_SIZE, COST_MIN, COST_MAX)).map(pow10);
 
 function normalize(n, min, max) {
-    return (val, idx) => min + (idx / (n -1)) * (max - min);
+    return (val, idx) => min + (idx / (n - 1)) * (max - min);
 }
 
 function pow10(val) {

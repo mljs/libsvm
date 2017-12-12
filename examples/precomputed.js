@@ -1,3 +1,4 @@
+
 'use strict';
 
 const Kernel = new require('ml-kernel');
@@ -24,8 +25,8 @@ function exec(SVM, time, precomputed) {
     const t1 = Date.now();
     let t2 = Date.now();
     let count = 0;
-    while(t2 - t1 < MILISECONDS) {
-        if(precomputed) {
+    while (t2 - t1 < MILISECONDS) {
+        if (precomputed) {
             const kernel = new Kernel('gaussian', {sigma: 1 / Math.sqrt(gamma)});
             trainData = kernel.compute(features).addColumn(0, range(1, labels.length + 1));
         } else {
@@ -44,7 +45,7 @@ function exec(SVM, time, precomputed) {
         t2 = Date.now();
     }
 
-    console.log('accuracy: ', result.reduce((prev, current, idx) => current === labels[idx] ? prev + 1 : prev, 0)/ labels.length);
+    console.log('accuracy: ', result.reduce((prev, current, idx) => current === labels[idx] ? prev + 1 : prev, 0) / labels.length);
     return count;
 }
 

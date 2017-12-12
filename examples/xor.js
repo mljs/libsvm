@@ -1,3 +1,4 @@
+
 'use strict';
 
 function xor(SVM) {
@@ -7,10 +8,10 @@ function xor(SVM) {
         gamma: 1,
         cost: 1
     });
-    const features = [[0,0],[1, 1],[1,0],[0, 1]];
+    const features = [[0, 0], [1, 1], [1, 0], [0, 1]];
     const labels = [0, 0, 1, 1];
     svm.train(features, labels);
-    for(let i=0; i<features.length; i++) {
+    for (let i = 0; i < features.length; i++) {
         const pred = svm.predictOne(features[i]);
         console.log(`actual: ${labels[i]}, predicted: ${pred}`);
     }
@@ -35,7 +36,7 @@ try {
     execAsm(); // Synchronous
     execWasm(); // Asynchronous
 
-} catch(e) {
+} catch (e) {
     console.log('failed');
     console.log(e);
 }

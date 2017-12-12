@@ -19,9 +19,9 @@ function exec(SVM, time) {
     const startTime = Date.now();
     let endTime = Date.now();
     let count = 0;
-    while(endTime - startTime < MILISECONDS) {
-        for(let c of cost) {
-            for(let g of gamma) {
+    while (endTime - startTime < MILISECONDS) {
+        for (let c of cost) {
+            for (let g of gamma) {
                 const svm = new SVM({
                     quiet: true,
                     cost: c,
