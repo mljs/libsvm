@@ -1,6 +1,6 @@
 {
   "name": "libsvm-js",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A port of libsvm to javascript using emscripten",
   "main": "wasm.js",
   "files": [
