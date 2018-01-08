@@ -70,7 +70,7 @@
     "gh-pages": "^1.1.0",
     "imports-loader": "^0.7.1",
     "jquery": "^3.2.1",
-    "jsdoc-to-markdown": "^3.0.2",
+    "jsdoc-to-markdown": "^3.0.3",
     "less": "^2.7.3",
     "lodash-es": "^4.17.4",
     "lodash-webpack-plugin": "^0.11.4",
