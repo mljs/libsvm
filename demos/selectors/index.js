@@ -1,8 +1,9 @@
 import {createSelectorCreator, defaultMemoize} from 'reselect';
 import {isEqual} from 'lodash-es';
+import ConfusionMatrix from 'ml-confusion-matrix';
 import {LABELS_COLORS, ONE_CLASS_LABEL_COLORS, TWO_CLASS_LABEL_COLORS} from '../constants';
-
 import {CANVAS_RESOLUTION, CANVAS_SCALE_FACTOR} from '../constants';
+import {grid, getHyperParameters} from '../util/fields';
 
 const createSelector = createSelectorCreator(defaultMemoize, (val1, val2) => {
     return val1 === val2 || isEqual(val1, val2);
@@ -39,6 +40,7 @@ export const getLabelChooseColors = createSelector(
 export const getSVCData = createSelector(
     [getSVCConfig, getSVCPoints, getStyle],
     (SVCConfig, SVCPoints, style) => {
+        let acc = null;
         let startTime, endTime;
         const canvasSize = CANVAS_RESOLUTION[style.currentBreakpoint];
         let points = [];
@@ -72,10 +74,10 @@ export const getSVCData = createSelector(
                         background.push(val);
                     }
                 }
+                svm.free();
             }
             endTime = Date.now();
         }
-
 
         return {
             width: canvasSize,
@@ -112,8 +114,8 @@ export const getSVRData = createSelector([
             const svm = new SVM({...SVRConfig, quiet: true});
             svm.train(SVRPoints.points.map(p => [p[0]]), SVRPoints.points.map(p => p[1]));
             SVs = svm.getSVIndices();
-
             line = svm.predict(Array.from({length: canvasSize}).map((v, i) => [i / canvasSize]));
+            svm.free();
         }
     }
 
@@ -130,3 +132,34 @@ export const getSVRData = createSelector([
     };
 });
 
+export const findHyperParameters = createSelector([
+    getSVCPoints, getSVCConfig
+], function(SVCPoints, SVCConfig) {
+        let bestAcc = 0;
+        let bestParams = null;
+        let hyperParams = getHyperParameters(SVCConfig.type, SVCConfig.kernel);
+        grid(SVCConfig.type, SVCConfig.kernel, function(params, hyperParams) {
+            const options = {
+                type: SVCConfig.type,
+                kernel: SVCConfig.kernel,
+                quiet: true
+            };
+            for(let i=0; i<hyperParams.length; i++) {
+                options[hyperParams[i].name] = params[i];
+            }
+            const svm = new SVM(options);
+            const predictions = svm.crossValidation(SVCPoints.points, SVCPoints.labels, SVCPoints.labels.length);
+            const CM = ConfusionMatrix.fromLabels(SVCPoints.labels, predictions);
+            const acc = CM.accuracy;
+            if(acc > bestAcc) {
+                bestAcc = acc;
+                bestParams = params;
+            }
+        });
+        return {
+            acc: bestAcc,
+            hyperParams: hyperParams,
+            values: bestParams
+        };
+    }
+);

@@ -30,6 +30,7 @@ function exec(SVM, time) {
         t2 = Date.now();
     }
 
+    // console.log(labels);
     // console.log('accuracy: ', result.reduce((prev, current, idx) => current === labels[idx] ? prev + 1 : prev, 0)/ labels.length);
     return count;
 }

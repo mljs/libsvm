@@ -3,8 +3,14 @@ import {
     SVC_LABEL_CHANGED,
     SVC_CLEAR_POINTS,
     SVC_UNDO_POINT,
-    SVC_REDO_POINT
+    SVC_REDO_POINT,
+    SVC_FIND_HYPERPAREMETERS
 } from './types';
+
+import store from '../store';
+import {findHyperParameters as findHyperSelector} from '../selectors/index';
+
+import {change} from 'redux-form';
 
 export function addPoint(pointData) {
     return {
@@ -35,5 +41,16 @@ export function undoPoint() {
 export function redoPoint() {
     return {
         type: SVC_REDO_POINT
+    };
+}
+
+export function findHyperParameters() {
+    return function (dispatch) {
+        const state = store.getState();
+        const result = findHyperSelector(state);
+        for (let i = 0; i < result.hyperParams.length; i++) {
+            console.log(result.hyperParams[i].name, result.values[i]);
+            dispatch(change('SVCConfig', result.hyperParams[i].name, result.values[i]));
+        }
     };
 }

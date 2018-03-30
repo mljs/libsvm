@@ -16,7 +16,7 @@ export const COST = {
     max: 3,
     normalize: pow10,
     format: Math.log10,
-    step: 0.2,
+    step: 0.4,
     gridSearch: true,
     initial: 10
 };
@@ -29,7 +29,7 @@ export const GAMMA = {
     max: 3,
     normalize: pow10,
     format: Math.log10,
-    step: 0.2,
+    step: 0.4,
     gridSearch: true,
     initial: 10
 };
@@ -41,7 +41,7 @@ export const NU = {
     min: 0,
     max: 1,
     normalize: toNumber,
-    step: 0.05,
+    step: 0.1,
     gridSearch: true,
     initial: 0.5
 };
@@ -53,7 +53,7 @@ export const EPSILON = {
     min: 0.01,
     max: 0.5,
     normalize: toNumber,
-    step: 0.02,
+    step: 0.05,
     gridSearch: true,
     initial: 0.03
 };
@@ -119,4 +119,53 @@ function hasGamma(kernel) {
 
 function toNumber(value) {
     return +value;
+}
+
+export function grid(type, kernel, cb) {
+    const hyperParams = getHyperParameters(type, kernel);
+    let idx = new Array(hyperParams.length).fill(0);
+    let done = false;
+    while(!done) {
+        const [param, newIdx] = getParams(hyperParams, idx);
+        cb(param, hyperParams);
+        if(!newIdx) done = true;
+    }
+}
+
+function getParams(params, idx) {
+    const param = params.map((param, index) => getParam(param, idx[index]));
+    for(let i=idx.length-1; i>=0; i--) {
+        idx[i]++;
+        if(getParam(params[i], idx[i])) {
+            break;
+        } else if(i !== 0){
+            idx[i] = 0;
+        } else {
+            return [param, null]
+        }
+    }
+    return [param, idx];
+}
+
+function getParam(param, idx) {
+    switch(param.type) {
+        case 'range': {
+            const val = param.min + idx * param.step;
+            if(val > param.max) return null;
+            if(param.normalize) {
+                return param.normalize(val);
+            }
+            return val;
+        }
+        default: {
+            if(idx === 0) {
+                if(param.normalize) {
+                    return param.normalize(param.initial);
+                } else {
+                    return param.initial;
+                }
+            }
+            return null;
+        }
+    }
 }

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Field, reduxForm, formValueSelector} from 'redux-form';
-// import {findHyperParameters} from '../actions/SVC';
+import {findHyperParameters} from '../actions/SVC';
 import {getHyperParameters, KERNEL, getFields} from '../util/fields';
 import TableConfigField from '../components/TableConfigField';
 
@@ -32,6 +32,9 @@ class SVCConfig extends Component {
                         {getHyperParameters(typeValue, kernelValue).map(param => {
                             return <TableConfigField key={param.id} {...param} value={this.props.getValue(param.name)} />;
                         })}
+                        <tr>
+                            <input onClick={() => this.props.findHyperParameters()} type="button" value="Find best hyper-parameters" />
+                        </tr>
                     </tbody>
                 </table>
             </form>
@@ -59,4 +62,4 @@ function mapStateToProps(state) {
     };
 
 }
-export default connect(mapStateToProps)(SVCConfigForm);
+export default connect(mapStateToProps, {findHyperParameters})(SVCConfigForm);

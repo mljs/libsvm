@@ -66,7 +66,7 @@ module.exports = function (libsvm) {
          * Performs k-fold cross-validation (KF-CV). KF-CV separates the data-set into kFold random equally sized partitions,
          * and uses each as a validation set, with all other partitions used in the training set. Observations left over
          * from if kFold does not divide the number of observations are left out of the cross-validation process. If
-         * kFold is one, this is equivalent to a leave-on-out cross-validation
+         * kFold is equal to the number of samples, this is equivalent to a leave-one-out cross-validation.
          * @param {Array<Array<number>>} samples - The training samples.
          * @param {Array<number>} labels - The training labels.
          * @param {number} kFold - Number of datasets into which to split the training set.
@@ -81,7 +81,7 @@ module.exports = function (libsvm) {
             svm_cross_validation(problem, this.getCommand(), kFold, target);
             const data = libsvm.HEAPF64.subarray(target / 8, target / 8 + labels.length);
             const arr = Array.from(data);
-            libsvm._free(target);
+            // libsvm._free(target);
             free_problem(problem);
             return arr;
         }
