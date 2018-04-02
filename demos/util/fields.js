@@ -1,112 +1,110 @@
 const omitBy = require('lodash.omitby');
 
 export const KERNEL = {
-    id: 'HP_KERNEL',
-    name: 'kernel',
-    type: 'select',
-    options: omitBy(SVM.KERNEL_TYPES, val => val === SVM.KERNEL_TYPES.PRECOMPUTED),
-    initial: SVM.KERNEL_TYPES.RBF
+  id: 'HP_KERNEL',
+  name: 'kernel',
+  type: 'select',
+  options: omitBy(SVM.KERNEL_TYPES, (val) => val === SVM.KERNEL_TYPES.PRECOMPUTED),
+  initial: SVM.KERNEL_TYPES.RBF
 };
 
 export const COST = {
-    id: 'HP_COST',
-    name: 'cost',
-    type: 'range',
-    min: -3,
-    max: 3,
-    normalize: pow10,
-    format: Math.log10,
-    step: 0.2,
-    gridSearch: true,
-    initial: 10
+  id: 'HP_COST',
+  name: 'cost',
+  type: 'range',
+  min: -3,
+  max: 3,
+  normalize: pow10,
+  format: Math.log10,
+  step: 0.2,
+  gridSearch: true,
+  initial: 10
 };
 
 export const GAMMA = {
-    id: 'HP_GAMMA',
-    name: 'gamma',
-    type: 'range',
-    min: -3,
-    max: 3,
-    normalize: pow10,
-    format: Math.log10,
-    step: 0.2,
-    gridSearch: true,
-    initial: 10
+  id: 'HP_GAMMA',
+  name: 'gamma',
+  type: 'range',
+  min: -3,
+  max: 3,
+  normalize: pow10,
+  format: Math.log10,
+  step: 0.2,
+  gridSearch: true,
+  initial: 10
 };
 
 export const NU = {
-    id: 'HP_NU',
-    name: 'nu',
-    type: 'range',
-    min: 0,
-    max: 1,
-    normalize: toNumber,
-    step: 0.05,
-    gridSearch: true,
-    initial: 0.5
+  id: 'HP_NU',
+  name: 'nu',
+  type: 'range',
+  min: 0,
+  max: 1,
+  normalize: toNumber,
+  step: 0.05,
+  gridSearch: true,
+  initial: 0.5
 };
 
 export const EPSILON = {
-    id: 'HP_EPSILON',
-    name: 'epsilon',
-    type: 'range',
-    min: 0.01,
-    max: 0.5,
-    normalize: toNumber,
-    step: 0.02,
-    gridSearch: true,
-    initial: 0.03
+  id: 'HP_EPSILON',
+  name: 'epsilon',
+  type: 'range',
+  min: 0.01,
+  max: 0.5,
+  normalize: toNumber,
+  step: 0.02,
+  gridSearch: true,
+  initial: 0.03
 };
 
 export const DEGREE = {
-    HP: 'HP_DEGREE',
-    name: 'degree',
-    type: 'number',
-    gridSearch: false
+  HP: 'HP_DEGREE',
+  name: 'degree',
+  type: 'number',
+  gridSearch: false
 };
 
 export function getFields() {
-    return [
-        KERNEL, COST, GAMMA, NU, EPSILON, DEGREE
-    ];
+  return [KERNEL, COST, GAMMA, NU, EPSILON, DEGREE];
 }
 
 export function getHyperParameters(type, kernel) {
-    const fields = [];
-    if (isNu(type)) {
-        fields.push(NU);
-    }
-    if (isCost(type)) {
-        fields.push(COST);
-    }
-    if (hasGamma(kernel)) {
-        fields.push(GAMMA);
-    }
+  const fields = [];
+  if (isNu(type)) {
+    fields.push(NU);
+  }
+  if (isCost(type)) {
+    fields.push(COST);
+  }
+  if (hasGamma(kernel)) {
+    fields.push(GAMMA);
+  }
 
-    if (kernel === SVM.KERNEL_TYPES.POLYNOMIAL) {
-        fields.push(DEGREE);
-    }
+  if (kernel === SVM.KERNEL_TYPES.POLYNOMIAL) {
+    fields.push(DEGREE);
+  }
 
-    if (type === SVM.SVM_TYPES.EPSILON_SVR) {
-        fields.push(EPSILON);
-    }
-    return fields;
+  if (type === SVM.SVM_TYPES.EPSILON_SVR) {
+    fields.push(EPSILON);
+  }
+  return fields;
 }
 
 function pow10(value) {
-    return Math.pow(10, value);
+  return Math.pow(10, value);
 }
 
 function isNu(type) {
-    return type === SVM.SVM_TYPES.NU_SVC || type === SVM.SVM_TYPES.NU_SVR || type === SVM.SVM_TYPES.ONE_CLASS;
+  return type === SVM.SVM_TYPES.NU_SVC || type === SVM.SVM_TYPES.NU_SVR || type === SVM.SVM_TYPES.ONE_CLASS;
 }
 
 function isCost(type) {
-    return type === SVM.SVM_TYPES.C_SVC || type === SVM.SVM_TYPES.EPSILON_SVR;
+  return type === SVM.SVM_TYPES.C_SVC || type === SVM.SVM_TYPES.EPSILON_SVR;
 }
 
 function hasGamma(kernel) {
-    return kernel === SVM.KERNEL_TYPES.RBF || kernel === SVM.KERNEL_TYPES.SIGMOID || kernel === SVM.KERNEL_TYPES.POLYNOMIAL;
+  return kernel === SVM.KERNEL_TYPES.RBF || kernel === SVM.KERNEL_TYPES.SIGMOID || kernel === SVM.KERNEL_TYPES.POLYNOMIAL;
 }
 
 // function isClassification(type) {
@@ -118,5 +116,5 @@ function hasGamma(kernel) {
 // }
 
 function toNumber(value) {
-    return +value;
+  return +value;
 }

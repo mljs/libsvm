@@ -1,14 +1,15 @@
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+
 import ControlBar from '../components/ControlBar';
-import {undoPoint, redoPoint, clearPoints} from '../actions/SVC';
+import { undoPoint, redoPoint, clearPoints } from '../actions/SVC';
 
 
 function mapDispatchToProps(dispatch) {
-    return {
-        clear: () => dispatch(clearPoints()),
-        undo: () => dispatch(undoPoint()),
-        redo: () => dispatch(redoPoint())
-    };
+  return {
+    clear: () => dispatch(clearPoints()),
+    undo: () => dispatch(undoPoint()),
+    redo: () => dispatch(redoPoint())
+  };
 }
 
 
