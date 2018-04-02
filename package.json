@@ -3,27 +3,28 @@
     "version": "0.1.3",
     "description": "A port of libsvm to javascript using emscripten",
     "main": "wasm.js",
-    "files": ["src", "dist", "asm.js", "wasm.js", "LICENSE"],
+    "files": [
+        "src",
+        "dist",
+        "asm.js",
+        "wasm.js",
+        "LICENSE"
+    ],
     "scripts": {
         "benchmark": "npm run build-benchmark && node benchmark/bin",
         "build-benchmark": "(cd benchmark/iris; make)",
         "build": "run-s build-emscripten webpack-build",
         "build-emscripten-clean": "make clean",
-        "build-emscripten-wasm":
-            "rimraf out/wasm && mkdir -p dist/node/wasm && make wasm && cat src/pre.js out/wasm/libsvm.js src/post.js > dist/node/wasm/libsvm.js && cp out/wasm/libsvm.wasm dist/node/wasm/",
-        "build-emscripten-asm":
-            "rimraf out/asm &&  mkdir -p dist/node/asm && make asm && cat src/pre.js out/asm/libsvm.js src/post.js > dist/node/asm/libsvm.js",
-        "build-emscripten":
-            "run-s build-emscripten-wasm build-emscripten-asm build-emscripten-clean",
-        "webpack-build":
-            "rimraf dist/browser && mkdir -p dist/browser/asm dist/browser/wasm &&  webpack --config webpack.wasm.js && webpack --config webpack.asm.js",
-        "demo-build":
-            "rimraf demo-dist && BABEL_ENV=production webpack -p --config demos/webpack.production.js; cp demos/index.html demo-dist",
+        "build-emscripten-wasm": "rimraf out/wasm && mkdir -p dist/node/wasm && make wasm && cat src/pre.js out/wasm/libsvm.js src/post.js > dist/node/wasm/libsvm.js && cp out/wasm/libsvm.wasm dist/node/wasm/",
+        "build-emscripten-asm": "rimraf out/asm &&  mkdir -p dist/node/asm && make asm && cat src/pre.js out/asm/libsvm.js src/post.js > dist/node/asm/libsvm.js",
+        "build-emscripten": "run-s build-emscripten-wasm build-emscripten-asm build-emscripten-clean",
+        "webpack-build": "rimraf dist/browser && mkdir -p dist/browser/asm dist/browser/wasm &&  webpack --config webpack.wasm.js && webpack --config webpack.asm.js",
+        "demo-build": "rimraf demo-dist && BABEL_ENV=production webpack -p --config demos/webpack.production.js; cp demos/index.html demo-dist",
         "deploy": "npm run demo-build && gh-pages -d demo-dist",
-        "docs":
-            "jsdoc2md src/loadSVM.js -t .docs/Readme.hbs --no-cache > README.md",
+        "docs": "jsdoc2md src/loadSVM.js -t .docs/Readme.hbs --no-cache > README.md",
         "eslint": "eslint src/loadSVM.js demos examples",
         "eslint-fix": "eslint --fix src/loadSVM.js demos examples",
+        "preinstall": "git submodule init && git submodule update",
         "start": "webpack-dev-server --config demos/webpack.config.js",
         "test": "npm run test-mocha && npm run eslint",
         "test-mocha": "mocha --require should --recursive test",
