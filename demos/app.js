@@ -1,7 +1,6 @@
 // Those imports are handled by url-loader
-import '../dist/wasm/libsvm.wasm';
-import '../dist/wasm/libsvm.asm.js';
-
+import '../dist/node/wasm/libsvm.wasm';
+import '../dist/node/asm/libsvm.js';
 
 async function load() {
     try {
@@ -14,4 +13,3 @@ async function load() {
 }
 
 load();
-

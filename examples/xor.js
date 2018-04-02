@@ -1,4 +1,3 @@
-
 'use strict';
 
 function xor(SVM) {
@@ -29,14 +28,19 @@ function execAsm() {
 
 async function execWasm() {
     console.log('wasm');
-    const SVM = await require('../wasm');
+    let SVM;
+    try {
+        SVM = await require('../wasm');
+    } catch (e) {
+        console.log(e);
+    }
+    console.log(SVM);
     xor(SVM);
 }
 
 try {
     execAsm(); // Synchronous
     execWasm(); // Asynchronous
-
 } catch (e) {
     console.log('failed');
     console.log(e);
