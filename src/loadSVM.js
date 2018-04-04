@@ -58,7 +58,7 @@ module.exports = function (libsvm) {
       if (this._deserialized) throw new Error('Train cannot be called on instance created with SVM.load');
       this.free();
       this.problem = createProblem(samples, labels);
-      const command = this.getCommand();
+      const command = this.getCommand(samples);
       this.model = train_problem(this.problem, command);
     }
 
@@ -78,7 +78,7 @@ module.exports = function (libsvm) {
       if (this._deserialized) throw new Error('crossValidation cannot be called on instance created with SVM.load');
       const problem = createProblem(samples, labels);
       const target = libsvm._malloc(labels.length * 8);
-      svm_cross_validation(problem, this.getCommand(), kFold, target);
+      svm_cross_validation(problem, this.getCommand(samples), kFold, target);
       const data = libsvm.HEAPF64.subarray(target / 8, target / 8 + labels.length);
       const arr = Array.from(data);
       libsvm._free(target);
@@ -105,8 +105,15 @@ module.exports = function (libsvm) {
       }
     }
 
-    getCommand() {
-      return util.getCommand(this.options);
+    getCommand(samples) {
+      console.log(this.options.gamma);
+      const options = {};
+      Object.assign(options, this.options, {
+        gamma: this.options.gamma ? this.options.gamma : 1 / samples[0].length
+      });
+      console.log(options);
+      console.log(util.getCommand(options));
+      return util.getCommand(options);
     }
 
     /**
