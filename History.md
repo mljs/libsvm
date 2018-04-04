@@ -1,3 +1,8 @@
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/mljs/libsvm/compare/v0.1.3...v0.2.0) (2018-04-04)
+
+
+
 <a name="0.1.3"></a>
 ## [0.1.3](https://github.com/mljs/libsvm/compare/v0.1.2...v0.1.3) (2017-12-12)
 
