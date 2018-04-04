@@ -15,6 +15,7 @@ module.exports = function (libsvm) {
   const svm_get_labels = libsvm.cwrap('svm_get_labels', null, ['number', 'number']);
   const svm_free_model = libsvm.cwrap('svm_free_model', null, ['number']);
   const svm_cross_validation = libsvm.cwrap('libsvm_cross_validation', null, ['number', 'string', 'number', 'number']);
+  const svm_get_svr_probability = libsvm.cwrap('svm_get_svr_probability', null, ['number']);
   const free_problem = libsvm.cwrap('free_problem', null, ['number']);
   const serialize_model = libsvm.cwrap('serialize_model', 'number', ['number']);
   const deserialize_model = libsvm.cwrap('deserialize_model', 'number', ['string']);
@@ -173,6 +174,42 @@ module.exports = function (libsvm) {
       return result;
     }
 
+    /** Predict a regression value with a confidence interval
+         * @param {Array<number>} sample
+         * @param {number} confidence - A value between 0 and 1. For example, a value 0.95 will give you the 95% confidence interval of the predicted value.
+         * @return {object} - An object containing the prediction value and the lower and upper bounds of the confidence interval
+         */
+    predictOneInterval(sample, confidence) {
+      const interval = this._getInterval(confidence);
+      const predicted = this.predictOne(sample);
+      return {
+        predicted,
+        interval: [predicted - interval, predicted + interval]
+      };
+    }
+
+    /** Predict regression values with confidence intervals
+         * @param {Array<Array<number>>} samples - An array of samples.
+         * @param {number} confidence - A value between 0 and 1. For example, a value 0.95 will give you the 95% confidence interval of the predicted value.
+         * @return {Array<object>} - An array of objects each containing the prediction label and the probability estimates for each label
+         */
+    predictInterval(samples, confidence) {
+      const interval = this._getInterval(confidence);
+      const predicted = this.predict(samples);
+      return predicted.map((pred) => ({
+        predicted: pred,
+        interval: [pred - interval, pred + interval]
+      }));
+    }
+
+    _getInterval(confidence) {
+      const sigma = svm_get_svr_probability(this.model);
+      if (sigma === 0) throw new Error('the model is not a regression with probability estimates');
+      if (confidence <= 0 || confidence >= 1) throw new Error('confidence must be greater than 0 and less than 1');
+      const p = (1 - confidence) / 2;
+      return sigma * Math.sign(p - 0.5) * Math.log2(1 - 2 * Math.abs(p - 0.5));
+    }
+
 
     /**
          * Get the array of labels from the model. Useful when creating an SVM instance with SVM.load
@@ -275,4 +312,3 @@ module.exports = function (libsvm) {
 
   return SVM;
 };
-

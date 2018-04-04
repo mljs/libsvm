@@ -17,10 +17,12 @@ const svm = new SVM({
   type: SVM.SVM_TYPES.EPSILON_SVR,
   kernel: SVM.KERNEL_TYPES.RBF,
   epsilon: 0.001,
-  quiet: false
+  quiet: false,
+  probabilityEstimates: true
 });
 
 svm.train(features, labels);
-
+console.log(svm.predictInterval(features, 0.99));
 fs.writeFileSync(path.join(__dirname, 'bodyfat.model'), svm.serializeModel());
+
 // svm.crossValidation(features, labels);

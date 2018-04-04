@@ -111,6 +111,8 @@ WebAssembly is currently supported in the latest stable versions of Chrome, Fire
         * [.predict(samples)](#SVM+predict) ⇒ <code>Array.&lt;number&gt;</code>
         * [.predictProbability(samples)](#SVM+predictProbability) ⇒ <code>Array.&lt;object&gt;</code>
         * [.predictOneProbability(sample)](#SVM+predictOneProbability) ⇒ <code>object</code>
+        * [.predictOneInterval(sample, confidence)](#SVM+predictOneInterval) ⇒ <code>object</code>
+        * [.predictInterval(samples, confidence)](#SVM+predictInterval) ⇒ <code>Array.&lt;object&gt;</code>
         * [.getLabels()](#SVM+getLabels) ⇒ <code>Array.&lt;number&gt;</code>
         * [.getSVIndices()](#SVM+getSVIndices) ⇒ <code>Array.&lt;number&gt;</code>
         * [.serializeModel()](#SVM+serializeModel) ⇒ <code>string</code>
@@ -237,6 +239,32 @@ Predict the label with probability estimate.
 | Param | Type |
 | --- | --- |
 | sample | <code>Array.&lt;number&gt;</code> | 
+
+<a name="SVM+predictOneInterval"></a>
+
+### svM.predictOneInterval(sample, confidence) ⇒ <code>object</code>
+Predict a regression value with a confidence interval
+
+**Kind**: instance method of [<code>SVM</code>](#SVM)  
+**Returns**: <code>object</code> - - An object containing the prediction value and the lower and upper bounds of the confidence interval  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| sample | <code>Array.&lt;number&gt;</code> |  |
+| confidence | <code>number</code> | A value between 0 and 1. For example, a value 0.95 will give you the 95% confidence interval of the predicted value. |
+
+<a name="SVM+predictInterval"></a>
+
+### svM.predictInterval(samples, confidence) ⇒ <code>Array.&lt;object&gt;</code>
+Predict regression values with confidence intervals
+
+**Kind**: instance method of [<code>SVM</code>](#SVM)  
+**Returns**: <code>Array.&lt;object&gt;</code> - - An array of objects each containing the prediction label and the probability estimates for each label  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| samples | <code>Array.&lt;Array.&lt;number&gt;&gt;</code> | An array of samples. |
+| confidence | <code>number</code> | A value between 0 and 1. For example, a value 0.95 will give you the 95% confidence interval of the predicted value. |
 
 <a name="SVM+getLabels"></a>
 
