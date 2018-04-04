@@ -48,6 +48,29 @@ let Module;
     };
     return Module;
   }
+  function getModuleForNode() {
+    console.log('get module for node');
+    var resolve;
+    var promise = new Promise((res) => {
+      resolve = res;
+    });
+    var Module = {
+      locateFile(url) {
+        return `${__dirname}/${url}`;
+      },
+      onRuntimeInitialized() {
+        resolve();
+      },
+      load() {
+        return promise;
+      }
+    };
+    return Module;
+  }
 
-  Module = getModuleForBrowser();
+  if (typeof window === 'undefined' && typeof self === 'undefined') {
+    Module = getModuleForNode();
+  } else {
+    Module = getModuleForBrowser();
+  }
 })();
