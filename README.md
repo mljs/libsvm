@@ -27,6 +27,10 @@ require('libsvm-js').then(SVM => {
 });
 ```
 
+## Load in a web browser
+The npm package contains a bundle for the browser that works with AMD and browser globals. There is one bundle for the asm build and another for the web assembly build. They are located in the `dist/browser` directory of the package. You can load them into your web page with a `script` tag. For the web assembly module, make sure that the libsvm.wasm file is served from the same relative path as the js file.
+
+
 There is an alternative entry point if you want to use asm build. This entrypoint is synchronous.
 ```js
 const SVM = require('libsvm-js/asm');
@@ -105,6 +109,8 @@ WebAssembly is currently supported in the latest stable versions of Chrome, Fire
         * [.free()](#SVM+free)
         * [.predictOne(sample)](#SVM+predictOne) ⇒ <code>number</code>
         * [.predict(samples)](#SVM+predict) ⇒ <code>Array.&lt;number&gt;</code>
+        * [.predictProbability(samples)](#SVM+predictProbability) ⇒ <code>Array.&lt;object&gt;</code>
+        * [.predictOneProbability(sample)](#SVM+predictOneProbability) ⇒ <code>object</code>
         * [.getLabels()](#SVM+getLabels) ⇒ <code>Array.&lt;number&gt;</code>
         * [.getSVIndices()](#SVM+getSVIndices) ⇒ <code>Array.&lt;number&gt;</code>
         * [.serializeModel()](#SVM+serializeModel) ⇒ <code>string</code>
@@ -207,6 +213,30 @@ Predict the label of many samples.
 | Param | Type | Description |
 | --- | --- | --- |
 | samples | <code>Array.&lt;Array.&lt;number&gt;&gt;</code> | The samples to predict. |
+
+<a name="SVM+predictProbability"></a>
+
+### svM.predictProbability(samples) ⇒ <code>Array.&lt;object&gt;</code>
+Predict the label with probability estimate of many samples.
+
+**Kind**: instance method of [<code>SVM</code>](#SVM)  
+**Returns**: <code>Array.&lt;object&gt;</code> - - An array of objects containing the prediction label and the probability estimates for each label  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| samples | <code>Array.&lt;Array.&lt;number&gt;&gt;</code> | The samples to predict. |
+
+<a name="SVM+predictOneProbability"></a>
+
+### svM.predictOneProbability(sample) ⇒ <code>object</code>
+Predict the label with probability estimate.
+
+**Kind**: instance method of [<code>SVM</code>](#SVM)  
+**Returns**: <code>object</code> - - An object containing the prediction label and the probability estimates for each label  
+
+| Param | Type |
+| --- | --- |
+| sample | <code>Array.&lt;number&gt;</code> | 
 
 <a name="SVM+getLabels"></a>
 
