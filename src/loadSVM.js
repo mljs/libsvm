@@ -106,13 +106,10 @@ module.exports = function (libsvm) {
     }
 
     getCommand(samples) {
-      console.log(this.options.gamma);
       const options = {};
       Object.assign(options, this.options, {
         gamma: this.options.gamma ? this.options.gamma : 1 / samples[0].length
       });
-      console.log(options);
-      console.log(util.getCommand(options));
       return util.getCommand(options);
     }
 

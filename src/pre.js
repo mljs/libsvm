@@ -49,7 +49,6 @@ let Module;
     return Module;
   }
   function getModuleForNode() {
-    console.log('get module for node');
     var resolve;
     var promise = new Promise((res) => {
       resolve = res;

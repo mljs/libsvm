@@ -1,3 +1,4 @@
+'use strict';
 
 const path = require('path');
 
@@ -93,7 +94,7 @@ module.exports = {
       }
     }),
     new ServiceWorkerWebpackPlugin({
-      entry: path.join(__dirname, 'sw.js'),
+      entry: path.join(__dirname, './sw.js'),
       publicPath
     })
   ],
