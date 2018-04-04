@@ -1,6 +1,6 @@
 // Those imports are handled by url-loader
-import '../dist/node/wasm/libsvm.wasm';
-import '../dist/node/asm/libsvm.js';
+import '../out/wasm/libsvm.wasm';
+import '../out/asm/libsvm.js';
 
 async function load() {
   try {
@@ -9,7 +9,7 @@ async function load() {
     console.warn('wasm failed, trying asm'); // eslint-disable-line no-console
     global.SVM = await import('../asm');
   }
-    import('./bootstrap');
+  import('./bootstrap');
 }
 
 load();

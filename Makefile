@@ -2,7 +2,7 @@ CC = emcc
 CXX = em++
 
 CFLAGS = -Wall -Wconversion -O3 -fPIC --memory-init-file 0
-BUILD_DIR=out
+BUILD_DIR=out/emscripten
 EXPORTED_FUNCTIONS="['_parse_command_line', '_create_svm_nodes', '_add_instance', '_libsvm_train_problem', '_libsvm_train', '_libsvm_predict_one', '_libsvm_predict_one_probability', '_get_svr_epsilon', '_svm_free_model', '_svm_get_svm_type', '_svm_get_nr_sv', '_svm_get_nr_class', '_svm_get_sv_indices', '_svm_get_labels', '_libsvm_cross_validation', '_free_problem', '_serialize_model', '_deserialize_model']"
 
 all: wasm asm

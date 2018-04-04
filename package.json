@@ -5,6 +5,7 @@
   "main": "wasm.js",
   "files": [
     "src",
+    "out",
     "dist",
     "asm.js",
     "wasm.js",
@@ -14,9 +15,9 @@
     "benchmark": "npm run build-benchmark && node benchmark/bin",
     "build-benchmark": "(cd benchmark/iris; make)",
     "build": "run-s build-emscripten webpack-build",
-    "build-emscripten-clean": "make clean",
-    "build-emscripten-wasm": "rimraf out/wasm && mkdir -p dist/node/wasm && make wasm && cat src/pre.js out/wasm/libsvm.js src/post.js > dist/node/wasm/libsvm.js && cp out/wasm/libsvm.wasm dist/node/wasm/",
-    "build-emscripten-asm": "rimraf out/asm &&  mkdir -p dist/node/asm && make asm && cat src/pre.js out/asm/libsvm.js src/post.js > dist/node/asm/libsvm.js",
+    "build-emscripten-clean": "make clean && rm -rf out/emscripten/",
+    "build-emscripten-wasm": "rimraf out/wasm && mkdir -p out/wasm && make wasm && cat src/pre.js out/emscripten/wasm/libsvm.js src/post.js > out/wasm/libsvm.js && cp out/emscripten/wasm/libsvm.wasm out/wasm/libsvm.wasm",
+    "build-emscripten-asm": "rimraf out/asm &&  mkdir -p out/asm && make asm && cat src/pre.js out/emscripten/asm/libsvm.js src/post.js > out/asm/libsvm.js",
     "build-emscripten": "run-s build-emscripten-wasm build-emscripten-asm build-emscripten-clean",
     "webpack-build": "rimraf dist/browser && mkdir -p dist/browser/asm dist/browser/wasm &&  webpack --config webpack.wasm.js && webpack --config webpack.asm.js &&  cp out/wasm/libsvm.wasm dist/browser/wasm/",
     "demo-build": "rimraf demo-dist && BABEL_ENV=production webpack -p --config demos/webpack.production.js; cp demos/index.html demo-dist",
@@ -27,8 +28,7 @@
     "preinstall": "git submodule init && git submodule update",
     "start": "webpack-dev-server --config demos/webpack.config.js",
     "test": "npm run test-mocha && npm run eslint",
-    "test-mocha": "mocha --require should --recursive test",
-    "xyz": "echo $1"
+    "test-mocha": "mocha --require should --recursive test"
   },
   "repository": {
     "type": "git",
