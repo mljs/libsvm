@@ -333,3 +333,8 @@ Create a SVM instance from the serialized model.
 
 # LICENSE
 BSD-3-Clause
+
+[npm-image]: https://img.shields.io/npm/v/libsvm-js.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/libsvm-js
+[download-image]: https://img.shields.io/npm/dm/libsvm-js.svg?style=flat-square
+[download-url]: https://npmjs.org/package/libsvm-js
