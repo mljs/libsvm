@@ -1,3 +1,6 @@
+[![NPM version][npm-image]][npm-url]
+[![npm download][download-image]][download-url]
+
 # [DEMO](https://mljs.github.io/libsvm/)
 
 Port of to port libsvm v3.22 using [emscripten](https://github.com/kripken/emscripten) , for usage in the browser or nodejs. 2 build targets: asm and WebAssembly.
