@@ -1,3 +1,13 @@
+<a name="0.2.1"></a>
+## [0.2.1](https://github.com/mljs/libsvm/compare/v0.2.0...v0.2.1) (2018-05-24)
+
+
+### Bug Fixes
+
+* use prepare instead of preinstall for git submodule installation ([d61f5f8](https://github.com/mljs/libsvm/commit/d61f5f8))
+
+
+
 <a name="0.2.0"></a>
 # [0.2.0](https://github.com/mljs/libsvm/compare/v0.1.3...v0.2.0) (2018-04-04)
 
