@@ -25,7 +25,7 @@
     "docs": "jsdoc2md src/loadSVM.js -t .docs/Readme.hbs --no-cache > README.md",
     "eslint": "eslint src/loadSVM.js demos examples",
     "eslint-fix": "eslint --fix src/loadSVM.js demos examples",
-    "preinstall": "git submodule init && git submodule update",
+    "prepare": "git submodule init && git submodule update",
     "start": "webpack-dev-server --config webpack/webpack.config.js",
     "test": "npm run test-mocha && npm run eslint",
     "test-mocha": "mocha --require should --recursive test"
