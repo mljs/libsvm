@@ -1,11 +1,14 @@
-const omitBy = require('lodash.omitby');
+import { omitBy } from 'lodash-es';
 
 export const KERNEL = {
   id: 'HP_KERNEL',
   name: 'kernel',
   type: 'select',
-  options: omitBy(SVM.KERNEL_TYPES, (val) => val === SVM.KERNEL_TYPES.PRECOMPUTED),
-  initial: SVM.KERNEL_TYPES.RBF
+  options: omitBy(
+    SVM.KERNEL_TYPES,
+    (val) => val === SVM.KERNEL_TYPES.PRECOMPUTED,
+  ),
+  initial: SVM.KERNEL_TYPES.RBF,
 };
 
 export const COST = {
@@ -18,7 +21,7 @@ export const COST = {
   format: Math.log10,
   step: 0.2,
   gridSearch: true,
-  initial: 10
+  initial: 10,
 };
 
 export const GAMMA = {
@@ -31,7 +34,7 @@ export const GAMMA = {
   format: Math.log10,
   step: 0.2,
   gridSearch: true,
-  initial: 10
+  initial: 10,
 };
 
 export const NU = {
@@ -43,7 +46,7 @@ export const NU = {
   normalize: toNumber,
   step: 0.05,
   gridSearch: true,
-  initial: 0.5
+  initial: 0.5,
 };
 
 export const EPSILON = {
@@ -55,14 +58,14 @@ export const EPSILON = {
   normalize: toNumber,
   step: 0.02,
   gridSearch: true,
-  initial: 0.03
+  initial: 0.03,
 };
 
 export const DEGREE = {
   HP: 'HP_DEGREE',
   name: 'degree',
   type: 'number',
-  gridSearch: false
+  gridSearch: false,
 };
 
 export function getFields() {
@@ -96,7 +99,11 @@ function pow10(value) {
 }
 
 function isNu(type) {
-  return type === SVM.SVM_TYPES.NU_SVC || type === SVM.SVM_TYPES.NU_SVR || type === SVM.SVM_TYPES.ONE_CLASS;
+  return (
+    type === SVM.SVM_TYPES.NU_SVC ||
+    type === SVM.SVM_TYPES.NU_SVR ||
+    type === SVM.SVM_TYPES.ONE_CLASS
+  );
 }
 
 function isCost(type) {
@@ -104,7 +111,11 @@ function isCost(type) {
 }
 
 function hasGamma(kernel) {
-  return kernel === SVM.KERNEL_TYPES.RBF || kernel === SVM.KERNEL_TYPES.SIGMOID || kernel === SVM.KERNEL_TYPES.POLYNOMIAL;
+  return (
+    kernel === SVM.KERNEL_TYPES.RBF ||
+    kernel === SVM.KERNEL_TYPES.SIGMOID ||
+    kernel === SVM.KERNEL_TYPES.POLYNOMIAL
+  );
 }
 
 // function isClassification(type) {

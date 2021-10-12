@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { LABELS_COLORS } from '../constants';
 
-const chroma = require('chroma-js');
+import chroma from 'chroma-js';
 
 class Canvas extends Component {
   componentDidMount() {
@@ -18,11 +18,15 @@ class Canvas extends Component {
   onCanvasClick(event) {
     const targetRect = event.target.getBoundingClientRect();
     const normalized = {
-      x: (event.clientX - targetRect.left) / (this.props.width * this.props.scale),
-      y: (event.clientY - targetRect.top) / (this.props.height * this.props.scale)
+      x:
+        (event.clientX - targetRect.left) /
+        (this.props.width * this.props.scale),
+      y:
+        (event.clientY - targetRect.top) /
+        (this.props.height * this.props.scale),
     };
     this.props.addPoint({
-      point: normalized
+      point: normalized,
     });
   }
 
@@ -30,7 +34,9 @@ class Canvas extends Component {
     const realWidth = this.props.width * this.props.scale;
     const realHeight = this.props.height * this.props.scale;
     return (
-      <div style={{ ...this.props.style, width: realWidth, height: realHeight }}>
+      <div
+        style={{ ...this.props.style, width: realWidth, height: realHeight }}
+      >
         <canvas
           onClick={this.onCanvasClick.bind(this)}
           width={realWidth}
@@ -65,12 +71,21 @@ class Canvas extends Component {
     if (!info) return;
     this.ctx.font = '14px serif';
     this.ctx.fillStyle = 'black';
-    this.ctx.fillText(info, this.convertXCoordinates(0.9), this.convertYCoordinates(0.97));
+    this.ctx.fillText(
+      info,
+      this.convertXCoordinates(0.9),
+      this.convertYCoordinates(0.97),
+    );
   }
 
   fillBackground() {
     this.ctx.fillStyle = 'lightgray';
-    this.ctx.fillRect(0, 0, this.props.width * this.props.scale, this.props.height * this.props.scale);
+    this.ctx.fillRect(
+      0,
+      0,
+      this.props.width * this.props.scale,
+      this.props.height * this.props.scale,
+    );
     this.ctx.fillStyle = 'black';
   }
 
@@ -84,7 +99,7 @@ class Canvas extends Component {
     const data = this.ctx.createImageData(realWidth, realHeight);
     for (let i = 0; i < width; i++) {
       for (let j = 0; j < height; j++) {
-        const px = (j * width + i);
+        const px = j * width + i;
         const label = this.props.background[px];
 
         for (let k = 0; k < scale; k++) {
@@ -115,18 +130,27 @@ class Canvas extends Component {
   }
 
   drawPoints() {
-    const colorsBrighter = this.props.labelColors.map((c) => chroma(c).brighten().hex());
+    const colorsBrighter = this.props.labelColors.map((c) =>
+      chroma(c).brighten().hex(),
+    );
     const { width, height, scale, SVs } = this.props;
     const SVIdx = {};
     SVs.forEach((idx) => (SVIdx[idx] = 1));
-    const radius = scale * Math.min(height, width) / 80;
+    const radius = (scale * Math.min(height, width)) / 80;
     this.ctx.imageSmoothingEnabled = false;
     for (let i = 0; i < this.props.points.length; i++) {
       const point = this.props.points[i];
       let lineFactor = 4;
       if (SVIdx[i]) lineFactor = 2;
       this.ctx.beginPath();
-      this.ctx.arc(point.x * scale, point.y * scale, radius, 0, 2 * Math.PI, false);
+      this.ctx.arc(
+        point.x * scale,
+        point.y * scale,
+        radius,
+        0,
+        2 * Math.PI,
+        false,
+      );
       this.ctx.fillStyle = colorsBrighter[point.label];
       this.ctx.fill();
       this.ctx.lineWidth = radius / lineFactor;
@@ -152,7 +176,7 @@ class Canvas extends Component {
 }
 
 Canvas.defaultProps = {
-  labelColors: LABELS_COLORS
+  labelColors: LABELS_COLORS,
 };
 
 export default Canvas;

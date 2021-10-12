@@ -1,23 +1,21 @@
 import React, { Component } from 'react';
-import Loading from 'react-loading-animation';
+import Worker from '../../benchmark/worker?worker';
 
 export default class Benchmarks extends Component {
   constructor(props) {
     super(props);
     this.state = {
       asmTime: '-',
-      wasmTime: '-'
+      wasmTime: '-',
     };
   }
 
   componentDidMount() {
-    // eslint-disable-next-line
-    const Worker = require('worker-loader!../../benchmark/worker');
     this.worker = new Worker();
     this.worker.onmessage = (event) => {
       this.setState({
-        [event.data.method === 'asm' ? 'asmTime' : 'wasmTime']: event.data
-          .result
+        [event.data.method === 'asm' ? 'asmTime' : 'wasmTime']:
+          event.data.result,
       });
     };
   }
@@ -26,16 +24,16 @@ export default class Benchmarks extends Component {
     this.worker.postMessage({
       benchmark: this.props.benchmark,
       method: 'asm',
-      time: 5
+      time: 5,
     });
     this.worker.postMessage({
       benchmark: this.props.benchmark,
       method: 'wasm',
-      time: 5
+      time: 5,
     });
     this.setState({
       asmTime: 'sent',
-      wasmTime: 'sent'
+      wasmTime: 'sent',
     });
   }
 
@@ -77,10 +75,11 @@ function getResultComponent(time) {
   }
 }
 
+// TODO: replace with actual loading animation
 function MySpinner() {
   return (
     <div style={{ display: 'inline-block', height: 24, width: 24 }}>
-      <Loading style={{ width: 24, height: 24 }} />
+      <div style={{ width: 24, height: 24 }}>L</div>
     </div>
   );
 }

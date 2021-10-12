@@ -1,33 +1,32 @@
 import React, { Component } from 'react';
 import { throttle } from 'lodash-es';
 import { connect } from 'react-redux';
-import { Route, HashRouter as Router, Redirect, Switch } from 'react-router-dom';
-import runtime from 'serviceworker-webpack-plugin/lib/runtime';
+import {
+  Route,
+  HashRouter as Router,
+  Redirect,
+  Switch,
+} from 'react-router-dom';
 
 import { updateStyleBreakpoint } from '../actions/index';
 import SVC from '../components/SVC';
 import SVR from '../components/SVR';
 import Navigation from '../components/Navigation';
 
-
 import Benchmarks from './Benchmarks';
-
 
 class App extends Component {
   componentWillMount() {
     const onResize = () => {
-      const breakpoint = window.getComputedStyle(document.querySelector('body'), ':before').getPropertyValue('content').replace(/"/g, '');
+      const breakpoint = window
+        .getComputedStyle(document.querySelector('body'), ':before')
+        .getPropertyValue('content')
+        .replace(/"/g, '');
       this.props.updateStyleBreakpoint(breakpoint);
     };
 
     window.addEventListener('resize', throttle(onResize, 150));
     onResize();
-  }
-
-  componentDidMount() {
-    if ('serviceWorker' in navigator) {
-      runtime.register();
-    }
   }
 
   render() {
@@ -46,6 +45,5 @@ class App extends Component {
     );
   }
 }
-
 
 export default connect(null, { updateStyleBreakpoint })(App);
