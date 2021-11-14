@@ -61,7 +61,7 @@ int main(int argc, char** argv) {
 
         }
         t2 = steady_clock::now();
-        time_span = duration_cast<duration<double>>(t2 - t1);
+        time_span = duration_cast<duration<double> >(t2 - t1);
         count++;
     } while(time_span.count() < time);
 

@@ -43,8 +43,9 @@ let Module;
         resolve();
       },
       load() {
+        console.log('load', promise);
         return promise;
-      }
+      },
     };
     return Module;
   }
@@ -62,7 +63,7 @@ let Module;
       },
       load() {
         return promise;
-      }
+      },
     };
     return Module;
   }
