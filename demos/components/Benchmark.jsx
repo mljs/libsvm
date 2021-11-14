@@ -5,7 +5,6 @@ export default class Benchmarks extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      asmTime: '-',
       wasmTime: '-',
     };
   }
@@ -13,9 +12,11 @@ export default class Benchmarks extends Component {
   componentDidMount() {
     this.worker = new Worker();
     this.worker.onmessage = (event) => {
+      if (event.data.method !== 'wasm') {
+        throw new Error('wrong method');
+      }
       this.setState({
-        [event.data.method === 'asm' ? 'asmTime' : 'wasmTime']:
-          event.data.result,
+        wasmTime: event.data.result,
       });
     };
   }
@@ -23,22 +24,16 @@ export default class Benchmarks extends Component {
   onRun() {
     this.worker.postMessage({
       benchmark: this.props.benchmark,
-      method: 'asm',
-      time: 5,
-    });
-    this.worker.postMessage({
-      benchmark: this.props.benchmark,
       method: 'wasm',
       time: 5,
     });
     this.setState({
-      asmTime: 'sent',
       wasmTime: 'sent',
     });
   }
 
   render() {
-    const { asmTime, wasmTime } = this.state;
+    const { wasmTime } = this.state;
     const disabled = asmTime === 'running' || wasmTime === 'running';
     let AsmRender = getResultComponent(asmTime);
     let WasmRender = getResultComponent(wasmTime);
@@ -50,7 +45,7 @@ export default class Benchmarks extends Component {
         <h3>{this.props.name}</h3>
         <Description />
         <div style={{ lineHeight: '32px', display: 'flex' }}>
-          asm: &nbsp; <AsmRender /> &nbsp; wasm: &nbsp; <WasmRender /> &nbsp;
+          wasm: &nbsp; <WasmRender /> &nbsp;
           <input
             type="button"
             className="btn btn-info"

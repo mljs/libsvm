@@ -1,6 +1,6 @@
 # [DEMO](https://mljs.github.io/libsvm/)
 
-Port of to port libsvm v3.22 using [emscripten](https://github.com/kripken/emscripten) , for usage in the browser or nodejs. 2 build targets: asm and WebAssembly.
+Port of to port libsvm v3.22 using [emscripten](https://github.com/kripken/emscripten) , for usage in the browser or nodejs.
 
 What is libsvm?
 libsvm is a [c++ library](https://github.com/cjlin1/libsvm) developped by Chih-Chung Chang and Chih-Jen Lin that allows to do support vector machine (aka SVM) classification and regression.
@@ -27,14 +27,8 @@ require('libsvm-js').then(SVM => {
 });
 ```
 
-There is an alternative entry point if you want to use asm build. This entrypoint is synchronous.
-```js
-const SVM = require('libsvm-js/asm');
-const svm = new SVM(); // ...
-```
-
 ## Load in a web browser
-The npm package contains a bundle for the browser that works with AMD and browser globals. There is one bundle for the asm build and another for the web assembly build. They are located in the `dist/browser` directory of the package. You can load them into your web page with a `script` tag. For the web assembly module, make sure that the libsvm.wasm file is served from the same relative path as the js file.
+The npm package contains a bundle for the browser that works with AMD and browser globals. They are located in the `dist/browser` directory of the package. You can load them into your web page with a `script` tag. For the web assembly module, make sure that the libsvm.wasm file is served from the same relative path as the js file.
 
 ## Basic usage
 This example illustrates how to use the library to train and use an SVM classifier.
@@ -72,28 +66,18 @@ Speed is mainly affected by the javascript engine that compiles it. Since WebAss
 Speed is also affected by the version of emscripten that generated the build or the options used in the build. I will try to keep up with any improvement that might significantly impact the performance.
 
 ## Cross-validation benchmark
-I report the results here for the cross-validation benchmark on the iris dataset to get a feeling for how performance compares on different platforms. There are other benchmarks that can be run from the terminal in node.js or in the browser. The performance results are given relative to how they run natively (with compiled c++ code). The benchmarks only consider runtime performance, not load and parse performance.
+There is a benchmark on the iris dataset to get a feeling for how performance compares on different platforms.
 
-| Platform | Rel asm perf | Rel wasm perf |
-| --- | --- | --- |
-| Native | 100% | 100% |
-| Node.js 8.1.2 | 34.2% | 52.6% |
-| Node.js v7.10.0 | 14.4% | N/A |
-| Chrome 59.0.3071.115  | 36.2% | 51.3% |
-| Firefox 54.0 | 35.5% | 70.4% |
+After installing the dependencies and compiling the project you can run `npm run benchmark` to run the benchmarks with native code and in node.js. The benchmarks are also available on our demo page to test performance in web browsers.
 
+The benchmarks only consider runtime performance, not load and parse performance.
 
-# What are asm and WebAssembly ?
-From [asmjs.org](http;//asmjs.org)
-> asm is an optimizable subset of javascript.
+# What is WebAssembly ?
 
 From [webassembly.org](http://webassembly.org)
 > WebAssembly or wasm is a new portable, size- and load-time-efficient format suitable for compilation to the web
 
-# Should I use asm or WebAssembly ?
-Both. You should try to use WebAssembly first and fall back to asm in order to support all browsers.
-
-WebAssembly is currently supported in the latest stable versions of Chrome, Firefox and on preview versions of Safari and Edge.
+WebAssembly is currently supported in the latest stable versions of Chrome / Chromium, Firefox and Safari.
 
 # API Documentation
 {{>main}}

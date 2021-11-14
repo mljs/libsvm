@@ -3,7 +3,7 @@
 const Kernel = require('ml-kernel');
 const range = require('lodash.range');
 
-const SVM = require('../asm');
+const SVM = require('../wasm');
 
 const gamma = 0.2;
 const cost = 1;
@@ -33,7 +33,7 @@ function exec(SVM, precomputed) {
     cost: cost,
     kernel: precomputed ? SVM.KERNEL_TYPES.PRECOMPUTED : SVM.KERNEL_TYPES.RBF,
     gamma,
-    probabilityEstimates: true
+    probabilityEstimates: true,
   });
   svm.train(trainData, labels);
   var pred = svm.predictProbability(trainData);

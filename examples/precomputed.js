@@ -1,10 +1,9 @@
-
 'use strict';
 
 const Kernel = require('ml-kernel');
 const range = require('lodash.range');
 
-const SVM = require('../asm');
+const SVM = require('../wasm');
 
 const gamma = 0.2;
 const cost = 1;
@@ -21,7 +20,6 @@ function exec(SVM, time, precomputed) {
   classes.forEach((v, idx) => (c[v] = idx));
   labels = labels.map((l) => c[l]);
 
-
   let result;
   const t1 = Date.now();
   let t2 = Date.now();
@@ -29,7 +27,9 @@ function exec(SVM, time, precomputed) {
   while (t2 - t1 < MILISECONDS) {
     if (precomputed) {
       const kernel = new Kernel('gaussian', { sigma: 1 / Math.sqrt(gamma) });
-      trainData = kernel.compute(features).addColumn(0, range(1, labels.length + 1));
+      trainData = kernel
+        .compute(features)
+        .addColumn(0, range(1, labels.length + 1));
     } else {
       trainData = features;
     }
@@ -38,7 +38,7 @@ function exec(SVM, time, precomputed) {
       quiet: true,
       cost: cost,
       kernel: precomputed ? SVM.KERNEL_TYPES.PRECOMPUTED : SVM.KERNEL_TYPES.RBF,
-      gamma
+      gamma,
     });
     result = svm.crossValidation(trainData, labels, labels.length);
     svm.free();
@@ -46,7 +46,13 @@ function exec(SVM, time, precomputed) {
     t2 = Date.now();
   }
 
-  console.log('accuracy: ', result.reduce((prev, current, idx) => (current === labels[idx] ? prev + 1 : prev), 0) / labels.length);
+  console.log(
+    'accuracy: ',
+    result.reduce(
+      (prev, current, idx) => (current === labels[idx] ? prev + 1 : prev),
+      0,
+    ) / labels.length,
+  );
   return count;
 }
 

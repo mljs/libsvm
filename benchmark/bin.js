@@ -16,14 +16,14 @@ if (benchmarks === 'all' || !benchmarks) {
   benchmarks = benchmarks.split(',');
 }
 if (modes === 'all' || !modes) {
-  modes = ['native', 'asm', 'wasm'];
+  modes = ['native', 'wasm'];
 } else {
   modes = modes.split(',');
 }
 
 const time = +argv[2] || 5;
 
-if (modes.includes('asm') || modes.includes('wasm')) {
+if (modes.includes('wasm')) {
   console.log('Running benchmark on nodejs version', process.version, '\n');
 }
 
@@ -58,9 +58,7 @@ async function run(mode, time, benchmark) {
   console.log(mode, benchmark);
   const runBenchmark = require(`./${benchmark}-benchmark`);
   let SVM;
-  if (mode === 'asm') {
-    SVM = require('../asm');
-  } else if (mode === 'wasm') {
+  if (mode === 'wasm') {
     try {
       SVM = await require('../wasm');
     } catch (e) {
