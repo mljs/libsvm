@@ -1,15 +1,18 @@
-
-import { connect } from 'react-redux';
-
-import { addPoint } from '../actions/SVC';
-import { getSVCData, getLabelColors } from '../selectors/index';
+import { getLabelColors, getSVCCanvasData } from '../selectors/index';
 import Canvas from '../components/Canvas';
+import useCanvasPoints from '../hooks/useCanvasPoints';
 
-function mapStateToProps(state) {
-  const props = getSVCData(state);
-  props.labelColors = getLabelColors(state);
-  return props;
+export default function SVCCanvas(props) {
+  const [state, { addPoint }] = useCanvasPoints();
+
+  const canvasProps = getSVCCanvasData(state);
+  const labelColors = getLabelColors(state);
+  return (
+    <Canvas
+      {...props}
+      {...canvasProps}
+      addPoint={addPoint}
+      labelColors={labelColors}
+    />
+  );
 }
-
-
-export default connect(mapStateToProps, { addPoint })(Canvas);

@@ -1,28 +1,36 @@
 import React from 'react';
-import { Field } from 'redux-form';
 
 export default function ConfigField(props) {
   switch (props.type) {
     case 'range': {
-      return <Field name={props.name} component="input" step={props.step} type={props.type} min={props.min}
-        max={props.max}
-        normalize={props.normalize} format={props.format}
-        style={{ ...props.style, verticalAlign: 'text-top' }}
-        id={props.id}
-      />;
+      return (
+        <input
+          name={props.name}
+          step={props.step}
+          type={props.type}
+          min={props.min}
+          max={props.max}
+          normalize={props.normalize}
+          format={props.format}
+          style={{ ...props.style, verticalAlign: 'text-top' }}
+          id={props.id}
+        />
+      );
     }
     case 'number': {
-      return <Field id={props.id} name={props.name} component="input" type={props.type} />;
+      return <input id={props.id} name={props.name} type={props.type} />;
     }
     case 'select': {
       return (
-        <Field name={props.name} component="select" id={props.id}>
+        <select name={props.name} id={props.id}>
           {Object.keys(props.options).map((kernel) => {
-            return <option value={props.options[kernel]}
-              key={props.options[kernel]}>{kernel}
-            </option>;
+            return (
+              <option value={props.options[kernel]} key={props.options[kernel]}>
+                {kernel}
+              </option>
+            );
           })}
-        </Field>
+        </select>
       );
     }
     default: {

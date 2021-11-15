@@ -1,13 +1,11 @@
-
-import { connect } from 'react-redux';
-
-import { addPoint } from '../actions/SVR';
-import { getSVRData } from '../selectors/index';
+import React from 'react';
+import { getSVRCanvasData } from '../selectors/index';
 import Canvas from '../components/Canvas';
+import useCanvasPoints from '../hooks/useCanvasPoints';
 
-function mapStateToProps(state) {
-  return getSVRData(state);
+export default function SVRCanvas(props) {
+  const [state, { addPoint }] = useCanvasPoints();
+
+  const canvasProps = getSVRCanvasData(state);
+  return <Canvas {...props} {...canvasProps} addPoint={addPoint} />;
 }
-
-
-export default connect(mapStateToProps, { addPoint })(Canvas);
