@@ -1,18 +1,19 @@
-import { getLabelColors, getSVCCanvasData } from '../selectors/index';
+import React from 'react';
+
+import { getSVCCanvasData } from '../selectors/index';
 import Canvas from '../components/Canvas';
-import useCanvasPoints from '../hooks/useCanvasPoints';
+import useSVCConfig from '../hooks/useSVCConfig';
 
 export default function SVCCanvas(props) {
-  const [state, { addPoint }] = useCanvasPoints();
-
-  const canvasProps = getSVCCanvasData(state);
-  const labelColors = getLabelColors(state);
+  const { state, actions, ...otherProps } = props;
+  const config = useSVCConfig();
+  const canvasProps = getSVCCanvasData(state, config);
   return (
     <Canvas
-      {...props}
+      {...otherProps}
       {...canvasProps}
-      addPoint={addPoint}
-      labelColors={labelColors}
+      addPoint={actions.addPoint}
+      labelColors={state.colors}
     />
   );
 }

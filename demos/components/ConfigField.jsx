@@ -14,15 +14,23 @@ export default function ConfigField(props) {
           format={props.format}
           style={{ ...props.style, verticalAlign: 'text-top' }}
           id={props.id}
+          {...props.register(props.name)}
         />
       );
     }
     case 'number': {
-      return <input id={props.id} name={props.name} type={props.type} />;
+      return (
+        <input
+          id={props.id}
+          name={props.name}
+          type={props.type}
+          {...props.register(props.name)}
+        />
+      );
     }
     case 'select': {
       return (
-        <select name={props.name} id={props.id}>
+        <select name={props.name} id={props.id} {...props.register(props.name)}>
           {Object.keys(props.options).map((kernel) => {
             return (
               <option value={props.options[kernel]} key={props.options[kernel]}>

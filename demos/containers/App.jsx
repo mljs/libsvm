@@ -39,7 +39,6 @@ class App extends Component {
   }
 
   render() {
-    console.log('render app');
     return (
       <Router>
         <div className="container">

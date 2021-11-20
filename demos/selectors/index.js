@@ -64,7 +64,7 @@ export function getSVCCanvasData(SVCPoints, config, currentBreakpoint = 'md') {
       for (let i = 0; i < canvasSize; i++) {
         for (let j = 0; j < canvasSize; j++) {
           let val = svm.predictOne([j / canvasSize, i / canvasSize]);
-          if (SVCConfig.type === SVM.SVM_TYPES.ONE_CLASS) {
+          if (config.type === SVM.SVM_TYPES.ONE_CLASS) {
             if (val < 0) {
               val = 1;
             } else {
