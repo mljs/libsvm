@@ -29,8 +29,8 @@
     "prettier": "prettier --check src",
     "prettier-write": "prettier --write src",
     "start": "webpack-dev-server --config webpack/webpack.config.js",
-    "test": "npm run test-only && npm run eslint && npm run prettier",
-    "test-only": "mocha --require should --recursive test"
+    "test": "npm run test-mocha && npm run eslint && npm run prettier",
+    "test-mocha": "mocha --require should --recursive test"
   },
   "repository": {
     "type": "git",
