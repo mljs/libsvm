@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import { LABELS_COLORS } from '../constants';
-
 import chroma from 'chroma-js';
 
 class Canvas extends Component {
@@ -174,9 +172,5 @@ class Canvas extends Component {
     this.drawText(info);
   }
 }
-
-Canvas.defaultProps = {
-  labelColors: LABELS_COLORS,
-};
 
 export default Canvas;

@@ -1,7 +1,5 @@
 import { omitBy } from 'lodash-es';
 
-console.log(SVM.KERNEL_TYPES);
-
 export const KERNEL = {
   id: 'HP_KERNEL',
   name: 'kernel',
@@ -75,6 +73,7 @@ export function getFields() {
 }
 
 export function getHyperParameters(type, kernel) {
+  console.log({ type, kernel });
   const fields = [];
   if (isNu(type)) {
     fields.push(NU);

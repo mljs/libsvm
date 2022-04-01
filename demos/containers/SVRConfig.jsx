@@ -2,6 +2,7 @@ import React from 'react';
 
 import { getFields, KERNEL, getHyperParameters } from '../util/fields';
 import TableConfigField from '../components/TableConfigField';
+import { useFormContext, useWatch } from 'react-hook-form';
 
 const initialValues = {
   type: SVM.SVM_TYPES.EPSILON_SVR,
@@ -9,11 +10,12 @@ const initialValues = {
 
 getFields().forEach((field) => (initialValues[field.name] = field.initial));
 
-export default function SVRConfig(props) {
-  const { kernelValue, typeValue } = props;
+export default function SVRConfig() {
+  const { register } = useFormContext();
+  const { type, kernel } = useWatch();
 
-  // todo: implement state
-  const params = {};
+  console.log(register);
+
   return (
     <form>
       <table className="svm-config-table">
@@ -23,16 +25,17 @@ export default function SVRConfig(props) {
               <label htmlFor="SVR_type">Regression type</label>
             </td>
             <td>
-              <select name="type" id="SVR_type">
+              <select name="type" id="SVR_type" {...register('type')}>
                 <option value={SVM.SVM_TYPES.EPSILON_SVR}>EPSILON_SVR</option>
                 <option value={SVM.SVM_TYPES.NU_SVR}>NU_SVR</option>
               </select>
             </td>
           </tr>
-          <TableConfigField {...KERNEL} />
-          {getHyperParameters(typeValue, kernelValue).map((param) => {
-            const value = params[param.name];
-            return <TableConfigField {...param} value={value} />;
+          <TableConfigField {...KERNEL} register={register} />
+          {getHyperParameters(type, kernel).map((param) => {
+            return (
+              <TableConfigField key={param.id} {...param} register={register} />
+            );
           })}
         </tbody>
       </table>

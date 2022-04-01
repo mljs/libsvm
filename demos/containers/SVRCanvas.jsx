@@ -1,11 +1,21 @@
 import React from 'react';
 import { getSVRCanvasData } from '../selectors/index';
 import Canvas from '../components/Canvas';
-import useCanvasPoints from '../hooks/useCanvasPoints';
+import { useWatch } from 'react-hook-form';
 
 export default function SVRCanvas(props) {
-  const [state, { addPoint }] = useCanvasPoints();
+  const { state, actions, ...otherProps } = props;
+  const config = useWatch();
 
-  const canvasProps = getSVRCanvasData(state);
-  return <Canvas {...props} {...canvasProps} addPoint={addPoint} />;
+  console.log(actions);
+  const canvasProps = getSVRCanvasData(state, config);
+  console.log(canvasProps);
+  return (
+    <Canvas
+      {...otherProps}
+      {...canvasProps}
+      addPoint={actions.addPoint}
+      labelColors={state.colors}
+    />
+  );
 }

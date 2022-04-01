@@ -3,7 +3,11 @@ import React from 'react';
 import SVCCanvas from '../containers/SVCCanvas';
 import ControlBar from '../components/ControlBar';
 import SVCConfig from '../containers/SVCConfig';
-import { LABELS_COLORS } from '../constants';
+import {
+  SVC_INIT_LABELS,
+  SVC_INIT_POINTS,
+  SVC_LABEL_COLORS,
+} from '../constants';
 import useCanvasPoints from '../hooks/useCanvasPoints';
 import ChooseLabel from '../containers/ChooseLabel';
 
@@ -22,7 +26,11 @@ export default function SVC() {
       epsilon: 0.1,
     },
   });
-  const [state, actions] = useCanvasPoints(LABELS_COLORS);
+  const [state, actions] = useCanvasPoints(
+    SVC_INIT_POINTS,
+    SVC_INIT_LABELS,
+    SVC_LABEL_COLORS,
+  );
   return (
     <FormProvider {...methods}>
       <h2>Support vector classification</h2>
