@@ -1,14 +1,8 @@
 import React from 'react';
 
-import { getFields, KERNEL, getHyperParameters } from '../util/fields';
+import { KERNEL, getHyperParameters } from '../util/fields';
 import TableConfigField from '../components/TableConfigField';
 import { useFormContext, useWatch } from 'react-hook-form';
-
-const initialValues = {
-  type: SVM.SVM_TYPES.EPSILON_SVR,
-};
-
-getFields().forEach((field) => (initialValues[field.name] = field.initial));
 
 export default function SVRConfig() {
   const { register } = useFormContext();

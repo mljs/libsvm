@@ -8,7 +8,6 @@ export const KERNEL = {
     SVM.KERNEL_TYPES,
     (val) => val === SVM.KERNEL_TYPES.PRECOMPUTED,
   ),
-  initial: SVM.KERNEL_TYPES.RBF,
 };
 
 export const COST = {
@@ -21,7 +20,6 @@ export const COST = {
   format: (num) => num.toExponential(2),
   step: 0.2,
   gridSearch: true,
-  initial: 10,
 };
 
 export const GAMMA = {
@@ -34,7 +32,6 @@ export const GAMMA = {
   format: (num) => num.toExponential(2),
   step: 0.2,
   gridSearch: true,
-  initial: 10,
 };
 
 export const NU = {
@@ -47,7 +44,6 @@ export const NU = {
   normalize: toNumber,
   step: 0.05,
   gridSearch: true,
-  initial: 0.5,
 };
 
 export const EPSILON = {
@@ -60,7 +56,6 @@ export const EPSILON = {
   normalize: pow10,
   step: 0.1,
   gridSearch: true,
-  initial: -2,
 };
 
 export const DEGREE = {
@@ -70,12 +65,7 @@ export const DEGREE = {
   gridSearch: false,
 };
 
-export function getFields() {
-  return [KERNEL, COST, GAMMA, NU, EPSILON, DEGREE];
-}
-
 export function getHyperParameters(type, kernel) {
-  console.log({ type, kernel });
   const fields = [];
   if (isNu(type)) {
     fields.push(NU);

@@ -1,14 +1,9 @@
 import React from 'react';
 
 // import {findHyperParameters} from '../actions/SVC';
-import { getHyperParameters, KERNEL, getFields } from '../util/fields';
+import { getHyperParameters, KERNEL } from '../util/fields';
 import TableConfigField from '../components/TableConfigField';
 import { useFormContext, useWatch } from 'react-hook-form';
-
-const initialValues = {
-  type: SVM.SVM_TYPES.C_SVC,
-};
-getFields().forEach((field) => (initialValues[field.name] = field.initial));
 
 export default function OneClassSVCConfig() {
   const { register } = useFormContext();

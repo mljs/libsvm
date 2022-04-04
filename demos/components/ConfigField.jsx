@@ -15,8 +15,6 @@ export default function ConfigField(props) {
             min={props.min}
             max={props.max}
             step={props.step}
-            normalize={props.normalize}
-            format={props.format}
             style={{ ...props.style, verticalAlign: 'text-top' }}
             id={props.id}
           />
