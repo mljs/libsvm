@@ -1,4 +1,4 @@
-import { omitBy } from 'lodash-es';
+import { identity, omitBy } from 'lodash-es';
 
 export const KERNEL = {
   id: 'HP_KERNEL',
@@ -18,7 +18,7 @@ export const COST = {
   min: -3,
   max: 3,
   normalize: pow10,
-  format: Math.log10,
+  format: (num) => num.toExponential(2),
   step: 0.2,
   gridSearch: true,
   initial: 10,
@@ -31,7 +31,7 @@ export const GAMMA = {
   min: -3,
   max: 3,
   normalize: pow10,
-  format: Math.log10,
+  format: (num) => num.toExponential(2),
   step: 0.2,
   gridSearch: true,
   initial: 10,
@@ -43,6 +43,7 @@ export const NU = {
   type: 'range',
   min: 0,
   max: 1,
+  format: identity,
   normalize: toNumber,
   step: 0.05,
   gridSearch: true,
@@ -54,7 +55,8 @@ export const EPSILON = {
   name: 'epsilon',
   type: 'range',
   min: 0.01,
-  max: 0.5,
+  max: 0.1,
+  format: identity,
   normalize: toNumber,
   step: 0.02,
   gridSearch: true,

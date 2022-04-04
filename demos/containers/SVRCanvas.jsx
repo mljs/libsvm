@@ -7,9 +7,7 @@ export default function SVRCanvas(props) {
   const { state, actions, ...otherProps } = props;
   const config = useWatch();
 
-  console.log(actions);
   const canvasProps = getSVRCanvasData(state, config);
-  console.log(canvasProps);
   return (
     <Canvas
       {...otherProps}

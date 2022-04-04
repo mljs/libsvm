@@ -12,9 +12,7 @@ getFields().forEach((field) => (initialValues[field.name] = field.initial));
 
 export default function SVRConfig() {
   const { register } = useFormContext();
-  const { type, kernel } = useWatch();
-
-  console.log(register);
+  const values = useWatch();
 
   return (
     <form>
@@ -31,10 +29,15 @@ export default function SVRConfig() {
               </select>
             </td>
           </tr>
-          <TableConfigField {...KERNEL} register={register} />
-          {getHyperParameters(type, kernel).map((param) => {
+          <TableConfigField {...KERNEL} register={register} values={values} />
+          {getHyperParameters(values.type, values.kernel).map((param) => {
             return (
-              <TableConfigField key={param.id} {...param} register={register} />
+              <TableConfigField
+                key={param.id}
+                {...param}
+                register={register}
+                values={values}
+              />
             );
           })}
         </tbody>

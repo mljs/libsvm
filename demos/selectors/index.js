@@ -1,4 +1,5 @@
 import { CANVAS_RESOLUTION, CANVAS_SCALE_FACTOR } from '../constants';
+import { getHyperParameters } from '../util/fields';
 
 export function getSVCCanvasData(SVCPoints, config, currentBreakpoint = 'md') {
   let startTime, endTime;
@@ -17,7 +18,12 @@ export function getSVCCanvasData(SVCPoints, config, currentBreakpoint = 'md') {
       };
     });
     if (points.length) {
-      const svm = new SVM({ ...config, quiet: true });
+      const realConfig = Object.assign({}, config);
+      const parameters = getHyperParameters(config.type, config.kernel);
+      for (let param of parameters) {
+        realConfig[param.name] = param.normalize(config[param.name]);
+      }
+      const svm = new SVM({ ...realConfig, quiet: true });
       svm.train(SVCPoints.points, SVCPoints.labels);
       SVs = svm.getSVIndices();
 

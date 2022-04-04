@@ -4,26 +4,31 @@ export default function ConfigField(props) {
   switch (props.type) {
     case 'range': {
       return (
-        <input
-          name={props.name}
-          step={props.step}
-          type={props.type}
-          min={props.min}
-          max={props.max}
-          normalize={props.normalize}
-          format={props.format}
-          style={{ ...props.style, verticalAlign: 'text-top' }}
-          id={props.id}
-          {...props.register(props.name)}
-        />
+        <div className="d-flex flex-column align-items-start">
+          <div style={{ marginBottom: -12 }}>
+            {props.format(props.normalize(props.values[props.name]))}
+          </div>
+          <input
+            {...props.register(props.name)}
+            type={props.type}
+            name={props.name}
+            min={props.min}
+            max={props.max}
+            step={props.step}
+            normalize={props.normalize}
+            format={props.format}
+            style={{ ...props.style, verticalAlign: 'text-top' }}
+            id={props.id}
+          />
+        </div>
       );
     }
     case 'number': {
       return (
         <input
-          id={props.id}
-          name={props.name}
           type={props.type}
+          name={props.name}
+          id={props.id}
           {...props.register(props.name)}
         />
       );

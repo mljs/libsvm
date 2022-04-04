@@ -3,8 +3,7 @@ import React from 'react';
 // import {findHyperParameters} from '../actions/SVC';
 import { getHyperParameters, KERNEL, getFields } from '../util/fields';
 import TableConfigField from '../components/TableConfigField';
-import { useFormContext } from 'react-hook-form';
-import useSVCConfig from '../hooks/useSVCConfig';
+import { useFormContext, useWatch } from 'react-hook-form';
 
 const initialValues = {
   type: SVM.SVM_TYPES.C_SVC,
@@ -13,7 +12,7 @@ getFields().forEach((field) => (initialValues[field.name] = field.initial));
 
 export default function SVCConfig() {
   const { register } = useFormContext();
-  const { type, kernel } = useSVCConfig();
+  const values = useWatch();
 
   return (
     <form>
@@ -31,10 +30,15 @@ export default function SVCConfig() {
               </select>
             </td>
           </tr>
-          <TableConfigField {...KERNEL} register={register} />
-          {getHyperParameters(type, kernel).map((param) => {
+          <TableConfigField {...KERNEL} register={register} values={values} />
+          {getHyperParameters(values.type, values.kernel).map((param) => {
             return (
-              <TableConfigField key={param.id} {...param} register={register} />
+              <TableConfigField
+                key={param.id}
+                {...param}
+                register={register}
+                values={values}
+              />
             );
           })}
         </tbody>
