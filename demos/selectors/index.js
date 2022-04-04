@@ -57,8 +57,8 @@ export function getSVCCanvasData(SVCPoints, config, currentBreakpoint = 'md') {
 }
 
 export function getSVRCanvasData(
-  SVRPoints,
-  SVRConfig,
+  canvasPoints,
+  config,
   currentBreakpoint = 'md',
 ) {
   let startTime, endTime;
@@ -67,9 +67,13 @@ export function getSVRCanvasData(
   let background = [];
   let line = [];
   let SVs = [];
-  if (SVRConfig) {
+  if (config) {
+    const realConfig = Object.assign({}, config);
+    for (let param of getHyperParameters(config.type, config.kernel)) {
+      realConfig[param.name] = param.normalize(config[param.name]);
+    }
     startTime = Date.now();
-    points = SVRPoints.points.map((p) => {
+    points = canvasPoints.points.map((p) => {
       return {
         label: 0,
         x: p[0] * canvasSize,
@@ -77,10 +81,10 @@ export function getSVRCanvasData(
       };
     });
     if (points.length) {
-      const svm = new SVM({ ...SVRConfig, quiet: true });
+      const svm = new SVM({ ...realConfig, quiet: true });
       svm.train(
-        SVRPoints.points.map((p) => [p[0]]),
-        SVRPoints.points.map((p) => p[1]),
+        canvasPoints.points.map((p) => [p[0]]),
+        canvasPoints.points.map((p) => p[1]),
       );
       SVs = svm.getSVIndices();
 

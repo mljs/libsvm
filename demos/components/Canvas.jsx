@@ -94,8 +94,6 @@ class Canvas extends Component {
 
     const colorsRgb = this.props.labelColors.map((c) => chroma(c).rgb());
 
-    console.log(colorsRgb);
-
     const data = this.ctx.createImageData(realWidth, realHeight);
     for (let i = 0; i < width; i++) {
       for (let j = 0; j < height; j++) {

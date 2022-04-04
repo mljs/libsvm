@@ -54,13 +54,13 @@ export const EPSILON = {
   id: 'HP_EPSILON',
   name: 'epsilon',
   type: 'range',
-  min: 0.01,
-  max: 0.1,
-  format: identity,
-  normalize: toNumber,
-  step: 0.02,
+  min: -3,
+  max: 0,
+  format: (num) => num.toExponential(2),
+  normalize: pow10,
+  step: 0.1,
   gridSearch: true,
-  initial: 0.03,
+  initial: -2,
 };
 
 export const DEGREE = {
