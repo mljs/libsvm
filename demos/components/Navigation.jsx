@@ -34,9 +34,13 @@ export default function Navigation() {
           <NavLink className="nav-item nav-link" to="/SVC">
             SVC
           </NavLink>
+          <NavLink className="nav-item nav-link" to="/SVC/OneClass">
+            One-class SVC
+          </NavLink>
           <NavLink className="nav-item nav-link" to="/SVR">
             SVR
           </NavLink>
+
           <NavLink className="nav-item nav-link" to="/benchmarks">
             Benchmarks
           </NavLink>

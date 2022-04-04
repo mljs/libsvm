@@ -22,7 +22,7 @@ export const LABELS_DISTINCT_COLORS = 5;
 
 export const SVC_LABEL_COLORS = getDistinctColors(LABELS_DISTINCT_COLORS);
 export const SVR_LABEL_COLORS = getDistinctColors(1);
-export const TWO_CLASS_LABEL_COLORS = getDistinctColors(2);
+export const ONE_CLASS_LABEL_COLORS = getDistinctColors(2);
 
 export const SVC_INIT_POINTS = [
   [0.098727294921875, 0.6596761474609375],
@@ -44,6 +44,9 @@ export const SVC_INIT_POINTS = [
 ];
 
 export const SVC_INIT_LABELS = [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0];
+export const ONE_CLASS_SVC_INIT_LABELS = [
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+];
 
 export const SVR_INIT_POINTS = [
   [0.036727294921875, 0.4996761474609375],

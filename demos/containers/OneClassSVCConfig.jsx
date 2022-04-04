@@ -10,7 +10,7 @@ const initialValues = {
 };
 getFields().forEach((field) => (initialValues[field.name] = field.initial));
 
-export default function SVCConfig() {
+export default function OneClassSVCConfig() {
   const { register } = useFormContext();
   const values = useWatch();
 
@@ -22,15 +22,10 @@ export default function SVCConfig() {
             <td>
               <label htmlFor="SVC_type">Classification type</label>
             </td>
-            <td>
-              <select name="type" id="SVC_type" {...register('type')}>
-                <option value={SVM.SVM_TYPES.C_SVC}>C_SVC</option>
-                <option value={SVM.SVM_TYPES.NU_SVC}>NU_SVC</option>
-              </select>
-            </td>
+            <td>One-class SVC</td>
           </tr>
           <TableConfigField {...KERNEL} register={register} values={values} />
-          {getHyperParameters(values.type, values.kernel).map((param) => {
+          {getHyperParameters('2', values.kernel).map((param) => {
             return (
               <TableConfigField
                 key={param.id}

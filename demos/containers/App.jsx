@@ -18,6 +18,7 @@ import {
 import { updateStyleBreakpoint } from '../actions/index';
 import SVC from '../components/SVC';
 import SVR from '../components/SVR';
+import OneClassSVC from '../components/OneClassSVC';
 import Navigation from '../components/Navigation';
 
 import Benchmarks from './Benchmarks';
@@ -47,6 +48,7 @@ class App extends Component {
             <Redirect exact from="/" to="/SVC" />
             <Route exact path="/SVC" component={SVC} />
             <Route exact path="/SVR" component={SVR} />
+            <Route exact path="/SVC/OneClass" component={OneClassSVC} />
             <Route exact path="/benchmarks" component={Benchmarks} />
           </Switch>
         </div>

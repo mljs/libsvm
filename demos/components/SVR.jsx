@@ -7,6 +7,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import {
   SVR_INIT_LABELS,
   SVR_INIT_POINTS,
+  ONE_CLASS_LABEL_COLORS,
   SVR_LABEL_COLORS,
 } from '../constants';
 import SVRCanvas from '../containers/SVRCanvas';
